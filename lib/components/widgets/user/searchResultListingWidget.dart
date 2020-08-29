@@ -1,0 +1,105 @@
+import 'package:flutter/material.dart';
+import 'package:nuvlemobile/misc/functions.dart';
+import 'package:nuvlemobile/models/skeltons/menus/item.dart';
+import 'package:nuvlemobile/pages/user/main/menus/itemInfo.dart';
+import 'package:nuvlemobile/styles/colors.dart';
+
+class SearchResultListingWidget extends StatelessWidget {
+  final MenuItem menuItem;
+
+  const SearchResultListingWidget({Key key, @required this.menuItem})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkResponse(
+      // onTap: () => Functions().scaleTo(context, ItemInfo(menuItem: menuItem)),
+      child: Container(
+        margin: EdgeInsets.only(bottom: 30),
+        child: Stack(
+          overflow: Overflow.visible,
+          children: <Widget>[
+            ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Container(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 15),
+                      width: 109,
+                    ),
+                    Flexible(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            padding: EdgeInsets.only(top: 13, right: 15),
+                            child: Text(
+                              menuItem.name.toLowerCase(),
+                              style: TextStyle(fontSize: 15),
+                            ),
+                          ),
+                          SizedBox(height: 12),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(
+                                menuItem.price,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                ),
+                              ),
+                              Stack(
+                                children: <Widget>[
+                                  Container(
+                                    height: 38,
+                                  ),
+                                  Container(
+                                    width: 109,
+                                    height: 38,
+                                    child: FlatButton(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.zero,
+                                      ),
+                                      color: CustomColors.primary,
+                                      onPressed: () => print("Hey"),
+                                      child: Text(
+                                        "Order Now",
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                decoration: BoxDecoration(
+                  color: CustomColors.licoRice,
+                ),
+              ),
+            ),
+            Positioned(
+              left: 15, 
+              child: Image.asset(
+                menuItem.img,
+                width: 109,
+                height: 110,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
