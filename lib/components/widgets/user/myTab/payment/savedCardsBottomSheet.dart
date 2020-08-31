@@ -17,8 +17,7 @@ class _SavedCardsBottomSheetState extends State<SavedCardsBottomSheet> {
   String _selectedCard = "visa-022993-1928";
 
   _handleSubmitted(BuildContext context) async {
-    Navigator.pop(context);
-    Navigator.pop(context);
+    Navigator.popUntil(context, (route) => route.isFirst);
     Functions().scaleTo(context, PaymentComplete());
   }
 

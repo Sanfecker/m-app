@@ -6,6 +6,7 @@ import 'package:nuvlemobile/misc/strings.dart';
 import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
 import 'package:nuvlemobile/pages/auth/login/loginEmail.dart';
 import 'package:nuvlemobile/pages/onBoarding.dart';
+import 'package:nuvlemobile/pages/user/homepage.dart';
 import 'package:nuvlemobile/pages/user/main/mainPage.dart';
 import 'package:nuvlemobile/pages/user/scan/scanCode.dart';
 import 'package:nuvlemobile/services/providerRegistry.dart';
@@ -84,7 +85,7 @@ class AppRoot extends StatelessWidget {
         home: userAccount != null
             ? userAccount.tab != null
                 ? MainPage(userAccount: userAccount)
-                : ScanCodePage(userAccount: userAccount)
+                : HomePage(userAccount: userAccount)
             : hasSeenOnBoard ? LoginEmailPage() : OnBoarding(),
       ),
     );

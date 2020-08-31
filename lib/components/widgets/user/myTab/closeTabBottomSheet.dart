@@ -186,6 +186,7 @@ class _CloseTabBottomSheetState extends State<CloseTabBottomSheet> {
                                   letterSpacing: 0.3,
                                 ),
                               ),
+                              SizedBox(height: 10),
                             ],
                           ),
                         ),
@@ -198,7 +199,8 @@ class _CloseTabBottomSheetState extends State<CloseTabBottomSheet> {
           ),
           Functions().customButton(
             context,
-            onTap: () => Functions.openBottomSheet(context, PayBottomSheet(), true),
+            onTap: () =>
+                Functions.openBottomSheet(context, PayBottomSheet(), true),
             width: screenSize.width,
             text: "Pay",
             specificBorderRadius: BorderRadius.zero,

@@ -6,7 +6,11 @@ class ListLazyLoading extends StatelessWidget {
   final EdgeInsetsGeometry padding;
   final bool enableScrolling;
   final double height;
-  ListLazyLoading({this.count = 2, this.padding, this.height = 220, this.enableScrolling = true});
+  ListLazyLoading(
+      {this.count = 2,
+      this.padding,
+      this.height = 220,
+      this.enableScrolling = true});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +21,7 @@ class ListLazyLoading extends StatelessWidget {
         physics: enableScrolling
             ? BouncingScrollPhysics()
             : NeverScrollableScrollPhysics(),
-        padding: padding, 
+        padding: padding,
         children: <Widget>[
           Shimmer.fromColors(
             baseColor: Theme.of(context).dialogBackgroundColor,

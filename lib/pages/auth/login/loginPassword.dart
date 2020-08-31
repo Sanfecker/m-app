@@ -9,6 +9,7 @@ import 'package:nuvlemobile/models/skeltons/api/apiRequestModel.dart';
 import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
 import 'package:nuvlemobile/pages/auth/password/forgotPassword.dart';
 import 'package:nuvlemobile/pages/auth/register/register.dart';
+import 'package:nuvlemobile/pages/user/homepage.dart';
 import 'package:nuvlemobile/pages/user/scan/scanCode.dart';
 import 'package:nuvlemobile/styles/colors.dart';
 import 'package:nuvlemobile/styles/nuvleIcons.dart';
@@ -53,7 +54,7 @@ class _LoginPasswordPageState extends State<LoginPasswordPage> {
         if (apiRequestModel.isSuccessful) {
           Navigator.pop(ctx);
           Functions().scaleToReplace(
-              context, ScanCodePage(userAccount: apiRequestModel.result),
+              context, HomePage(userAccount: apiRequestModel.result),
               removePreviousRoots: true);
         } else {
           Navigator.pop(ctx);

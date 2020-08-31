@@ -17,7 +17,6 @@ class OrderProvider extends ChangeNotifier {
   bool get showOrderList => _showOrderList;
   List<MenuItems> get orders => _orders;
 
-
   bool isAddedToOrder(MenuItems val) =>
       _orders.indexWhere((e) => val.itemId == e.itemId) != -1;
 
@@ -27,18 +26,15 @@ class OrderProvider extends ChangeNotifier {
   }
 
   addOrder(MenuItems val) {
-    int index = _orders.indexWhere((e) => val.itemId == e.itemId);
-    if (index == -1) {
-      _orders.add(val);
-      if (scrollController.hasClients) {
-        scrollController.animateTo(
-          scrollController.position.maxScrollExtent + 100,
-          duration: const Duration(milliseconds: 500),
-          curve: Curves.easeOut,
-        );
-      }
-      notifyListeners();
+    _orders.add(val);
+    if (scrollController.hasClients) {
+      scrollController.animateTo(
+        scrollController.position.maxScrollExtent + 100,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeOut,
+      );
     }
+    notifyListeners();
   }
 
   removeOrder(MenuItems val) {
@@ -179,8 +175,8 @@ class OrderProvider extends ChangeNotifier {
     };
     print(body);
     try {
-      var responseBody = await ApiRequest.postJSON(body,
-          "${account.tab.attributes.restaurantId}/orders", account.token);
+      var responseBody = await ApiRequest.postJSON(
+          body, "${account.tab.attributes.restaurantId}/orders", account.token);
       print(responseBody);
       if (responseBody["success"]) {
         // OrderModel order = OrderModel.fromJson(responseBody["data"]);
@@ -199,5 +195,4 @@ class OrderProvider extends ChangeNotifier {
     }
     return apiRequestModel;
   }
-  
 }

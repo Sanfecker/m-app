@@ -42,8 +42,7 @@ class OrderComplete extends StatelessWidget {
               Functions().customButton(
                 context,
                 onTap: () {
-                  Navigator.pop(context);
-                  Navigator.pop(context);
+                  Navigator.popUntil(context, (route) => route.isFirst);
                 },
                 width: screenSize.width,
                 text: "Okay",

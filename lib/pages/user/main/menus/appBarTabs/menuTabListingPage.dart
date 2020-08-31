@@ -8,6 +8,7 @@ import 'package:nuvlemobile/models/providers/menus/menusProvider.dart';
 import 'package:nuvlemobile/models/skeltons/menus/menuData.dart';
 import 'package:nuvlemobile/models/skeltons/menus/restaurantMenuType.dart';
 import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
+import 'package:nuvlemobile/styles/colors.dart';
 import 'package:provider/provider.dart';
 
 class MenuTabListing extends StatefulWidget {
@@ -25,7 +26,7 @@ class MenuTabListing extends StatefulWidget {
 class _MenuTabListingState extends State<MenuTabListing> {
   ScrollController _scrollController = ScrollController();
   MenusProvider _menusProvider;
-  
+
   @override
   void initState() {
     _menusProvider = Provider.of<MenusProvider>(context, listen: false);
@@ -62,10 +63,10 @@ class _MenuTabListingState extends State<MenuTabListing> {
           case APIRequestStatus.unauthorized:
           case APIRequestStatus.error:
           case APIRequestStatus.loading:
-            return ListLazyLoading(
-              count: 3,
-              enableScrolling: false,
-              padding: EdgeInsets.only(left: 16, right: 16, top: 16),
+            return Center(
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation(CustomColors.primary),
+              ),
             );
             break;
           case APIRequestStatus.loaded:
@@ -80,9 +81,11 @@ class _MenuTabListingState extends State<MenuTabListing> {
                               menuItem: e, userAccount: widget.userAccount))
                           .toList(),
                       if (pro.moreAPIRequestStatus == APIRequestStatus.loading)
-                        ListLazyLoading(
-                          count: 3,
-                          enableScrolling: false,
+                        Center(
+                          child: CircularProgressIndicator(
+                            valueColor:
+                                AlwaysStoppedAnimation(CustomColors.primary),
+                          ),
                         ),
                     ],
                   )

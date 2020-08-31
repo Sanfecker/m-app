@@ -34,27 +34,24 @@ class ListingWidget extends StatelessWidget {
               children: <Widget>[
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 15),
-                  child: ClipRRect(
-                    // borderRadius: BorderRadius.circular(100),
-                    child: CachedNetworkImage(
-                      imageUrl: menuItem.imageUrl ?? '',
+                  child: CachedNetworkImage(
+                    imageUrl: menuItem.imageUrl ?? '',
+                    width: 109,
+                    height: 125,
+                    // height: 110,
+                    errorWidget: (context, url, error) => Image.asset(
+                      Settings.placeholderImageSmall,
                       width: 109,
                       height: 125,
-                      // height: 110,
-                      errorWidget: (context, url, error) => Image.asset(
+                    ),
+                    placeholder: (BuildContext context, String val) {
+                      return Image.asset(
                         Settings.placeholderImageSmall,
                         width: 109,
                         height: 125,
-                      ),
-                      placeholder: (BuildContext context, String val) {
-                        return Image.asset(
-                          Settings.placeholderImageSmall,
-                          width: 109,
-                          height: 125,
-                        );
-                      },
-                      fit: BoxFit.cover,
-                    ),
+                      );
+                    },
+                    fit: BoxFit.contain,
                   ),
                 ),
                 Flexible(
@@ -101,25 +98,17 @@ class ListingWidget extends StatelessWidget {
                                 height: 40,
                                 child: Consumer<OrderProvider>(
                                     builder: (context, pro, child) {
-                                  bool isAddedToOrder =
-                                      pro.isAddedToOrder(menuItem);
                                   return FlatButton(
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.zero,
                                     ),
-                                    color: isAddedToOrder
-                                        ? Colors.grey
-                                        : CustomColors.primary,
+                                    color: CustomColors.primary,
                                     onPressed: () {
                                       pro.showOrderList = true;
-                                      if (isAddedToOrder) {
-                                        pro.removeOrder(menuItem);
-                                      } else {
-                                        pro.addOrder(menuItem);
-                                      }
+                                      pro.addOrder(menuItem);
                                     },
                                     child: Text(
-                                      isAddedToOrder ? "×" : "+",
+                                      "+",
                                       style: TextStyle(
                                         fontSize: 30,
                                         color: Colors.black,
@@ -132,41 +121,12 @@ class ListingWidget extends StatelessWidget {
                           )
                         ],
                       ),
-                      SizedBox(height: 12),
+                      SizedBox(height: 20),
                       Text(
                         menuItem.itemName.toLowerCase(),
-                        style: TextStyle(fontSize: 15),
+                        style: TextStyle(fontSize: 20),
                       ),
-                      SizedBox(height: 12),
-                      Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: Wrap(
-                                runSpacing: 10,
-                                spacing: 20,
-                                children: menuItem.itemTags
-                                    .map(
-                                      (e) => Container(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 20, vertical: 3),
-                                        child: Text(
-                                          e.tagName,
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 12),
-                                        ),
-                                        decoration: ShapeDecoration(
-                                          color: Color(0xff9F9FAF),
-                                          shape: StadiumBorder(),
-                                        ),
-                                      ),
-                                    )
-                                    .toList()),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 12),
+                      SizedBox(height: 20),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[

@@ -48,9 +48,13 @@ class _ScanSuccessfulPageState extends State<ScanSuccessfulPage> {
               width: screenSize.width * 0.70,
               margin: EdgeInsets.only(top: 40),
               child: Text(
-                'You\'ve successfully joined ${widget.userAccount.tab.attributes.user.attributes.firstname}\'s Tab',
+                'You\'ve successfully joined\n${widget.userAccount.tab.attributes.user.attributes.firstname}\'s Tab',
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  height: 1.5,
+                ),
               ),
             ),
             Spacer(),

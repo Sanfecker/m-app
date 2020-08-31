@@ -108,7 +108,7 @@ class _ContactSupportState extends State<ContactSupport> {
                       hintText: "Type your message here",
                       enableSuggestions: true,
                       textInputType: TextInputType.text,
-                      textInputAction: TextInputAction.newline,
+                      // textInputAction: TextInputAction.newline,
                       maxLines: 5,
                       submitAction: () => _handleSubmitted(context),
                       focusNode: _messageFN,

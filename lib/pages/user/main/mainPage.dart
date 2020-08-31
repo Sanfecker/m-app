@@ -59,7 +59,10 @@ class MainPage extends StatelessWidget {
                         size: 30,
                         color: CustomColors.primary100,
                       ),
-                      onPressed: () => pro2.showOrderList = false,
+                      onPressed: () {
+                        pro2.showOrderList = false;
+                        pro2.orders.removeRange(0, pro2.orders.length);
+                      },
                     ),
                     Flexible(
                       fit: FlexFit.tight,
@@ -118,7 +121,6 @@ class MainPage extends StatelessWidget {
                                                           20)),
                                               onPressed: () =>
                                                   pro.removeOrder(e),
-                                                  
                                               child: Icon(
                                                 Icons.close,
                                                 color: CustomColors.licoRice,
@@ -157,7 +159,9 @@ class MainPage extends StatelessWidget {
                     )),
               )
             : Container(
-                padding: EdgeInsets.symmetric(vertical: 16),
+                padding: EdgeInsets.symmetric(
+                  vertical: 5,
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: pro.tabIcons.map((e) {
@@ -166,13 +170,17 @@ class MainPage extends StatelessWidget {
                         ? FloatingActionButton(
                             heroTag: ObjectKey("bnv_$i"),
                             onPressed: () => pro.selectedIndex = i,
-                            child: Icon(e),
+                            child: Icon(
+                              e,
+                              size: 20,
+                            ),
                             backgroundColor: CustomColors.primary100,
                           )
                         : IconButton(
                             icon: Icon(
                               e,
                               color: Color(0xff828282),
+                              size: 20,
                             ),
                             onPressed: () => pro.selectedIndex = i,
                           );

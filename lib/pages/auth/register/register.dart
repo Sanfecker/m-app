@@ -6,6 +6,7 @@ import 'package:nuvlemobile/misc/validations.dart';
 import 'package:nuvlemobile/models/providers/user/userAccountProvider.dart';
 import 'package:nuvlemobile/models/skeltons/api/apiRequestModel.dart';
 import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
+import 'package:nuvlemobile/pages/user/homepage.dart';
 import 'package:nuvlemobile/pages/user/scan/scanCode.dart';
 import 'package:nuvlemobile/styles/colors.dart';
 import 'package:nuvlemobile/styles/nuvleIcons.dart';
@@ -68,7 +69,7 @@ class _RegisterPageState extends State<RegisterPage> {
         if (apiRequestModel.isSuccessful) {
           Navigator.pop(ctx);
           Functions().scaleToReplace(
-              context, ScanCodePage(userAccount: apiRequestModel.result),
+              context, HomePage(userAccount: apiRequestModel.result),
               removePreviousRoots: true);
         } else {
           Navigator.pop(ctx);
