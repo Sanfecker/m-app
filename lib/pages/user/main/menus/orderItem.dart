@@ -14,15 +14,22 @@ import 'package:nuvlemobile/styles/colors.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
-class OrderItem extends StatelessWidget {
+class OrderItem extends StatefulWidget {
   final UserAccount userAccount;
   final MenuItems menuItem;
 
   OrderItem({Key key, @required this.userAccount, @required this.menuItem})
       : super(key: key);
 
+  @override
+  _OrderItemState createState() => _OrderItemState();
+}
+
+class _OrderItemState extends State<OrderItem> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   bool _autoValidate = false;
 
   void showInSnackBar(String value) {
@@ -36,8 +43,8 @@ class OrderItem extends StatelessWidget {
     OrderProvider orderProvider =
         Provider.of<OrderProvider>(ctx, listen: false);
     try {
-      ApiRequestModel apiRequestModel = await orderProvider
-          .order(userAccount, [orderProvider.getSingleItem(menuItem)]);
+      ApiRequestModel apiRequestModel = await orderProvider.order(
+          widget.userAccount, [orderProvider.getSingleItem(widget.menuItem)]);
       if (apiRequestModel.isSuccessful) {
         Navigator.pop(ctx);
         Functions()
@@ -69,12 +76,13 @@ class OrderItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Row(
-              mainAxisAlignment: menuItem.itemTags.length > 0
+              mainAxisAlignment: widget.menuItem.itemTags.length > 0
                   ? MainAxisAlignment.spaceBetween
                   : MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Column(
-                  children: menuItem.itemTags
+                  children: widget.menuItem.itemTags
                       .map(
                         (e) => Container(
                           margin: EdgeInsets.only(bottom: 12),
@@ -82,19 +90,26 @@ class OrderItem extends StatelessWidget {
                             color: Color(0xff4A444A),
                             child: Text(
                               e.tagName,
-                              style: TextStyle(color: Colors.white),
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                                letterSpacing: 0.3,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                             shape: StadiumBorder(),
                             onPressed: () => print("Hey"),
+                            height: 20,
+                            minWidth: 30,
                           ),
                         ),
                       )
                       .toList(),
                 ),
                 CachedNetworkImage(
-                  imageUrl: menuItem.imageUrl ?? '',
-                  width: 215,
-                  height: 245,
+                  imageUrl: widget.menuItem.imageUrl ?? '',
+                  width: MediaQuery.of(context).size.width * 0.6,
+                  filterQuality: FilterQuality.high,
                   errorWidget: (context, url, error) => Container(
                     child: Image.asset(
                       Settings.placeholderImageSmall,
@@ -117,7 +132,7 @@ class OrderItem extends StatelessWidget {
                       ),
                     );
                   },
-                  fit: BoxFit.cover,
+                  fit: BoxFit.contain,
                 ),
               ],
             ),
@@ -131,7 +146,8 @@ class OrderItem extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       InkResponse(
-                        onTap: () => pro.changeOrderQuantity(menuItem, false),
+                        onTap: () =>
+                            pro.changeOrderQuantity(widget.menuItem, false),
                         child: Text(
                           "—",
                           style: TextStyle(
@@ -143,7 +159,10 @@ class OrderItem extends StatelessWidget {
                       Container(
                         margin: EdgeInsets.symmetric(horizontal: 20),
                         child: Text(
-                          pro.getSingleItem(menuItem).orderQuantity.toString(),
+                          pro
+                              .getSingleItem(widget.menuItem)
+                              .orderQuantity
+                              .toString(),
                           style: TextStyle(
                             fontSize: 25,
                             fontWeight: FontWeight.bold,
@@ -151,7 +170,7 @@ class OrderItem extends StatelessWidget {
                         ),
                       ),
                       InkResponse(
-                        onTap: () => pro.changeOrderQuantity(menuItem),
+                        onTap: () => pro.changeOrderQuantity(widget.menuItem),
                         child: Text(
                           "+",
                           style: TextStyle(
@@ -176,19 +195,19 @@ class OrderItem extends StatelessWidget {
                 children: <Widget>[
                   Flexible(
                     child: Container(
-                      margin: EdgeInsets.only(right: 14),
+                      width: MediaQuery.of(context).size.width * 0.5,
                       child: Text(
-                        menuItem.itemName.toLowerCase(),
+                        widget.menuItem.itemName.toLowerCase(),
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 18,
+                            fontSize: 25,
                             color: Colors.white),
                       ),
                     ),
                   ),
                   Text(
-                    Functions.getCurrencySymbol(menuItem.currency) +
-                        menuItem.price,
+                    Functions.getCurrencySymbol(widget.menuItem.currency) +
+                        widget.menuItem.price,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 25,
@@ -198,8 +217,8 @@ class OrderItem extends StatelessWidget {
                 ],
               ),
             ),
-            if (menuItem.cookingPreferences != null &&
-                menuItem.cookingPreferences.isNotEmpty)
+            if (widget.menuItem.cookingPreferences != null &&
+                widget.menuItem.cookingPreferences.isNotEmpty)
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -217,20 +236,21 @@ class OrderItem extends StatelessWidget {
                       Expanded(
                         child: Wrap(
                           spacing: 18,
-                          children: menuItem.cookingPreferences
+                          children: widget.menuItem.cookingPreferences
                               .map(
                                 (e) => Consumer<OrderProvider>(
                                     builder: (context, pro, child) {
                                   bool isMarked = pro
-                                              .getSingleItem(menuItem)
+                                              .getSingleItem(widget.menuItem)
                                               .selectedCookingPreference !=
                                           null
                                       ? pro
-                                              .getSingleItem(menuItem)
+                                              .getSingleItem(widget.menuItem)
                                               .selectedCookingPreference
                                               .toLowerCase() ==
                                           e.toLowerCase()
-                                      : menuItem.cookingPreferences.first ==
+                                      : widget.menuItem.cookingPreferences
+                                              .first ==
                                           e.toLowerCase();
                                   return FlatButton(
                                     color: isMarked
@@ -246,8 +266,9 @@ class OrderItem extends StatelessWidget {
                                           fontSize: 13),
                                     ),
                                     shape: StadiumBorder(),
-                                    onPressed: () => pro
-                                        .changeCookingPreference(menuItem, e),
+                                    onPressed: () =>
+                                        pro.changeCookingPreference(
+                                            widget.menuItem, e),
                                   );
                                 }),
                               )
@@ -259,7 +280,8 @@ class OrderItem extends StatelessWidget {
                   SizedBox(height: 30),
                 ],
               ),
-            if (menuItem.sides != null && menuItem.sides.isNotEmpty)
+            if (widget.menuItem.sides != null &&
+                widget.menuItem.sides.isNotEmpty)
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -275,7 +297,7 @@ class OrderItem extends StatelessWidget {
                   Consumer<OrderProvider>(
                     builder: (context, pro, child) {
                       List<MenuItems> confirmedSides =
-                          pro.getSingleItem(menuItem).confirmedSides;
+                          pro.getSingleItem(widget.menuItem).confirmedSides;
                       return Text(
                         confirmedSides != null && confirmedSides.length > 0
                             ? confirmedSides.length == 1
@@ -287,21 +309,24 @@ class OrderItem extends StatelessWidget {
                   ),
                   SizedBox(height: 12),
                   FlatButton(
-                    color: Color(0xff363A47),
-                    child: Text(
-                      "Pick Sides +",
-                      style: TextStyle(
-                          color: Colors.white,
-                          letterSpacing: 0.3,
-                          fontSize: 13),
-                    ),
-                    shape: StadiumBorder(),
-                    onPressed: () => Functions.openBottomSheet(
-                        context,
-                        SidesBottomSheet(
-                            menuItem: menuItem, userAccount: userAccount),
-                        true),
-                  ),
+                      color: Color(0xff363A47),
+                      child: Text(
+                        "Pick Sides +",
+                        style: TextStyle(
+                            color: Colors.white,
+                            letterSpacing: 0.3,
+                            fontSize: 13),
+                      ),
+                      shape: StadiumBorder(),
+                      onPressed: () async {
+                        await Functions.openBottomSheet(
+                            context,
+                            SidesBottomSheet(
+                                menuItem: widget.menuItem,
+                                userAccount: widget.userAccount),
+                            true);
+                        setState(() {});
+                      }),
                 ],
               ),
             SizedBox(height: 40),
@@ -316,7 +341,7 @@ class OrderItem extends StatelessWidget {
                 textInputAction: TextInputAction.done,
                 onSaved: (String val) {
                   Provider.of<OrderProvider>(context, listen: false)
-                      .saveOrderNote(val, menuItem);
+                      .saveOrderNote(val, widget.menuItem);
                 },
               ),
             ),
@@ -331,9 +356,10 @@ class OrderItem extends StatelessWidget {
             SizedBox(height: 15),
             Consumer<OrderProvider>(
               builder: (context, pro, child) {
-                bool takeAway = pro.getSingleItem(menuItem).takeAway ?? false;
+                bool takeAway =
+                    pro.getSingleItem(widget.menuItem).takeAway ?? false;
                 return FlatButton(
-                  onPressed: () => pro.isTakeAway(menuItem, !takeAway),
+                  onPressed: () => pro.isTakeAway(widget.menuItem, !takeAway),
                   padding: EdgeInsets.zero,
                   child: Row(
                     children: <Widget>[
@@ -345,7 +371,8 @@ class OrderItem extends StatelessWidget {
                           checkColor: CustomColors.primary100,
                           activeColor: Colors.transparent,
                           value: takeAway,
-                          onChanged: (val) => pro.isTakeAway(menuItem, val),
+                          onChanged: (val) =>
+                              pro.isTakeAway(widget.menuItem, val),
                         ),
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.white, width: 1),

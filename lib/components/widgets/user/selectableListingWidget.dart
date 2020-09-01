@@ -8,7 +8,7 @@ import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
 import 'package:nuvlemobile/styles/colors.dart';
 import 'package:provider/provider.dart';
 
-class SelectableListingWidget extends StatelessWidget {
+class SelectableListingWidget extends StatefulWidget {
   final MenuItems menuItem;
   final MenuItems parent;
   final UserAccount userAccount;
@@ -19,20 +19,27 @@ class SelectableListingWidget extends StatelessWidget {
       @required this.parent,
       @required this.userAccount})
       : super(key: key);
-      
+
+  @override
+  _SelectableListingWidgetState createState() =>
+      _SelectableListingWidgetState();
+}
+
+class _SelectableListingWidgetState extends State<SelectableListingWidget> {
   @override
   Widget build(BuildContext context) {
     return Consumer<OrderProvider>(builder: (context, pro, child) {
-      bool isSelected = pro.getSingleItem(parent).selectedSides != null &&
-          pro
-                  .getSingleItem(parent)
-                  .selectedSides
-                  .indexWhere((e) => e.itemId == menuItem.itemId) !=
-              -1;
+      bool isSelected =
+          pro.getSingleItem(widget.parent).selectedSides != null &&
+              pro
+                      .getSingleItem(widget.parent)
+                      .selectedSides
+                      .indexWhere((e) => e.itemId == widget.menuItem.itemId) !=
+                  -1;
       return InkResponse(
         onTap: () => isSelected
-            ? pro.removeSelectedSide(parent, menuItem)
-            : pro.addSelectedSide(parent, menuItem),
+            ? pro.removeSelectedSide(widget.parent, widget.menuItem)
+            : pro.addSelectedSide(widget.parent, widget.menuItem),
         child: Container(
           margin: EdgeInsets.only(bottom: 20),
           padding: EdgeInsets.all(14),
@@ -42,7 +49,7 @@ class SelectableListingWidget extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(5),
                 child: CachedNetworkImage(
-                  imageUrl: menuItem.imageUrl ?? '',
+                  imageUrl: widget.menuItem.imageUrl ?? '',
                   width: 109,
                   height: 125,
                   errorWidget: (context, url, error) => Container(
@@ -70,19 +77,20 @@ class SelectableListingWidget extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-              Flexible(
+              Expanded(
                 child: Container(
                   margin: EdgeInsets.symmetric(horizontal: 12),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        menuItem.itemName,
+                        widget.menuItem.itemName,
+                        softWrap: true,
                         style: TextStyle(fontSize: 15, letterSpacing: 0.3),
                       ),
                       SizedBox(height: 2),
                       Text(
-                        '${menuItem.calorieCount} Kcal',
+                        '${widget.menuItem.calorieCount} Kcal',
                         style: TextStyle(
                             fontSize: 10,
                             color: Color(0xffF2F2F9),
@@ -91,7 +99,7 @@ class SelectableListingWidget extends StatelessWidget {
                       Container(
                         margin: EdgeInsets.symmetric(vertical: 10),
                         child: Text(
-                          menuItem.description,
+                          widget.menuItem.description,
                           style: TextStyle(
                               fontSize: 10,
                               color: Color(0xffF2F2F9),
@@ -99,8 +107,8 @@ class SelectableListingWidget extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        Functions.getCurrencySymbol(menuItem.currency) +
-                            menuItem.price,
+                        Functions.getCurrencySymbol(widget.menuItem.currency) +
+                            widget.menuItem.price,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 15,
@@ -110,24 +118,31 @@ class SelectableListingWidget extends StatelessWidget {
                   ),
                 ),
               ),
-              Container(
-                height: 24,
-                width: 24,
-                child: Checkbox(
-                  checkColor: CustomColors.primary100,
-                  activeColor: Colors.transparent,
-                  value: isSelected,
-                  onChanged: (val) {
-                    if (val) {
-                      pro.addSelectedSide(parent, menuItem);
-                    } else {
-                      pro.removeSelectedSide(parent, menuItem);
-                    }
-                  },
-                ),
-                decoration: BoxDecoration(
-                  border: Border.all(color: CustomColors.primary, width: 2),
-                  borderRadius: BorderRadius.circular(5),
+              // Spacer(),
+              Align(
+                alignment: Alignment.centerRight,
+                child: Container(
+                  height: 24,
+                  width: 24,
+                  child: Checkbox(
+                    checkColor: CustomColors.primary100,
+                    activeColor: Colors.transparent,
+                    value:
+                        widget.parent.confirmedSides.contains(widget.menuItem),
+                    onChanged: (val) {
+                      setState(() {
+                        if (val) {
+                          widget.parent.confirmedSides.add(widget.menuItem);
+                        } else {
+                          widget.parent.confirmedSides.remove(widget.menuItem);
+                        }
+                      });
+                    },
+                  ),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: CustomColors.primary, width: 2),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
                 ),
               ),
             ],

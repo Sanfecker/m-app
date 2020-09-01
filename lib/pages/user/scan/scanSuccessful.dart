@@ -5,6 +5,7 @@ import 'package:lottie/lottie.dart';
 import 'package:nuvlemobile/misc/functions.dart';
 import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
 import 'package:nuvlemobile/pages/user/main/mainPage.dart';
+import 'package:nuvlemobile/pages/user/main/profile/profile.dart';
 
 class ScanSuccessfulPage extends StatefulWidget {
   final UserAccount userAccount;
@@ -25,9 +26,12 @@ class _ScanSuccessfulPageState extends State<ScanSuccessfulPage> {
   startTimer() {
     return new Timer(
       Duration(seconds: 1),
-      () => Functions().scaleToReplace(
-          context, MainPage(userAccount: widget.userAccount),
-          removePreviousRoots: true),
+      () {
+        Functions().scaleToReplace(
+            context, MainPage(userAccount: widget.userAccount),
+            removePreviousRoots: true);
+        page = 'main';
+      },
     );
   }
 

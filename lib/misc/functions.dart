@@ -27,7 +27,8 @@ class Functions {
 
   static openBottomSheet(BuildContext context, Widget widget,
       [bool isScrollControlled = false]) async {
-    showModalBottomSheet(
+    await showModalBottomSheet(
+        useRootNavigator: true,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(10),
@@ -37,6 +38,7 @@ class Functions {
         context: context,
         isScrollControlled: isScrollControlled,
         builder: (context) => widget);
+    // setState;
   }
 
   showLoadingDialog(BuildContext context) {

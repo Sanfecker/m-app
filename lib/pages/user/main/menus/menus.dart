@@ -73,18 +73,26 @@ class _MenusState extends State<Menus> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: Container(
-        margin: EdgeInsets.only(right: 10, bottom: 30),
-        child: FloatingActionButton(
-          onPressed: () => Functions().scaleTo(context, MyTab()),
+      floatingActionButton: GestureDetector(
+        onTap: () => Functions().scaleTo(context, MyTab()),
+        child: Container(
+          decoration: BoxDecoration(
+            color: CustomColors.primary100,
+            border: Border.all(
+              color: Colors.black,
+              width: 1.5,
+            ),
+            shape: BoxShape.circle,
+          ),
+          margin: EdgeInsets.only(
+            right: 10,
+          ),
+          padding: EdgeInsets.all(5),
           child: Icon(
             NuvleIcons.floating_v4_1,
-            size: 50,
+            size: 60,
+            color: Color(0xFF4A444A),
           ),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(30.0)),
-          side: BorderSide(color: Colors.black, width: 1.5)),
-          // shape: (side: BorderSide(color: Colors.greyblue, width: 2.0)),
-          backgroundColor: CustomColors.primary100,
         ),
       ),
       appBar: AppBar(
@@ -95,104 +103,107 @@ class _MenusState extends State<Menus> with SingleTickerProviderStateMixin {
         actions: <Widget>[
           CallWaiterIcon(),
         ],
-        bottom: PreferredSize(
-          child: Container(
-            padding: EdgeInsets.only(bottom: 14),
-            child: Column(
-              children: <Widget>[
-                TabBar(
-                  isScrollable: true,
-                  labelPadding: EdgeInsets.symmetric(horizontal: 25),
-                  controller: tabController,
-                  indicator: CircleTabIndicator(
-                      color: CustomColors.primary100, radius: 3.5),
-                  labelStyle: TextStyle(
-                    fontWeight: FontWeight.bold,
+        bottom: TabBar(
+          controller: tabController,
+          indicator:
+              CircleTabIndicator(color: CustomColors.primary100, radius: 3.5),
+          labelStyle: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+          indicatorWeight: 5,
+          labelColor: CustomColors.primary100,
+          unselectedLabelColor: Color(0xff666666),
+          tabs: tabs
+              .map(
+                (e) => Tab(
+                  child: Text(
+                    e.name,
+                    style: GoogleFonts.lato(
+                      textStyle: TextStyle(fontSize: 18, letterSpacing: 0.1),
+                    ),
                   ),
-                  indicatorWeight: 5,
-                  labelColor: CustomColors.primary100,
-                  unselectedLabelColor: Color(0xff666666),
-                  tabs: tabs
+                ),
+              )
+              .toList(),
+        ),
+      ),
+      body: Column(
+        children: [
+          SizedBox(height: 15),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 14),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                    InkResponse(
+                      child: Icon(
+                        NuvleIcons.frame_109,
+                        size: 20,
+                      ),
+                      onTap: () => Functions.openBottomSheet(
+                          context, FilterBottomSheet(), true),
+                    ),
+                  ] +
+                  [
+                    BottomAppButton(
+                      name: "Dietary +",
+                      onPressed: () => Functions.openBottomSheet(
+                          context, DietaryBottomSheet()),
+                    ),
+                    BottomAppButton(
+                      name: "Sides",
+                      onPressed: () => print("hEY"),
+                      // Functions.openBottomSheet(
+                      //     context, SidesBottomSheet(), true),
+                    ),
+                    BottomAppButton(
+                      name: "Categories",
+                      onPressed: () => Functions.openBottomSheet(
+                          context, CategoriesBottomSheet(), true),
+                    ),
+                  ]
                       .map(
-                        (e) => Tab(
-                          child: Text(
-                            e.name,
-                            style: GoogleFonts.lato(
-                              textStyle:
-                                  TextStyle(fontSize: 18, letterSpacing: 0.4),
+                        (e) => GestureDetector(
+                          onTap: e.onPressed,
+                          child: Container(
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.white,
+                              ),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 5,
+                            ),
+                            child: Text(
+                              e.name,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 10,
+                                letterSpacing: 0.4,
+                              ),
                             ),
                           ),
                         ),
                       )
                       .toList(),
-                ),
-                SizedBox(height: 15),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 14),
-                  child: Row(
-                    children: <Widget>[
-                      InkResponse(
-                        child: Icon(
-                          NuvleIcons.frame_109,
-                          size: 18,
-                        ),
-                        onTap: () => Functions.openBottomSheet(
-                            context, FilterBottomSheet(), true),
-                      ),
-                      SizedBox(width: 20),
-                      Expanded(
-                          child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          BottomAppButton(
-                            name: "Dietary +",
-                            onPressed: () => Functions.openBottomSheet(
-                                context, DietaryBottomSheet()),
-                          ),
-                          BottomAppButton(
-                            name: "Sides",
-                            onPressed: () => print("hEY"),
-                            // Functions.openBottomSheet(
-                            //     context, SidesBottomSheet(), true),
-                          ),
-                          BottomAppButton(
-                            name: "Categories",
-                            onPressed: () => Functions.openBottomSheet(
-                                context, CategoriesBottomSheet(), true),
-                          ),
-                        ]
-                            .map(
-                              (e) => Container(
-                                height: 28,
-                                child: OutlineButton(
-                                  shape: StadiumBorder(),
-                                  onPressed: e.onPressed,
-                                  padding: EdgeInsets.symmetric(horizontal: 20),
-                                  child: Text(
-                                    e.name,
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                  borderSide: BorderSide(color: Colors.white),
-                                ),
-                              ),
-                            )
-                            .toList(),
-                      )),
-                    ],
-                  ),
-                ),
-              ],
             ),
           ),
-          preferredSize: Size.fromHeight(90),
-        ),
-      ),
-      body: TabBarView(
-        controller: tabController,
-        children: tabs
-            .map((e) => MenuTabListing(
-                userAccount: widget.userAccount, menuType: e.menuType))
-            .toList(),
+          SizedBox(
+            height: 12,
+          ),
+          Expanded(
+            child: TabBarView(
+              controller: tabController,
+              children: tabs
+                  .map((e) => MenuTabListing(
+                      userAccount: widget.userAccount, menuType: e.menuType))
+                  .toList(),
+            ),
+          ),
+        ],
       ),
     );
   }

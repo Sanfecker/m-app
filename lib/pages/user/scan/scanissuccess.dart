@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nuvlemobile/models/providers/mainPageProvider.dart';
 import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
 import 'package:nuvlemobile/styles/colors.dart';
 import 'dart:async';
@@ -27,12 +28,14 @@ class _ScanSuccessfulState extends State<ScanSuccessful> {
   }
 
   startTimer() {
-    return new Timer(
-      Duration(seconds: 2),
-      () => Functions().scaleToReplace(
-          context, MainPage(userAccount: widget.userAccount),
-          removePreviousRoots: true),
-    );
+    return new Timer(Duration(seconds: 2), () {
+      Functions().scaleToReplace(
+        context,
+        MainPage(userAccount: widget.userAccount),
+        removePreviousRoots: true,
+      );
+      MainPageProvider().selectedIndex = 0;
+    });
   }
 
   @override
@@ -110,8 +113,7 @@ class _ScanSuccessfulState extends State<ScanSuccessful> {
             SizedBox(height: 16),
             Center(
               child: Text(
-                // "$myTab.tab.TabModelAttributes.user.attributes.groupCode",
-                '123456',
+                "$myTab.tab.TabModelAttributes.user.attributes.groupCode",
                 style: TextStyle(
                   color: CustomColors.primary,
                   letterSpacing: 1,

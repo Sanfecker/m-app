@@ -160,9 +160,9 @@ class OrderProvider extends ChangeNotifier {
           "item_type": e.itemType,
           "note": e.note ?? "empty"
         };
-        if (e.selectedSides != null) {
+        if (e.confirmedSides != null) {
           res.addAll({
-            "side_dishes_id": e.selectedSides.map((e) => e.itemId).toList()
+            "side_dishes_id": e.confirmedSides.map((e) => e.itemId).toList()
           });
         }
         if (e.selectedCookingPreference != null) {

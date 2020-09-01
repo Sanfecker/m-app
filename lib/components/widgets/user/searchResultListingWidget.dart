@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nuvlemobile/misc/functions.dart';
 import 'package:nuvlemobile/models/skeltons/menus/item.dart';
-import 'package:nuvlemobile/pages/user/main/menus/itemInfo.dart';
+import 'package:nuvlemobile/pages/user/main/menus/itemInfooo.dart';
 import 'package:nuvlemobile/styles/colors.dart';
 
 class SearchResultListingWidget extends StatelessWidget {
@@ -89,7 +89,7 @@ class SearchResultListingWidget extends StatelessWidget {
               ),
             ),
             Positioned(
-              left: 15, 
+              left: 15,
               child: Image.asset(
                 menuItem.img,
                 width: 109,

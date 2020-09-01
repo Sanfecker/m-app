@@ -1,3 +1,4 @@
+import 'package:nuvlemobile/models/providers/homePageProvider.dart';
 import 'package:nuvlemobile/models/providers/mainPageProvider.dart';
 import 'package:nuvlemobile/models/providers/menus/menusProvider.dart';
 import 'package:nuvlemobile/models/providers/user/order/orderProvider.dart';
@@ -16,6 +17,7 @@ final registerProviders = <SingleChildWidget>[
 
   ChangeNotifierProvider(create: (_) => OnBoardProvider()),
   ChangeNotifierProvider(create: (_) => MainPageProvider()),
+  ChangeNotifierProvider(create: (_) => HomePageProvider()),
 
   //MENUS
   ChangeNotifierProvider(create: (_) => MenusProvider()),

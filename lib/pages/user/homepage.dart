@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:nuvlemobile/models/providers/homePageProvider.dart';
 import 'package:nuvlemobile/pages/user/scan/scanCode.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
@@ -16,7 +17,7 @@ import 'package:nuvlemobile/styles/colors.dart';
 import 'main/menus/orderComplete.dart';
 import 'main/profile/profile.dart';
 
-int page = 0;
+int _page = 0;
 
 class HomePage extends StatefulWidget {
   final UserAccount userAccount;
@@ -59,171 +60,55 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       key: scaffoldKey,
-      bottomNavigationBar: SizedBox(
-        height: 65,
-        child: Consumer2<MainPageProvider, OrderProvider>(
-          builder: (context, pro, pro2, child) => pro2.showOrderList &&
-                  pro2.orders.length > 0
-              ? Container(
-                  padding: EdgeInsets.symmetric(vertical: 16, horizontal: 12),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      IconButton(
-                        icon: Icon(
-                          Icons.close,
-                          size: 30,
-                          color: CustomColors.primary100,
-                        ),
-                        onPressed: () {
-                          pro2.showOrderList = false;
-                          pro2.orders.removeRange(0, pro2.orders.length);
-                        },
-                      ),
-                      Flexible(
-                        fit: FlexFit.tight,
-                        child: Container(
-                          height: 70,
-                          margin: EdgeInsets.only(right: 10),
-                          child: Consumer<OrderProvider>(
-                            builder: (context, pro, child) => ListView(
-                              controller: pro.scrollController,
-                              shrinkWrap: true,
-                              scrollDirection: Axis.horizontal,
-                              children: pro.orders
-                                  .map(
-                                    (e) => Container(
-                                      margin: EdgeInsets.only(left: 15),
-                                      child: Stack(
-                                        overflow: Overflow.visible,
-                                        children: <Widget>[
-                                          ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(50),
-                                            child: CachedNetworkImage(
-                                              imageUrl: e.imageUrl ?? '',
-                                              width: 65,
-                                              height: 63,
-                                              errorWidget:
-                                                  (context, url, error) =>
-                                                      Image.asset(
-                                                Settings.placeholderImageSmall,
-                                                width: 65,
-                                                height: 63,
-                                              ),
-                                              placeholder: (
-                                                BuildContext context,
-                                                String val,
-                                              ) {
-                                                return Image.asset(
-                                                  Settings
-                                                      .placeholderImageSmall,
-                                                  width: 65,
-                                                  height: 63,
-                                                );
-                                              },
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                          Positioned(
-                                            right: 0,
-                                            top: -3,
-                                            child: Container(
-                                              height: 16,
-                                              width: 16,
-                                              child: FlatButton(
-                                                color: CustomColors.primary100,
-                                                padding: EdgeInsets.zero,
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20)),
-                                                onPressed: () =>
-                                                    pro.removeOrder(e),
-                                                child: Icon(
-                                                  Icons.close,
-                                                  color: CustomColors.licoRice,
-                                                  size: 13,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  )
-                                  .toList(),
-                            ),
-                          ),
-                        ),
-                      ),
-                      FlatButton(
-                        onPressed: () => _buttomenuSubmitted(context),
-                        child: Text(
-                          "Order",
-                          style: TextStyle(
-                            color: Colors.black,
-                          ),
-                        ),
-                        shape: StadiumBorder(),
-                        color: CustomColors.primary100,
-                      ),
-                    ],
-                  ),
-                  decoration: BoxDecoration(
-                      color: Color(0xff263238),
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(14),
-                        topRight: Radius.circular(14),
-                      )),
-                )
-              : Container(
-                  padding: EdgeInsets.symmetric(vertical: 16),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: pro.tabIcons.map((e) {
-                      int i = pro.tabIcons.indexOf(e);
-                      return i == pro.selectedIndex
-                          ? FloatingActionButton(
-                              heroTag: ObjectKey("bnv_$i"),
-                              onPressed: () {
-                                setState(() {
-                                  pro.selectedIndex = i;
-                                  page = i;
-                                });
-                              },
-                              child: Icon(
-                                e,
-                                size: 17,
-                              ),
-                              backgroundColor: CustomColors.primary100,
-                            )
-                          : IconButton(
-                              icon: Icon(
-                                e,
-                                color: Color(0xff828282),
-                                size: 20,
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  pro.selectedIndex = i;
-                                  page = i;
-                                });
-                              },
-                            );
-                    }).toList(),
-                  ),
+      bottomNavigationBar: Consumer2<HomePageProvider, OrderProvider>(
+        builder: (context, pro, pro2, child) => Container(
+          decoration: BoxDecoration(
+            border: Border.fromBorderSide(
+              BorderSide(
+                color: Color.fromRGBO(69, 69, 69, 0.79),
+              ),
+            ),
+          ),
+          padding: EdgeInsets.symmetric(vertical: 12),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              FloatingActionButton(
+                heroTag: ObjectKey("bnv_0"),
+                onPressed: () => pro.selectedIndex = 0,
+                child: Icon(
+                  pro.tabIcons[0],
+                  size: 25,
+                  color:
+                      pro.selectedIndex == 0 ? Colors.black : Color(0xFF4C4B5E),
                 ),
+                backgroundColor: pro.selectedIndex == 0
+                    ? CustomColors.primary100
+                    : Colors.transparent,
+                elevation: pro.selectedIndex == 0 ? 5 : 0,
+              ),
+              FloatingActionButton(
+                heroTag: ObjectKey("bnv_1"),
+                onPressed: () => pro.selectedIndex = 1,
+                child: Icon(
+                  pro.tabIcons[1],
+                  size: 25,
+                  color:
+                      pro.selectedIndex > 0 ? Colors.black : Color(0xFF4C4B5E),
+                ),
+                backgroundColor: pro.selectedIndex > 0
+                    ? CustomColors.primary100
+                    : Colors.transparent,
+                elevation: pro.selectedIndex > 0 ? 5 : 0,
+              ),
+            ],
+          ),
         ),
       ),
-      body: page == 0
-          ? ScanCodePage(
-              scaffoldKey: scaffoldKey,
-              userAccount: widget.userAccount,
-            )
-          : Profile(
-              userAccount: widget.userAccount,
-            ),
+      body: Consumer<HomePageProvider>(
+        builder: (context, pro, child) =>
+            pro.tabs(widget.userAccount, scaffoldKey)[pro.selectedIndex],
+      ),
     );
   }
 }

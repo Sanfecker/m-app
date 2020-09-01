@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:nuvlemobile/components/inputs/inputBox.dart';
 import 'package:nuvlemobile/misc/functions.dart';
+import 'package:nuvlemobile/models/providers/homePageProvider.dart';
+import 'package:nuvlemobile/models/providers/mainPageProvider.dart';
 import 'package:nuvlemobile/models/providers/user/supportTicketProvider.dart';
 import 'package:nuvlemobile/models/skeltons/api/apiRequestModel.dart';
 import 'package:nuvlemobile/models/skeltons/menus/supportTicket.dart';
 import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
+import 'package:nuvlemobile/pages/user/main/profile/profile.dart';
 import 'package:provider/provider.dart';
 
 class ContactSupport extends StatefulWidget {
@@ -69,12 +72,64 @@ class _ContactSupportState extends State<ContactSupport> {
     Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
       key: _scaffoldKey,
-      appBar: AppBar(elevation: 0),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              page == 'home'
+                  ? Consumer<HomePageProvider>(
+                      builder: (context, pro, child) => Container(
+                        margin: EdgeInsets.only(left: 20),
+                        height: screenSize.height * 0.1,
+                        child: GestureDetector(
+                          onTap: () => pro.selectedIndex = 1,
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.arrow_back_ios,
+                                color: Color(0xFFD2B271),
+                                size: 20,
+                              ),
+                              Text(
+                                'Back',
+                                style: TextStyle(
+                                  color: Color(0xFFD2B271),
+                                  fontSize: 14,
+                                  letterSpacing: 1,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    )
+                  : Consumer<MainPageProvider>(
+                      builder: (context, pro, child) => Container(
+                        margin: EdgeInsets.only(left: 20),
+                        height: screenSize.height * 0.1,
+                        child: GestureDetector(
+                          onTap: () => pro.selectedIndex = 1,
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.arrow_back_ios,
+                                color: Color(0xFFD2B271),
+                                size: 20,
+                              ),
+                              Text(
+                                'Back',
+                                style: TextStyle(
+                                  color: Color(0xFFD2B271),
+                                  fontSize: 14,
+                                  letterSpacing: 1,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 width: screenSize.width * 0.60,

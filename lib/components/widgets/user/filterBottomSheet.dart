@@ -36,9 +36,9 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return ListView(
+      // mainAxisSize: MainAxisSize.min,
+      // crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Center(
           child: Container(

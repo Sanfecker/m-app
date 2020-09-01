@@ -81,7 +81,7 @@ class MenuItems {
   List<ServedWith> servedWith;
   List<MenuItems> sides;
   List<MenuItems> selectedSides;
-  List<MenuItems> confirmedSides;
+  List<MenuItems> confirmedSides = List<MenuItems>();
   int sidesCount;
   String note;
 

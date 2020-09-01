@@ -49,26 +49,25 @@ class MainPage extends StatelessWidget {
         builder: (context, pro, pro2, child) => pro2.showOrderList &&
                 pro2.orders.length > 0
             ? Container(
-                padding: EdgeInsets.symmetric(vertical: 16, horizontal: 12),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    IconButton(
-                      icon: Icon(
-                        Icons.close,
-                        size: 30,
-                        color: CustomColors.primary100,
+                height: 60,
+                alignment: Alignment.center,
+                padding: EdgeInsets.symmetric(horizontal: 12),
+                child: Container(
+                  height: 40,
+                  child: Row(
+                    children: <Widget>[
+                      IconButton(
+                        icon: Icon(
+                          Icons.close,
+                          size: 30,
+                          color: CustomColors.primary100,
+                        ),
+                        onPressed: () {
+                          pro2.showOrderList = false;
+                          pro2.orders.removeRange(0, pro2.orders.length);
+                        },
                       ),
-                      onPressed: () {
-                        pro2.showOrderList = false;
-                        pro2.orders.removeRange(0, pro2.orders.length);
-                      },
-                    ),
-                    Flexible(
-                      fit: FlexFit.tight,
-                      child: Container(
-                        height: 70,
-                        margin: EdgeInsets.only(right: 10),
+                      Expanded(
                         child: Consumer<OrderProvider>(
                           builder: (context, pro, child) => ListView(
                             controller: pro.scrollController,
@@ -77,7 +76,9 @@ class MainPage extends StatelessWidget {
                             children: pro.orders
                                 .map(
                                   (e) => Container(
-                                    margin: EdgeInsets.only(left: 15),
+                                    padding: EdgeInsets.only(
+                                      right: 10,
+                                    ),
                                     child: Stack(
                                       overflow: Overflow.visible,
                                       children: <Widget>[
@@ -86,8 +87,8 @@ class MainPage extends StatelessWidget {
                                               BorderRadius.circular(50),
                                           child: CachedNetworkImage(
                                             imageUrl: e.imageUrl ?? '',
-                                            width: 65,
-                                            height: 63,
+                                            width: 40,
+                                            height: 40,
                                             errorWidget:
                                                 (context, url, error) =>
                                                     Image.asset(
@@ -108,8 +109,9 @@ class MainPage extends StatelessWidget {
                                         ),
                                         Positioned(
                                           right: 0,
-                                          top: -3,
+                                          top: 0,
                                           child: Container(
+                                            alignment: Alignment.center,
                                             height: 16,
                                             width: 16,
                                             child: FlatButton(
@@ -124,7 +126,7 @@ class MainPage extends StatelessWidget {
                                               child: Icon(
                                                 Icons.close,
                                                 color: CustomColors.licoRice,
-                                                size: 18,
+                                                size: 12,
                                               ),
                                             ),
                                           ),
@@ -137,62 +139,76 @@ class MainPage extends StatelessWidget {
                           ),
                         ),
                       ),
-                    ),
-                    FlatButton(
-                      onPressed: () => _handleSubmitted(context),
-                      child: Text(
-                        "Order",
-                        style: TextStyle(
-                          color: Colors.black,
+                      Padding(
+                        padding: const EdgeInsets.only(left: 12),
+                        child: FlatButton(
+                          onPressed: () => _handleSubmitted(context),
+                          child: Text(
+                            "Order",
+                            style: TextStyle(
+                              color: Colors.black,
+                            ),
+                          ),
+                          shape: StadiumBorder(),
+                          color: CustomColors.primary100,
                         ),
                       ),
-                      shape: StadiumBorder(),
-                      color: CustomColors.primary100,
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 decoration: BoxDecoration(
-                    color: Color(0xff263238),
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(14),
-                      topRight: Radius.circular(14),
-                    )),
+                  color: Color(0xff263238),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(40),
+                    topRight: Radius.circular(40),
+                  ),
+                ),
               )
             : Container(
-                padding: EdgeInsets.symmetric(
-                  vertical: 5,
+                padding: EdgeInsets.only(
+                  bottom: 12,
+                  top: 10,
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: pro.tabIcons.map((e) {
-                    int i = pro.tabIcons.indexOf(e);
-                    return i == pro.selectedIndex
-                        ? FloatingActionButton(
-                            heroTag: ObjectKey("bnv_$i"),
-                            onPressed: () => pro.selectedIndex = i,
-                            child: Icon(
-                              e,
-                              size: 20,
-                            ),
-                            backgroundColor: CustomColors.primary100,
-                          )
-                        : IconButton(
-                            icon: Icon(
-                              e,
-                              color: Color(0xff828282),
-                              size: 20,
-                            ),
-                            onPressed: () => pro.selectedIndex = i,
-                          );
-                  }).toList(),
+                  children: [
+                    FloatingActionButton(
+                      heroTag: ObjectKey("bnv_0"),
+                      onPressed: () => pro.selectedIndex = 0,
+                      child: Icon(
+                        pro.tabIcons[0],
+                        size: 25,
+                        color: pro.selectedIndex == 0
+                            ? Colors.black
+                            : Color(0xFF4C4B5E),
+                      ),
+                      backgroundColor: pro.selectedIndex == 0
+                          ? CustomColors.primary100
+                          : Colors.transparent,
+                      elevation: pro.selectedIndex == 0 ? 5 : 0,
+                    ),
+                    FloatingActionButton(
+                      heroTag: ObjectKey("bnv_1"),
+                      onPressed: () => pro.selectedIndex = 1,
+                      child: Icon(
+                        pro.tabIcons[1],
+                        size: 25,
+                        color: pro.selectedIndex > 0
+                            ? Colors.black
+                            : Color(0xFF4C4B5E),
+                      ),
+                      backgroundColor: pro.selectedIndex > 0
+                          ? CustomColors.primary100
+                          : Colors.transparent,
+                      elevation: pro.selectedIndex > 0 ? 5 : 0,
+                    ),
+                  ],
                 ),
               ),
       ),
-      body: SafeArea(
-        child: Consumer<MainPageProvider>(
-          builder: (context, pro, child) =>
-              pro.tabs(userAccount)[pro.selectedIndex],
-        ),
+      body: Consumer<MainPageProvider>(
+        builder: (context, pro, child) =>
+            pro.tabs(userAccount)[pro.selectedIndex],
       ),
     );
   }

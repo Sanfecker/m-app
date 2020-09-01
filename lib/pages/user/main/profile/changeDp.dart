@@ -3,8 +3,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:nuvlemobile/misc/functions.dart';
+import 'package:nuvlemobile/models/providers/homePageProvider.dart';
+import 'package:nuvlemobile/models/providers/mainPageProvider.dart';
+import 'package:nuvlemobile/pages/user/main/profile/profile.dart';
 import 'package:nuvlemobile/styles/colors.dart';
 import 'package:nuvlemobile/styles/nuvleIcons.dart';
+import 'package:provider/provider.dart';
 
 class ChangeDisplayPicture extends StatefulWidget {
   @override
@@ -29,15 +33,63 @@ class _ChangeDisplayPictureState extends State<ChangeDisplayPicture> {
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-      ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              page == 'home'
+                  ? Consumer<HomePageProvider>(
+                      builder: (context, pro, child) => Container(
+                        height: screenSize.height * 0.1,
+                        child: GestureDetector(
+                          onTap: () => pro.selectedIndex = 1,
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.arrow_back_ios,
+                                color: Color(0xFFD2B271),
+                                size: 20,
+                              ),
+                              Text(
+                                'Back',
+                                style: TextStyle(
+                                  color: Color(0xFFD2B271),
+                                  fontSize: 14,
+                                  letterSpacing: 1,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    )
+                  : Consumer<MainPageProvider>(
+                      builder: (context, pro, child) => Container(
+                        height: screenSize.height * 0.1,
+                        child: GestureDetector(
+                          onTap: () => pro.selectedIndex = 1,
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.arrow_back_ios,
+                                color: Color(0xFFD2B271),
+                                size: 20,
+                              ),
+                              Text(
+                                'Back',
+                                style: TextStyle(
+                                  color: Color(0xFFD2B271),
+                                  fontSize: 14,
+                                  letterSpacing: 1,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
               Container(
                 width: screenSize.width * 0.60,
                 margin: EdgeInsets.only(bottom: 60, top: 20),
@@ -57,15 +109,15 @@ class _ChangeDisplayPictureState extends State<ChangeDisplayPicture> {
                         child: Container(
                           height: 161,
                           width: 161,
-                          child:  _pickedFile != null
-                            ? Image.file(
-                                File(_pickedFile.path),
-                                fit: BoxFit.cover,
-                              )
-                            :Icon(
-                            Icons.image,
-                            size: 50,
-                          ),
+                          child: _pickedFile != null
+                              ? Image.file(
+                                  File(_pickedFile.path),
+                                  fit: BoxFit.cover,
+                                )
+                              : Icon(
+                                  Icons.image,
+                                  size: 50,
+                                ),
                           decoration: BoxDecoration(color: Color(0xffFF596E)),
                         ),
                       ),

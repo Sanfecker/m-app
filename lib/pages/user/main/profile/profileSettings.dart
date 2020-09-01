@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:nuvlemobile/components/inputs/inputBox.dart';
 import 'package:nuvlemobile/misc/functions.dart';
+import 'package:nuvlemobile/models/providers/homePageProvider.dart';
+import 'package:nuvlemobile/models/providers/mainPageProvider.dart';
 import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
+import 'package:nuvlemobile/pages/user/main/profile/profile.dart';
 import 'package:nuvlemobile/styles/colors.dart';
 import 'package:nuvlemobile/styles/nuvleIcons.dart';
+import 'package:provider/provider.dart';
 
 class ProfileSettings extends StatefulWidget {
   final UserAccount userAccount;
 
-  const ProfileSettings({Key key, @required this.userAccount}) : super(key: key);
+  const ProfileSettings({Key key, @required this.userAccount})
+      : super(key: key);
   @override
   _ProfileSettingsState createState() => _ProfileSettingsState();
 }
@@ -34,26 +39,92 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        actions: <Widget>[
-          FlatButton(
-            onPressed: () => print("Hey"),
-            child: Text(
-              "Delete Account",
-              style: TextStyle(
-                  color: CustomColors.primary,
-                  letterSpacing: 0.3,
-                  fontSize: 16),
-            ),
-          ),
-        ],
-      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              page == 'home'
+                  ? Consumer<HomePageProvider>(
+                      builder: (context, pro, child) => Container(
+                        margin: EdgeInsets.only(left: 20),
+                        height: screenSize.height * 0.1,
+                        child: GestureDetector(
+                          onTap: () => pro.selectedIndex = 1,
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.arrow_back_ios,
+                                color: Color(0xFFD2B271),
+                                size: 20,
+                              ),
+                              Text(
+                                'Back',
+                                style: TextStyle(
+                                  color: Color(0xFFD2B271),
+                                  fontSize: 14,
+                                  letterSpacing: 1,
+                                ),
+                              ),
+                              Expanded(
+                                child: SizedBox(),
+                              ),
+                              FlatButton(
+                                onPressed: () => print("Hey"),
+                                child: Text(
+                                  "Delete Account",
+                                  style: TextStyle(
+                                    color: CustomColors.primary,
+                                    letterSpacing: 0.3,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    )
+                  : Consumer<MainPageProvider>(
+                      builder: (context, pro, child) => Container(
+                        margin: EdgeInsets.only(left: 20),
+                        height: screenSize.height * 0.1,
+                        child: GestureDetector(
+                          onTap: () => pro.selectedIndex = 1,
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.arrow_back_ios,
+                                color: Color(0xFFD2B271),
+                                size: 20,
+                              ),
+                              Text(
+                                'Back',
+                                style: TextStyle(
+                                  color: Color(0xFFD2B271),
+                                  fontSize: 14,
+                                  letterSpacing: 1,
+                                ),
+                              ),
+                              Expanded(
+                                child: SizedBox(),
+                              ),
+                              FlatButton(
+                                onPressed: () => print("Hey"),
+                                child: Text(
+                                  "Delete Account",
+                                  style: TextStyle(
+                                    color: CustomColors.primary,
+                                    letterSpacing: 0.3,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 width: screenSize.width * 0.60,

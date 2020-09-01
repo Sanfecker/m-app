@@ -74,7 +74,7 @@ class _MenuTabListingState extends State<MenuTabListing> {
             return menuItems.length > 0
                 ? ListView(
                     controller: _scrollController,
-                    padding: EdgeInsets.symmetric(vertical: 40, horizontal: 12),
+                    padding: EdgeInsets.symmetric(vertical: 30, horizontal: 12),
                     children: [
                       ...menuItems
                           .map((e) => ListingWidget(

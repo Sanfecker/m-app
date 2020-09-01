@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nuvlemobile/misc/functions.dart';
 import 'package:nuvlemobile/models/providers/user/order/orderProvider.dart';
 import 'package:nuvlemobile/models/skeltons/menus/item.dart';
-import 'package:nuvlemobile/pages/user/main/menus/itemInfo.dart';
+import 'package:nuvlemobile/pages/user/main/menus/itemInfooo.dart';
 import 'package:nuvlemobile/styles/colors.dart';
 import 'package:provider/provider.dart';
 

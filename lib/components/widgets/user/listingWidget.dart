@@ -5,6 +5,7 @@ import 'package:nuvlemobile/misc/settings.dart';
 import 'package:nuvlemobile/models/providers/user/order/orderProvider.dart';
 import 'package:nuvlemobile/models/skeltons/menus/menuData.dart';
 import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
+import 'package:nuvlemobile/pages/user/main/menus/itemInfooo.dart';
 import 'package:nuvlemobile/pages/user/main/menus/itemInfo.dart';
 import 'package:nuvlemobile/pages/user/main/menus/orderItem.dart';
 import 'package:nuvlemobile/styles/colors.dart';
@@ -23,7 +24,11 @@ class ListingWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkResponse(
       onTap: () => Functions().scaleTo(
-          context, ItemInfo(menuItem: menuItem, userAccount: userAccount)),
+          context,
+          ItemInfo(
+            menuItem: menuItem,
+            userAccount: userAccount,
+          )),
       child: Container(
         margin: EdgeInsets.only(bottom: 20),
         child: ClipRRect(

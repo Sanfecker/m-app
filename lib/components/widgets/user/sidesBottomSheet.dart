@@ -7,7 +7,7 @@ import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
 import 'package:nuvlemobile/styles/colors.dart';
 import 'package:provider/provider.dart';
 
-class SidesBottomSheet extends StatelessWidget {
+class SidesBottomSheet extends StatefulWidget {
   final MenuItems menuItem;
   final UserAccount userAccount;
 
@@ -15,10 +15,16 @@ class SidesBottomSheet extends StatelessWidget {
       {Key key, @required this.menuItem, @required this.userAccount})
       : super(key: key);
 
+  @override
+  _SidesBottomSheetState createState() => _SidesBottomSheetState();
+}
+
+class _SidesBottomSheetState extends State<SidesBottomSheet> {
   _handleSubmitted(BuildContext context) {
-    Provider.of<OrderProvider>(context, listen: false)
-        .confirmedSideSelection(menuItem);
+    // Provider.of<OrderProvider>(context, listen: false)
+    //     .confirmedSideSelection(menuItem);
     Navigator.pop(context);
+    setState(() {});
   }
 
   @override
@@ -54,7 +60,9 @@ class SidesBottomSheet extends StatelessWidget {
                       size: 30,
                       color: CustomColors.primary100,
                     ),
-                    onPressed: () => Navigator.of(context).pop(),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
                   ),
                 ],
               ),
@@ -62,12 +70,12 @@ class SidesBottomSheet extends StatelessWidget {
               Flexible(
                 child: SingleChildScrollView(
                   child: Column(
-                    children: menuItem.sides
+                    children: widget.menuItem.sides
                         .map(
                           (e) => SelectableListingWidget(
                               menuItem: e,
-                              parent: menuItem,
-                              userAccount: userAccount),
+                              parent: widget.menuItem,
+                              userAccount: widget.userAccount),
                         )
                         .toList(),
                   ),
