@@ -1,0 +1,36 @@
+{
+    "logs": [
+        {
+            "outputFile": "C:\\Users\\ucheg\\Documents\\Flutter\\m-app\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-pt\\values-pt.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\ucheg\\.gradle\\caches\\transforms-2\\files-2.1\\5bae5ccd976fa28e5292ad9bd0076532\\core-1.1.0\\res\\values-pt\\values-pt.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\ucheg\\.gradle\\caches\\transforms-2\\files-2.1\\9a7b17550539543228aee4472ebcea07\\zxing-android-embedded-4.0.2\\res\\values-pt\\values-pt.xml",
+                    "from": {
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,114,161,317",
+                        "endColumns": "58,46,155,106",
+                        "endOffsets": "109,156,312,419"
+                    },
+                    "to": {
+                        "startLines": "3,4,5,6",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "156,215,262,418",
+                        "endColumns": "58,46,155,106",
+                        "endOffsets": "210,257,413,520"
+                    }
+                }
+            ]
+        }
+    ]
+}
