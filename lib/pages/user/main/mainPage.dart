@@ -7,6 +7,7 @@ import 'package:nuvlemobile/models/providers/mainPageProvider.dart';
 import 'package:nuvlemobile/models/providers/user/order/orderProvider.dart';
 import 'package:nuvlemobile/models/skeltons/api/apiRequestModel.dart';
 import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
+import 'package:nuvlemobile/pages/user/main/menus/myOrder.dart';
 import 'package:nuvlemobile/pages/user/main/menus/orderComplete.dart';
 import 'package:nuvlemobile/styles/colors.dart';
 import 'package:page_transition/page_transition.dart';
@@ -16,31 +17,6 @@ class MainPage extends StatelessWidget {
   final UserAccount userAccount;
 
   MainPage({Key key, @required this.userAccount}) : super(key: key);
-
-  _handleSubmitted(BuildContext ctx) async {
-    Functions().showLoadingDialog(ctx);
-    OrderProvider orderProvider =
-        Provider.of<OrderProvider>(ctx, listen: false);
-    try {
-      ApiRequestModel apiRequestModel =
-          await orderProvider.order(userAccount, orderProvider.orders);
-      if (apiRequestModel.isSuccessful) {
-        Navigator.pop(ctx);
-        Functions()
-            .transitTo(ctx, OrderComplete(), PageTransitionType.downToUp);
-      } else {
-        Navigator.pop(ctx);
-        await Fluttertoast.showToast(
-          msg: apiRequestModel.errorMessage,
-        );
-      }
-    } catch (e) {
-      Navigator.pop(ctx);
-      await Fluttertoast.showToast(
-        msg: "Internal Error",
-      );
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -142,7 +118,11 @@ class MainPage extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(left: 12),
                         child: FlatButton(
-                          onPressed: () => _handleSubmitted(context),
+                          onPressed: () => Functions().transitTo(
+                              context,
+                              OrderPage(
+                                userAccount: userAccount,
+                              )),
                           child: Text(
                             "Order",
                             style: TextStyle(

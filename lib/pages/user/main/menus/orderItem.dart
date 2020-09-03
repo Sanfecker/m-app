@@ -82,6 +82,7 @@ class _OrderItemState extends State<OrderItem> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: widget.menuItem.itemTags
                       .map(
                         (e) => Container(

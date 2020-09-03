@@ -157,10 +157,11 @@ class ListingWidget extends StatelessWidget {
                                   ),
                                   color: CustomColors.primary,
                                   onPressed: () => Functions().scaleTo(
-                                      context,
-                                      OrderItem(
-                                          menuItem: menuItem,
-                                          userAccount: userAccount)),
+                                    context,
+                                    OrderItem(
+                                        menuItem: menuItem,
+                                        userAccount: userAccount),
+                                  ),
                                   child: Text(
                                     "Order Now",
                                     style: TextStyle(
