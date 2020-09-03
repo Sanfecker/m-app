@@ -20,21 +20,6 @@ class _MyTabState extends State<MyTab> {
       appBar: AppBar(
         elevation: 0,
       ),
-      bottomNavigationBar: Functions().customButton(
-        context,
-        onTap: () =>
-            Functions.openBottomSheet(context, CloseTabBottomSheet(), true),
-        width: screenSize.width,
-        height: 70,
-        text: "Close Tab",
-        color: CustomColors.primary900,
-        specificBorderRadius: BorderRadius.zero,
-        hasIcon: true,
-        trailing: Icon(
-          NuvleIcons.icon_right,
-          color: Color(0xff474551),
-        ),
-      ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 12),
         child: Column(
@@ -192,6 +177,21 @@ class _MyTabState extends State<MyTab> {
                           ),
                         ),
                         SizedBox(height: 80),
+                        Functions().customButton(
+                          context,
+                          onTap: () =>
+                              Functions.openBottomSheet(context, CloseTabBottomSheet(), true),
+                          width: screenSize.width,
+                          height: 70,
+                          text: "Close Tab",
+                          color: CustomColors.primary900,
+                          specificBorderRadius: BorderRadius.circular(10),
+                          hasIcon: true,
+                          trailing: Icon(
+                            NuvleIcons.icon_right,
+                            color: Color(0xff474551),
+                          ),
+                        ),
                       ],
                     ),
                   ),
