@@ -75,19 +75,24 @@ class _OrderItemState extends State<OrderItem> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Row(
-              mainAxisAlignment: widget.menuItem.itemTags.length > 0
-                  ? MainAxisAlignment.spaceBetween
-                  : MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Column(
-                  children: widget.menuItem.itemTags
-                      .map(
-                        (e) => Container(
-                          margin: EdgeInsets.only(bottom: 12),
-                          child: FlatButton(
-                            color: Color(0xff4A444A),
+            Container(
+              height: MediaQuery.of(context).size.height * 0.2992,
+              child: Row(
+                mainAxisAlignment: widget.menuItem.itemTags.length > 0
+                    ? MainAxisAlignment.spaceBetween
+                    : MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Column(
+                    children: widget.menuItem.itemTags
+                        .map(
+                          (e) => Container(
+                            padding: EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+                            margin: EdgeInsets.only(bottom: 10),
+                            decoration: BoxDecoration(
+                              color: Color(0xff4A444A),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
                             child: Text(
                               e.tagName,
                               style: TextStyle(
@@ -97,31 +102,15 @@ class _OrderItemState extends State<OrderItem> {
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
-                            shape: StadiumBorder(),
-                            onPressed: () => print("Hey"),
-                            height: 20,
-                            minWidth: 30,
                           ),
-                        ),
-                      )
-                      .toList(),
-                ),
-                CachedNetworkImage(
-                  imageUrl: widget.menuItem.imageUrl ?? '',
-                  width: MediaQuery.of(context).size.width * 0.6,
-                  filterQuality: FilterQuality.high,
-                  errorWidget: (context, url, error) => Container(
-                    child: Image.asset(
-                      Settings.placeholderImageSmall,
-                      width: 215,
-                      height: 245,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.transparent,
-                    ),
+                        )
+                        .toList(),
                   ),
-                  placeholder: (BuildContext context, String val) {
-                    return Container(
+                  CachedNetworkImage(
+                    imageUrl: widget.menuItem.imageUrl ?? '',
+                    width: MediaQuery.of(context).size.width * 0.6,
+                    filterQuality: FilterQuality.high,
+                    errorWidget: (context, url, error) => Container(
                       child: Image.asset(
                         Settings.placeholderImageSmall,
                         width: 215,
@@ -130,11 +119,23 @@ class _OrderItemState extends State<OrderItem> {
                       decoration: BoxDecoration(
                         color: Colors.transparent,
                       ),
-                    );
-                  },
-                  fit: BoxFit.contain,
-                ),
-              ],
+                    ),
+                    placeholder: (BuildContext context, String val) {
+                      return Container(
+                        child: Image.asset(
+                          Settings.placeholderImageSmall,
+                          width: 215,
+                          height: 245,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.transparent,
+                        ),
+                      );
+                    },
+                    fit: BoxFit.contain,
+                  ),
+                ],
+              ),
             ),
             SizedBox(height: 20),
             Center(
@@ -280,55 +281,55 @@ class _OrderItemState extends State<OrderItem> {
                   SizedBox(height: 30),
                 ],
               ),
-            if (widget.menuItem.sides != null &&
-                widget.menuItem.sides.isNotEmpty)
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    'Select a side',
-                    style: TextStyle(
-                      color: Color(0xffF2F2F9),
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
-                  ),
-                  SizedBox(height: 12),
-                  Consumer<OrderProvider>(
-                    builder: (context, pro, child) {
-                      List<MenuItems> confirmedSides =
-                          pro.getSingleItem(widget.menuItem).confirmedSides;
-                      return Text(
-                        confirmedSides != null && confirmedSides.length > 0
-                            ? confirmedSides.length == 1
-                                ? "Dish Side: 1 Side"
-                                : "Dish Side: ${confirmedSides.length} Sides"
-                            : "No Selected Side",
-                      );
-                    },
-                  ),
-                  SizedBox(height: 12),
-                  FlatButton(
-                      color: Color(0xff363A47),
-                      child: Text(
-                        "Pick Sides +",
-                        style: TextStyle(
-                            color: Colors.white,
-                            letterSpacing: 0.3,
-                            fontSize: 13),
-                      ),
-                      shape: StadiumBorder(),
-                      onPressed: () async {
-                        await Functions.openBottomSheet(
-                            context,
-                            SidesBottomSheet(
-                                menuItem: widget.menuItem,
-                                userAccount: widget.userAccount),
-                            true);
-                        setState(() {});
-                      }),
-                ],
-              ),
+            // if (widget.menuItem.sides != null &&
+            //     widget.menuItem.sides.isNotEmpty)
+            //   Column(
+            //     crossAxisAlignment: CrossAxisAlignment.start,
+            //     children: <Widget>[
+            //       Text(
+            //         'Select a side',
+            //         style: TextStyle(
+            //           color: Color(0xffF2F2F9),
+            //           fontWeight: FontWeight.bold,
+            //           fontSize: 16,
+            //         ),
+            //       ),
+            //       SizedBox(height: 12),
+            //       Consumer<OrderProvider>(
+            //         builder: (context, pro, child) {
+            //           List<MenuItems> confirmedSides =
+            //               pro.getSingleItem(widget.menuItem).confirmedSides;
+            //           return Text(
+            //             confirmedSides != null && confirmedSides.length > 0
+            //                 ? confirmedSides.length == 1
+            //                     ? "Dish Side: 1 Side"
+            //                     : "Dish Side: ${confirmedSides.length} Sides"
+            //                 : "No Selected Side",
+            //           );
+            //         },
+            //       ),
+            //       SizedBox(height: 12),
+            //       FlatButton(
+            //           color: Color(0xff363A47),
+            //           child: Text(
+            //             "Pick Sides +",
+            //             style: TextStyle(
+            //                 color: Colors.white,
+            //                 letterSpacing: 0.3,
+            //                 fontSize: 13),
+            //           ),
+            //           shape: StadiumBorder(),
+            //           onPressed: () async {
+            //             await Functions.openBottomSheet(
+            //                 context,
+            //                 SidesBottomSheet(
+            //                     menuItem: widget.menuItem,
+            //                     userAccount: widget.userAccount),
+            //                 true);
+            //             setState(() {});
+            //           }),
+            //     ],
+            //   ),
             SizedBox(height: 40),
             Form(
               key: _formKey,

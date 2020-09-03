@@ -49,9 +49,9 @@ class MainPage extends StatelessWidget {
         builder: (context, pro, pro2, child) => pro2.showOrderList &&
                 pro2.orders.length > 0
             ? Container(
-                height: 60,
+                height: 76,
                 alignment: Alignment.center,
-                padding: EdgeInsets.symmetric(horizontal: 12),
+                padding: EdgeInsets.only(top: 0, bottom: 0, left: 12, right: 12),
                 child: Container(
                   height: 40,
                   child: Row(
@@ -87,8 +87,8 @@ class MainPage extends StatelessWidget {
                                               BorderRadius.circular(50),
                                           child: CachedNetworkImage(
                                             imageUrl: e.imageUrl ?? '',
-                                            width: 40,
-                                            height: 40,
+                                            width: 48,
+                                            height: 48,
                                             errorWidget:
                                                 (context, url, error) =>
                                                     Image.asset(
@@ -166,8 +166,8 @@ class MainPage extends StatelessWidget {
               )
             : Container(
                 padding: EdgeInsets.only(
-                  bottom: 12,
-                  top: 10,
+                  bottom: 16,
+                  top: 12,
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,

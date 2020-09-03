@@ -224,7 +224,7 @@ class _ScanCodePageState extends State<ScanCodePage> {
               child: Text(
                 "Enter a Group code to join someone's Tab",
                 style: TextStyle(
-                  color: Color(0xffF2F2F9),
+                  color: Color(0xffA6A6A6),
                   letterSpacing: 1,
                   fontSize: 15,
                 ),

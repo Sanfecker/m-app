@@ -69,7 +69,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          padding: EdgeInsets.symmetric(vertical: 12),
+          padding: EdgeInsets.only(top: 12, bottom: 16),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [

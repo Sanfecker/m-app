@@ -119,7 +119,7 @@ class _MenusState extends State<Menus> with SingleTickerProviderStateMixin {
                   child: Text(
                     e.name,
                     style: GoogleFonts.lato(
-                      textStyle: TextStyle(fontSize: 18, letterSpacing: 0.1),
+                      textStyle: TextStyle(fontSize: 16,),
                     ),
                   ),
                 ),
@@ -151,7 +151,7 @@ class _MenusState extends State<Menus> with SingleTickerProviderStateMixin {
                           context, DietaryBottomSheet()),
                     ),
                     BottomAppButton(
-                      name: "Sides",
+                      name: "Sides +",
                       onPressed: () => print("hEY"),
                       // Functions.openBottomSheet(
                       //     context, SidesBottomSheet(), true),
@@ -174,14 +174,14 @@ class _MenusState extends State<Menus> with SingleTickerProviderStateMixin {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             padding: EdgeInsets.symmetric(
-                              horizontal: 10,
+                              horizontal: 12,
                               vertical: 5,
                             ),
                             child: Text(
                               e.name,
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 10,
+                                fontSize: 12,
                                 letterSpacing: 0.4,
                               ),
                             ),

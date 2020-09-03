@@ -42,11 +42,11 @@ class _ItemInfoState extends State<ItemInfo> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(16.0),
           child: Container(
             height: widget.menuItem.sides != null &&
                     widget.menuItem.sides.isNotEmpty
-                ? MediaQuery.of(context).size.height * 0.9
+                ? MediaQuery.of(context).size.height
                 : MediaQuery.of(context).size.height * 0.8,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,21 +64,20 @@ class _ItemInfoState extends State<ItemInfo> {
                         children: widget.menuItem.itemTags
                             .map(
                               (e) => Container(
-                                child: FlatButton(
+                                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+                                decoration: BoxDecoration(
                                   color: Color(0xff4A444A),
-                                  child: Text(
-                                    e.tagName,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 12,
-                                      letterSpacing: 0.3,
-                                      fontWeight: FontWeight.w500,
-                                    ),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                margin: EdgeInsets.only(bottom: 10),
+                                child: Text(
+                                  e.tagName,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                    letterSpacing: 0.3,
+                                    fontWeight: FontWeight.w500,
                                   ),
-                                  shape: StadiumBorder(),
-                                  onPressed: () => print("Hey"),
-                                  height: 20,
-                                  minWidth: 30,
                                 ),
                               ),
                             )
@@ -189,160 +188,152 @@ class _ItemInfoState extends State<ItemInfo> {
                           ),
                         ),
                         SizedBox(height: 12),
-                        Expanded(
+                        Flexible(
                           child: Container(
-                            // height: 200,
-                            child: LimitedBox(
-                              // height: 30,
-                              // color: Colors.green,
-                              child: ListView(
-                                  shrinkWrap: true,
-                                  scrollDirection: Axis.horizontal,
-                                  children: widget.menuItem.sides.map((e) {
-                                    return Container(
-                                      // height: 83,
-                                      // width: 120,
-                                      margin: EdgeInsets.only(
-                                        right: 20,
-                                      ),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Expanded(
-                                            child: Consumer<OrderProvider>(
-                                              builder: (context, pro, child) =>
-                                                  GestureDetector(
-                                                onTap: () {
-                                                  setState(() {
-                                                    widget.menuItem
-                                                            .confirmedSides
-                                                            .contains(e)
-                                                        ? widget.menuItem
-                                                            .confirmedSides
-                                                            .remove(e)
-                                                        : widget.menuItem
-                                                            .confirmedSides
-                                                            .add(e);
-                                                  });
-                                                  print(widget
-                                                      .menuItem.confirmedSides
-                                                      .contains(e));
-                                                  print(widget.menuItem
-                                                      .confirmedSides.length);
-                                                  // menuItem.selectedSides
-                                                  //     .removeRange(
-                                                  //         0,
-                                                  //         menuItem.selectedSides
-                                                  //             .length);
-                                                },
-                                                child: Container(
-                                                  decoration: BoxDecoration(
-                                                    border: Border.all(
-                                                      color: Color(0xFFD5B572),
-                                                    ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            5),
-                                                  ),
-                                                  // padding: const EdgeInsets.all(
-                                                  //   17,
-                                                  // ),
-                                                  child: Stack(
-                                                    alignment: Alignment.center,
-                                                    children: [
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(10.0),
-                                                        child:
-                                                            CachedNetworkImage(
-                                                          imageUrl:
-                                                              e.imageUrl ?? '',
-                                                          width: 80,
-                                                          errorWidget: (context,
-                                                                  url, error) =>
-                                                              Container(
-                                                            child: Image.asset(
-                                                              Settings
-                                                                  .placeholderImageSmall,
-                                                            ),
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              color: Colors
-                                                                  .transparent,
-                                                            ),
-                                                          ),
-                                                          placeholder:
-                                                              (BuildContext
-                                                                      context,
-                                                                  String val) {
-                                                            return Image.asset(
-                                                              Settings
-                                                                  .placeholderImageSmall,
-                                                            );
-                                                          },
-                                                          fit: BoxFit.contain,
-                                                        ),
-                                                      ),
-                                                      if (widget.menuItem
-                                                          .confirmedSides
-                                                          .contains(e))
-                                                        Container(
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color:
-                                                                Color.fromRGBO(
-                                                              229,
-                                                              194,
-                                                              122,
-                                                              0.7,
-                                                            ),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        5),
-                                                          ),
-                                                          height:
-                                                              double.infinity,
-                                                          width: 114,
-                                                          child: Icon(
-                                                            Icons.check,
-                                                            color: Color(
-                                                                0xFF4C4B5E),
-                                                            size: 30,
-                                                          ),
-                                                        )
-                                                    ],
-                                                  ),
+                            child: ListView(
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                children: widget.menuItem.sides.map((e) {
+                                  return Container(
+                                    // height: 83,
+                                    width: 114,
+                                    margin: EdgeInsets.only(
+                                      right: 12,
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Consumer<OrderProvider>(
+                                          builder: (context, pro, child) =>
+                                              GestureDetector(
+                                            onTap: () {
+                                              setState(() {
+                                                widget.menuItem
+                                                        .confirmedSides
+                                                        .contains(e)
+                                                    ? widget.menuItem
+                                                        .confirmedSides
+                                                        .remove(e)
+                                                    : widget.menuItem
+                                                        .confirmedSides
+                                                        .add(e);
+                                              });
+                                              print(widget
+                                                  .menuItem.confirmedSides
+                                                  .contains(e));
+                                              print(widget.menuItem
+                                                  .confirmedSides.length);
+                                              // menuItem.selectedSides
+                                              //     .removeRange(
+                                              //         0,
+                                              //         menuItem.selectedSides
+                                              //             .length);
+                                            },
+                                            child: Container(
+                                              height:114,
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  color: Color(0xFFD5B572),
                                                 ),
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        5),
+                                              ),
+                                              // padding: const EdgeInsets.all(
+                                              //   17,
+                                              // ),
+                                              child: Stack(
+                                                alignment: Alignment.center,
+                                                children: [
+                                                  CachedNetworkImage(
+                                                      imageUrl:
+                                                    e.imageUrl ?? '',
+                                                      width: 114,
+                                                      height: 114,
+                                                      errorWidget: (context,
+                                                        url, error) =>
+                                                    Container(
+                                                  child: Image.asset(
+                                                    Settings
+                                                        .placeholderImageSmall,
+                                                  ),
+                                                  decoration:
+                                                      BoxDecoration(
+                                                    color: Colors
+                                                        .transparent,
+                                                  ),
+                                                      ),
+                                                      placeholder:
+                                                    (BuildContext
+                                                            context,
+                                                        String val) {
+                                                  return Image.asset(
+                                                    Settings
+                                                        .placeholderImageSmall,
+                                                  );
+                                                      },
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                  if (widget.menuItem
+                                                      .confirmedSides
+                                                      .contains(e))
+                                                    Container(
+                                                      decoration:
+                                                          BoxDecoration(
+                                                        color:
+                                                            Color.fromRGBO(
+                                                          229,
+                                                          194,
+                                                          122,
+                                                          0.7,
+                                                        ),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(
+                                                                    5),
+                                                      ),
+                                                      height:
+                                                          double.infinity,
+                                                      width: 114,
+                                                      child: Icon(
+                                                        Icons.check,
+                                                        color: Color(
+                                                            0xFF4C4B5E),
+                                                        size: 30,
+                                                      ),
+                                                    )
+                                                ],
                                               ),
                                             ),
                                           ),
-                                          SizedBox(height: 5),
-                                          Text(
-                                            e.itemName,
-                                            softWrap: true,
-                                            style: TextStyle(
-                                              letterSpacing: 0.3,
-                                              fontSize: 12,
-                                              color: Color(0xFFF2F2F9),
-                                            ),
+                                        ),
+                                        SizedBox(height: 8),
+                                        Text(
+                                          e.itemName,
+                                          softWrap: true,
+                                          style: TextStyle(
+                                            letterSpacing: 0.3,
+                                            fontSize: 14,
+                                            color: Color(0xFFF2F2F9),
                                           ),
-                                          // Spacer(),
-                                          Text(
-                                            '${e.calorieCount} Kcal',
-                                            style: TextStyle(
-                                              letterSpacing: 0.3,
-                                              fontSize: 10,
-                                              color: Color(0xFFF2F2F9),
-                                            ),
+                                        ),
+                                        SizedBox(height: 8),
+                                        // Spacer(),
+                                        Text(
+                                  Functions.getCurrencySymbol(widget.menuItem.currency) +
+                                  e.price,
+                                          style: TextStyle(
+                                            letterSpacing: 0.3,
+                                            fontSize: 12,
+                                            color: Color(0xFFF2F2F9),
                                           ),
-                                        ],
-                                      ),
-                                    );
-                                  }).toList()),
-                            ),
+                                        ),
+                                        Expanded(child: SizedBox())
+                                      ],
+                                    ),
+                                  );
+                                }).toList()),
                           ),
                         ),
                       ],
