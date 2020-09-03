@@ -39,7 +39,7 @@ class _LoginEmailPageState extends State<LoginEmailPage> {
         .showSnackBar(new SnackBar(content: new Text(value)));
   }
 
-  _handleSubmitted(BuildContext context) async { 
+  _handleSubmitted(BuildContext context) async {
     Functions().showLoadingDialog(context);
     FormState form = _formKey.currentState;
     if (!form.validate()) {
@@ -79,31 +79,34 @@ class _LoginEmailPageState extends State<LoginEmailPage> {
     Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
       key: _scaffoldKey,
-      appBar: AppBar(
-        elevation: 0,
-      ),
-      body: SafeArea(
-        child: SingleChildScrollView(
+      body: SingleChildScrollView(
+        child: Container(
+          height: MediaQuery.of(context).size.height,
           child: Column(
             children: <Widget>[
+              Spacer(
+                flex: 3,
+              ),
               Container(
-                padding: EdgeInsets.symmetric(vertical: 50, horizontal: 20),
+                padding: EdgeInsets.symmetric(horizontal: 20),
                 alignment: Alignment.centerLeft,
                 margin: EdgeInsets.only(
-                  bottom: 100,
-                ),
+                    // bottom: 100,
+                    ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Container(
-                      margin: EdgeInsets.only(bottom: 20),
                       child: Text(
                         "Hi There",
                         style: TextStyle(
                           fontSize: 30,
                         ),
                       ),
+                    ),
+                    SizedBox(
+                      height: 20,
                     ),
                     Text(
                       "Enter your email address to begin",
@@ -115,6 +118,9 @@ class _LoginEmailPageState extends State<LoginEmailPage> {
                     ),
                   ],
                 ),
+              ),
+              Spacer(
+                flex: 3,
               ),
               Form(
                 key: _formKey,
@@ -130,8 +136,9 @@ class _LoginEmailPageState extends State<LoginEmailPage> {
                   validateFunction: _validations.validateEmail,
                 ),
               ),
+              Spacer(),
               Container(
-                padding: EdgeInsets.symmetric(vertical: 50, horizontal: 20),
+                padding: EdgeInsets.symmetric(horizontal: 20),
                 child: Functions().customButton(
                   context,
                   onTap: () => _handleSubmitted(context),
@@ -144,8 +151,13 @@ class _LoginEmailPageState extends State<LoginEmailPage> {
                   ),
                 ),
               ),
+              Spacer(
+                flex: 3,
+              ),
               Container(
-                padding: EdgeInsets.symmetric(vertical: 50, horizontal: 20),
+                padding: EdgeInsets.symmetric(
+                  horizontal: 20,
+                ),
                 child: Row(
                   children: <Widget>[
                     Expanded(
@@ -172,6 +184,9 @@ class _LoginEmailPageState extends State<LoginEmailPage> {
                   ],
                 ),
               ),
+              Spacer(
+                flex: 2,
+              ),
               Column(
                 children: <Widget>[
                   Text(
@@ -182,7 +197,7 @@ class _LoginEmailPageState extends State<LoginEmailPage> {
                       fontSize: 14,
                     ),
                   ),
-                  SizedBox(height: 30),
+                  SizedBox(height: 25),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
@@ -194,7 +209,7 @@ class _LoginEmailPageState extends State<LoginEmailPage> {
                             )),
                         child: Image.asset("assets/images/Group (1).png"),
                       ),
-                      SizedBox(width: 50),
+                      // SizedBox(width: 50),
                       FlatButton(
                         onPressed: () =>
                             Functions().scaleTo(context, RegisterPage()),
@@ -204,7 +219,9 @@ class _LoginEmailPageState extends State<LoginEmailPage> {
                   ),
                 ],
               ),
-              SizedBox(height: 30),
+              Spacer(
+                flex: 3,
+              ),
             ],
           ),
         ),

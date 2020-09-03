@@ -46,7 +46,7 @@ class _ItemInfoState extends State<ItemInfo> {
           child: Container(
             height: widget.menuItem.sides != null &&
                     widget.menuItem.sides.isNotEmpty
-                ? MediaQuery.of(context).size.height
+                ? 812
                 : MediaQuery.of(context).size.height * 0.8,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,7 +64,8 @@ class _ItemInfoState extends State<ItemInfo> {
                         children: widget.menuItem.itemTags
                             .map(
                               (e) => Container(
-                                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 8, horizontal: 20),
                                 decoration: BoxDecoration(
                                   color: Color(0xff4A444A),
                                   borderRadius: BorderRadius.circular(20),
@@ -209,36 +210,24 @@ class _ItemInfoState extends State<ItemInfo> {
                                               GestureDetector(
                                             onTap: () {
                                               setState(() {
-                                                widget.menuItem
-                                                        .confirmedSides
+                                                widget.menuItem.confirmedSides
                                                         .contains(e)
-                                                    ? widget.menuItem
-                                                        .confirmedSides
+                                                    ? widget
+                                                        .menuItem.confirmedSides
                                                         .remove(e)
-                                                    : widget.menuItem
-                                                        .confirmedSides
+                                                    : widget
+                                                        .menuItem.confirmedSides
                                                         .add(e);
                                               });
-                                              print(widget
-                                                  .menuItem.confirmedSides
-                                                  .contains(e));
-                                              print(widget.menuItem
-                                                  .confirmedSides.length);
-                                              // menuItem.selectedSides
-                                              //     .removeRange(
-                                              //         0,
-                                              //         menuItem.selectedSides
-                                              //             .length);
                                             },
                                             child: Container(
-                                              height:114,
+                                              height: 114,
                                               decoration: BoxDecoration(
                                                 border: Border.all(
                                                   color: Color(0xFFD5B572),
                                                 ),
                                                 borderRadius:
-                                                    BorderRadius.circular(
-                                                        5),
+                                                    BorderRadius.circular(5),
                                               ),
                                               // padding: const EdgeInsets.all(
                                               //   17,
@@ -247,42 +236,37 @@ class _ItemInfoState extends State<ItemInfo> {
                                                 alignment: Alignment.center,
                                                 children: [
                                                   CachedNetworkImage(
-                                                      imageUrl:
-                                                    e.imageUrl ?? '',
-                                                      width: 114,
-                                                      height: 114,
-                                                      errorWidget: (context,
-                                                        url, error) =>
-                                                    Container(
-                                                  child: Image.asset(
-                                                    Settings
-                                                        .placeholderImageSmall,
-                                                  ),
-                                                  decoration:
-                                                      BoxDecoration(
-                                                    color: Colors
-                                                        .transparent,
-                                                  ),
+                                                    imageUrl: e.imageUrl ?? '',
+                                                    width: 114,
+                                                    height: 114,
+                                                    errorWidget:
+                                                        (context, url, error) =>
+                                                            Container(
+                                                      child: Image.asset(
+                                                        Settings
+                                                            .placeholderImageSmall,
                                                       ),
-                                                      placeholder:
-                                                    (BuildContext
-                                                            context,
-                                                        String val) {
-                                                  return Image.asset(
-                                                    Settings
-                                                        .placeholderImageSmall,
-                                                  );
-                                                      },
-                                                      fit: BoxFit.cover,
+                                                      decoration: BoxDecoration(
+                                                        color:
+                                                            Colors.transparent,
+                                                      ),
                                                     ),
-                                                  if (widget.menuItem
-                                                      .confirmedSides
+                                                    placeholder:
+                                                        (BuildContext context,
+                                                            String val) {
+                                                      return Image.asset(
+                                                        Settings
+                                                            .placeholderImageSmall,
+                                                      );
+                                                    },
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                  if (widget
+                                                      .menuItem.confirmedSides
                                                       .contains(e))
                                                     Container(
-                                                      decoration:
-                                                          BoxDecoration(
-                                                        color:
-                                                            Color.fromRGBO(
+                                                      decoration: BoxDecoration(
+                                                        color: Color.fromRGBO(
                                                           229,
                                                           194,
                                                           122,
@@ -290,16 +274,14 @@ class _ItemInfoState extends State<ItemInfo> {
                                                         ),
                                                         borderRadius:
                                                             BorderRadius
-                                                                .circular(
-                                                                    5),
+                                                                .circular(5),
                                                       ),
-                                                      height:
-                                                          double.infinity,
+                                                      height: double.infinity,
                                                       width: 114,
                                                       child: Icon(
                                                         Icons.check,
-                                                        color: Color(
-                                                            0xFF4C4B5E),
+                                                        color:
+                                                            Color(0xFF4C4B5E),
                                                         size: 30,
                                                       ),
                                                     )
@@ -321,8 +303,9 @@ class _ItemInfoState extends State<ItemInfo> {
                                         SizedBox(height: 8),
                                         // Spacer(),
                                         Text(
-                                  Functions.getCurrencySymbol(widget.menuItem.currency) +
-                                  e.price,
+                                          Functions.getCurrencySymbol(
+                                                  widget.menuItem.currency) +
+                                              e.price,
                                           style: TextStyle(
                                             letterSpacing: 0.3,
                                             fontSize: 12,
