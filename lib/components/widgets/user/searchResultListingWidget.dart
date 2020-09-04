@@ -1,11 +1,14 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:nuvlemobile/misc/functions.dart';
+import 'package:nuvlemobile/misc/settings.dart';
 import 'package:nuvlemobile/models/skeltons/menus/item.dart';
+import 'package:nuvlemobile/models/skeltons/menus/menuData.dart';
 import 'package:nuvlemobile/pages/user/main/menus/itemInfooo.dart';
 import 'package:nuvlemobile/styles/colors.dart';
 
 class SearchResultListingWidget extends StatelessWidget {
-  final MenuItem menuItem;
+  final MenuItems menuItem;
 
   const SearchResultListingWidget({Key key, @required this.menuItem})
       : super(key: key);
@@ -36,7 +39,7 @@ class SearchResultListingWidget extends StatelessWidget {
                           Container(
                             padding: EdgeInsets.only(top: 13, right: 15),
                             child: Text(
-                              menuItem.name.toLowerCase(),
+                              menuItem.itemName.toLowerCase(),
                               style: TextStyle(fontSize: 15),
                             ),
                           ),
@@ -90,11 +93,23 @@ class SearchResultListingWidget extends StatelessWidget {
             ),
             Positioned(
               left: 15,
-              child: Image.asset(
-                menuItem.img,
+              child: CachedNetworkImage(
+                imageUrl: menuItem.imageUrl ?? '',
                 width: 109,
                 height: 110,
-                fit: BoxFit.cover,
+                errorWidget: (context, url, error) => Image.asset(
+                  Settings.placeholderImageSmall,
+                  width: 109,
+                  height: 125,
+                ),
+                placeholder: (BuildContext context, String val) {
+                  return Image.asset(
+                    Settings.placeholderImageSmall,
+                    width: 109,
+                    height: 125,
+                  );
+                },
+                fit: BoxFit.contain,
               ),
             ),
           ],

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:nuvlemobile/components/inputs/cupertinoSwitchTile.dart';
 import 'package:nuvlemobile/misc/functions.dart';
@@ -13,6 +15,7 @@ import 'package:nuvlemobile/pages/user/main/profile/profileSettings.dart';
 import 'package:nuvlemobile/styles/colors.dart';
 import 'package:nuvlemobile/styles/nuvleIcons.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 String page = 'home';
 
@@ -26,6 +29,17 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   bool _enableNotifications = true;
+  String profilePic;
+  @override
+  void initState() {
+    SharedPreferences.getInstance().then((value) {
+      profilePic = value.getString('dp');
+      setState(() {});
+    });
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -55,11 +69,17 @@ class _ProfileState extends State<Profile> {
                           Stack(
                             children: <Widget>[
                               Container(
-                                height: 147,
-                                width: 147,
-                                child: Image.asset(
-                                  "assets/images/girl.png",
-                                ),
+                                height: 100,
+                                width: 100,
+                                child: profilePic != null
+                                    ? Image.file(
+                                        File(profilePic),
+                                        fit: BoxFit.cover,
+                                      )
+                                    : Icon(
+                                        Icons.image,
+                                        size: 50,
+                                      ),
                                 decoration:
                                     BoxDecoration(shape: BoxShape.circle),
                               ),
@@ -283,11 +303,24 @@ class _ProfileState extends State<Profile> {
                               Container(
                                 height: 147,
                                 width: 147,
-                                child: Image.asset(
-                                  "assets/images/girl.png",
+                                child: profilePic == null
+                                    ? Icon(
+                                        Icons.image,
+                                        size: 50,
+                                      )
+                                    : null,
+                                decoration: BoxDecoration(
+                                  color: Color(0xffFF596E),
+                                  shape: BoxShape.circle,
+                                  image: profilePic != null
+                                      ? DecorationImage(
+                                          image: FileImage(
+                                            File(profilePic),
+                                          ),
+                                          fit: BoxFit.cover,
+                                        )
+                                      : null,
                                 ),
-                                decoration:
-                                    BoxDecoration(shape: BoxShape.circle),
                               ),
                               Positioned(
                                 child: IconButton(

@@ -13,6 +13,7 @@ import 'package:nuvlemobile/models/skeltons/others/mainTabBarItem.dart';
 import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
 import 'package:nuvlemobile/pages/user/main/menus/appBarTabs/menuTabListingPage.dart';
 import 'package:nuvlemobile/pages/user/main/menus/myTab/myTab.dart';
+import 'package:nuvlemobile/pages/user/main/profile/profile.dart';
 import 'package:nuvlemobile/styles/colors.dart';
 import 'package:nuvlemobile/styles/nuvleIcons.dart';
 
@@ -30,6 +31,7 @@ class _MenusState extends State<Menus> with SingleTickerProviderStateMixin {
 
   @override
   void initState() {
+    page = 'main';
     tabs = [
       MainTabBarItem(
         name: 'Food',
@@ -99,7 +101,7 @@ class _MenusState extends State<Menus> with SingleTickerProviderStateMixin {
         brightness: Brightness.dark,
         automaticallyImplyLeading: false,
         elevation: 0,
-        leading: SearchIcon(),
+        leading: SearchIcon(userAccount: widget.userAccount),
         actions: <Widget>[
           CallWaiterIcon(),
         ],
@@ -119,7 +121,9 @@ class _MenusState extends State<Menus> with SingleTickerProviderStateMixin {
                   child: Text(
                     e.name,
                     style: GoogleFonts.lato(
-                      textStyle: TextStyle(fontSize: 16,),
+                      textStyle: TextStyle(
+                        fontSize: 16,
+                      ),
                     ),
                   ),
                 ),

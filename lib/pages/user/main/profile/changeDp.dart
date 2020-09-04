@@ -9,6 +9,7 @@ import 'package:nuvlemobile/pages/user/main/profile/profile.dart';
 import 'package:nuvlemobile/styles/colors.dart';
 import 'package:nuvlemobile/styles/nuvleIcons.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ChangeDisplayPicture extends StatefulWidget {
   @override
@@ -18,7 +19,11 @@ class ChangeDisplayPicture extends StatefulWidget {
 class _ChangeDisplayPictureState extends State<ChangeDisplayPicture> {
   PickedFile _pickedFile;
 
-  _handleSubmitted(BuildContext context) async {}
+  _handleSubmitted(BuildContext context) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.setString('dp', _pickedFile.path);
+    setState(() {});
+  }
 
   _pickFile() async {
     try {
@@ -123,19 +128,49 @@ class _ChangeDisplayPictureState extends State<ChangeDisplayPicture> {
                       ),
                     ),
                     SizedBox(height: 150),
-                    Functions().customButton(
-                      context,
-                      onTap: () => _handleSubmitted(context),
-                      width: screenSize.width,
-                      text: "Finish",
-                      color: CustomColors.primary900,
-                      hasIcon: true,
-                      trailing: Icon(
-                        NuvleIcons.icon_checkmark,
-                        color: Color(0xff474551),
-                        size: 14,
-                      ),
-                    ),
+                    page == 'home'
+                        ? Consumer<HomePageProvider>(
+                            builder: (context, pro, child) =>
+                                Functions().customButton(
+                              context,
+                              onTap: () {
+                                if (_pickedFile != null) {
+                                  _handleSubmitted(context);
+                                }
+                                pro.selectedIndex = 1;
+                              },
+                              width: screenSize.width,
+                              text: "Finish",
+                              color: CustomColors.primary900,
+                              hasIcon: true,
+                              trailing: Icon(
+                                NuvleIcons.icon_checkmark,
+                                color: Color(0xff474551),
+                                size: 14,
+                              ),
+                            ),
+                          )
+                        : Consumer<MainPageProvider>(
+                            builder: (context, pro, child) =>
+                                Functions().customButton(
+                              context,
+                              onTap: () {
+                                if (_pickedFile != null) {
+                                  _handleSubmitted(context);
+                                }
+                                pro.selectedIndex = 1;
+                              },
+                              width: screenSize.width,
+                              text: "Finish",
+                              color: CustomColors.primary900,
+                              hasIcon: true,
+                              trailing: Icon(
+                                NuvleIcons.icon_checkmark,
+                                color: Color(0xff474551),
+                                size: 14,
+                              ),
+                            ),
+                          )
                   ],
                 ),
               ),
