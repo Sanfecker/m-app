@@ -6,12 +6,14 @@ import 'package:nuvlemobile/styles/colors.dart';
 import 'package:nuvlemobile/styles/nuvleIcons.dart';
 
 class PayBottomSheet extends StatefulWidget {
+  final double amount;
+
+  const PayBottomSheet({Key key, this.amount}) : super(key: key);
   @override
   _PayBottomSheetState createState() => _PayBottomSheetState();
 }
 
 class _PayBottomSheetState extends State<PayBottomSheet> {
-
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
@@ -69,7 +71,8 @@ class _PayBottomSheetState extends State<PayBottomSheet> {
                       height: 60,
                       margin: EdgeInsets.only(bottom: 20),
                       child: FlatButton(
-                        onPressed: () => Functions.openBottomSheet(context, SavedCardsBottomSheet()),
+                        onPressed: () => Functions.openBottomSheet(
+                            context, SavedCardsBottomSheet()),
                         color: Colors.black,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5)),
@@ -148,7 +151,8 @@ class _PayBottomSheetState extends State<PayBottomSheet> {
                       height: 60,
                       margin: EdgeInsets.only(bottom: 20),
                       child: FlatButton(
-                        onPressed: () => Functions.openBottomSheet(context, EnterCouponBottomSheet(), true),
+                        onPressed: () => Functions.openBottomSheet(
+                            context, EnterCouponBottomSheet(), true),
                         color: Color(0xff9F9FAF).withOpacity(0.20),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5)),

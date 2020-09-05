@@ -4,6 +4,7 @@ import 'package:nuvlemobile/components/animations/lazyLoad/listLazyLoad.dart';
 import 'package:nuvlemobile/components/others/internetConnectionError.dart';
 import 'package:nuvlemobile/components/widgets/user/categoriesBottomSheet.dart';
 import 'package:nuvlemobile/components/widgets/user/dietaryBottomSheet.dart';
+import 'package:nuvlemobile/components/widgets/user/filterBottomSheet.dart';
 import 'package:nuvlemobile/components/widgets/user/listingWidget.dart';
 import 'package:nuvlemobile/misc/enum.dart';
 import 'package:nuvlemobile/models/providers/menus/menusProvider.dart';
@@ -88,11 +89,21 @@ class _MenuTabListingState extends State<MenuTabListing> {
                     children: [
                       ...menuItems
                           .where((element) {
-                            if (dietaryRestrictions != null &&
-                                dietaryRestrictions.isNotEmpty)
-                              return dietaryRestrictions.toList() ==
-                                  element.dietaryRestrictions.toList();
-                            else
+                            if (filter != null && filter.isNotEmpty) {
+                              if (element.dietaryRestrictions.toList().isEmpty)
+                                return false;
+                              else
+                                return element.dietaryRestrictions
+                                    .toList()
+                                    .any((el) => filter.contains(el));
+                            } else if (dietaryRestrictions != null &&
+                                dietaryRestrictions.isNotEmpty) {
+                              if (element.dietaryRestrictions.toList().isEmpty)
+                                return false;
+                              else
+                                return element.dietaryRestrictions.toList().any(
+                                    (el) => dietaryRestrictions.contains(el));
+                            } else
                               return true;
                           })
                           .where((element) {

@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:nuvlemobile/components/widgets/user/myTab/payment/addCardBottomSheet.dart';
 import 'package:nuvlemobile/misc/enum.dart';
 import 'package:nuvlemobile/misc/functions.dart';
+import 'package:nuvlemobile/models/providers/user/order/orderProvider.dart';
 import 'package:nuvlemobile/models/skeltons/payment/paymentCard.dart';
 import 'package:nuvlemobile/pages/user/main/menus/myTab/payment/paymentComplete.dart';
 import 'package:nuvlemobile/pages/user/scan/learnGroupCode.dart';
 import 'package:nuvlemobile/styles/colors.dart';
 import 'package:nuvlemobile/styles/nuvleIcons.dart';
+import 'package:provider/provider.dart';
 
 class SavedCardsBottomSheet extends StatefulWidget {
   @override
@@ -17,6 +19,10 @@ class _SavedCardsBottomSheetState extends State<SavedCardsBottomSheet> {
   String _selectedCard = "visa-022993-1928";
 
   _handleSubmitted(BuildContext context) async {
+    OrderProvider _orderProvider =
+        Provider.of<OrderProvider>(context, listen: false);
+    _orderProvider.getBill(0);
+    _orderProvider.closeTab();
     Navigator.popUntil(context, (route) => route.isFirst);
     Functions().scaleTo(context, PaymentComplete());
   }
@@ -168,18 +174,28 @@ class _SavedCardsBottomSheetState extends State<SavedCardsBottomSheet> {
             ),
           ),
         ),
-        Functions().customButton(
-          context,
-          onTap: () => _handleSubmitted(context),
-          width: screenSize.width,
-          text: "Pay \$175",
-          specificBorderRadius: BorderRadius.zero,
-          hasIcon: true,
-          trailing: Icon(
-            NuvleIcons.icon_right,
-            color: Color(0xff474551),
-          ),
-        ),
+        Consumer<OrderProvider>(builder: (context, pro, child) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 20,
+            ),
+            child: Functions().customButton(
+              context,
+              onTap: () => _handleSubmitted(context),
+              width: screenSize.width,
+              text: "Pay \$${pro.bill}",
+              specificBorderRadius: BorderRadius.zero,
+              hasIcon: true,
+              trailing: Icon(
+                NuvleIcons.icon_right,
+                color: Color(0xff474551),
+              ),
+            ),
+          );
+        }),
+        SizedBox(
+          height: 20,
+        )
       ],
     );
   }

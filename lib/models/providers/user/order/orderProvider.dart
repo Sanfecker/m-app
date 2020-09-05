@@ -11,11 +11,17 @@ class OrderProvider extends ChangeNotifier {
   List<MenuItems> _viewedItems = [];
   bool _showOrderList = false;
   List<MenuItems> _orders = [];
+  List<MenuItems> _tab = List<MenuItems>();
+  List<MenuItems> _feedbackList = List<MenuItems>();
   ScrollController scrollController = ScrollController();
+  double _bill = 0;
 
   List<MenuItems> get viewedItems => _viewedItems;
   bool get showOrderList => _showOrderList;
   List<MenuItems> get orders => _orders;
+  List<MenuItems> get tab => _tab;
+  List<MenuItems> get feedbackList => _feedbackList;
+  double get bill => _bill;
 
   bool isAddedToOrder(MenuItems val) =>
       _orders.indexWhere((e) => val.itemId == e.itemId) != -1;
@@ -23,6 +29,10 @@ class OrderProvider extends ChangeNotifier {
   set showOrderList(bool val) {
     _showOrderList = val;
     notifyListeners();
+  }
+
+  getBill(double val) {
+    _bill = val;
   }
 
   addOrder(MenuItems val) {
@@ -35,6 +45,15 @@ class OrderProvider extends ChangeNotifier {
       );
     }
     notifyListeners();
+  }
+
+  closeTab() {
+    _feedbackList.addAll(_tab);
+    _tab.clear();
+  }
+
+  feedback() {
+    _feedbackList.clear();
   }
 
   removeOrder(MenuItems val) {
@@ -181,6 +200,7 @@ class OrderProvider extends ChangeNotifier {
       if (responseBody["success"]) {
         // OrderModel order = OrderModel.fromJson(responseBody["data"]);
         apiRequestModel.isSuccessful = true;
+        _tab.addAll(_orders);
         _orders.clear();
         // apiRequestModel.result = order;
         notifyListeners();

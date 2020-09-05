@@ -23,8 +23,8 @@ class _MyTabState extends State<MyTab> {
   @override
   void initState() {
     _orderProvider = Provider.of<OrderProvider>(context, listen: false);
-    if (_orderProvider.showOrderList && _orderProvider.orders.length > 0) {
-      for (var e in _orderProvider.orders) {
+    if (_orderProvider.tab.length > 0) {
+      for (var e in _orderProvider.tab) {
         print(e.itemType);
         if (e.itemType.toLowerCase() == 'main dish') {
           food.add(e);
@@ -83,7 +83,7 @@ class _MyTabState extends State<MyTab> {
                     ),
                   ],
                 ),
-                if (pro.orders.isEmpty)
+                if (pro.tab.isEmpty)
                   Expanded(
                     child: Center(
                       child: Column(
@@ -202,7 +202,11 @@ class _MyTabState extends State<MyTab> {
                         Functions().customButton(
                           context,
                           onTap: () => Functions.openBottomSheet(
-                              context, CloseTabBottomSheet(), true),
+                              context,
+                              CloseTabBottomSheet(
+                                tab: pro.tab,
+                              ),
+                              true),
                           width: screenSize.width,
                           height: 70,
                           text: "Close Tab",

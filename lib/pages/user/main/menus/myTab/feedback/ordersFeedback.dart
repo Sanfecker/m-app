@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:nuvlemobile/components/icons/callWaiterIcon.dart';
 import 'package:nuvlemobile/components/widgets/user/feedbackListingWidget.dart';
 import 'package:nuvlemobile/misc/functions.dart';
+import 'package:nuvlemobile/models/providers/menus/menusProvider.dart';
+import 'package:nuvlemobile/models/providers/user/order/orderProvider.dart';
 import 'package:nuvlemobile/models/skeltons/menus/item.dart';
 import 'package:nuvlemobile/styles/nuvleIcons.dart';
+import 'package:provider/provider.dart';
 
 class OrdersFeedback extends StatefulWidget {
   @override
@@ -12,6 +15,9 @@ class OrdersFeedback extends StatefulWidget {
 
 class _OrdersFeedbackState extends State<OrdersFeedback> {
   _handleSubmitted(BuildContext context) async {
+    OrderProvider _orderProvider =
+        Provider.of<OrderProvider>(context, listen: false);
+    _orderProvider.feedback();
     Navigator.pop(context);
   }
 
@@ -34,7 +40,7 @@ class _OrdersFeedbackState extends State<OrdersFeedback> {
                 NuvleIcons.icon_checkmark,
                 color: Color(0xff474551),
                 size: 14,
-              ), 
+              ),
             ),
             // SizedBox(height: 15),
             // Container(
@@ -78,26 +84,17 @@ class _OrdersFeedbackState extends State<OrdersFeedback> {
                 ),
               ),
               SizedBox(height: 20),
-              Flexible(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: List.generate(
-                      8,
-                      (i) => FeedbackListingWidget(
-                        menuItem: MenuItem(
-                            sId: i.toString(),
-                            cal: "56 Kcal",
-                            description:
-                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                            img:
-                                "assets/images/FAVPNG_barbecue-grill-beefsteak-beef-plate-grilling_PMai9z2w 2.png",
-                            name: "Vegetarian Pho",
-                            price: "\$600"),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              Flexible(child:
+                  Consumer<OrderProvider>(builder: (context, pro, child) {
+                return ListView(
+                    children: pro.viewedItems
+                        .map(
+                          (e) => FeedbackListingWidget(
+                            menuItem: e,
+                          ),
+                        )
+                        .toList());
+              })),
             ],
           ),
         ),

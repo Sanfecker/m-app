@@ -8,6 +8,7 @@ import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
 import 'package:nuvlemobile/pages/user/main/menus/itemInfooo.dart';
 import 'package:nuvlemobile/pages/user/main/menus/itemInfo.dart';
 import 'package:nuvlemobile/pages/user/main/menus/orderItem.dart';
+import 'package:nuvlemobile/pages/user/main/menus/orderNow.dart';
 import 'package:nuvlemobile/styles/colors.dart';
 import 'package:nuvlemobile/styles/nuvleIcons.dart';
 import 'package:provider/provider.dart';
@@ -162,7 +163,7 @@ class ListingWidget extends StatelessWidget {
                                   color: CustomColors.primary,
                                   onPressed: () => Functions().scaleTo(
                                     context,
-                                    OrderItem(
+                                    OrderNow(
                                         menuItem: menuItem,
                                         userAccount: userAccount),
                                   ),

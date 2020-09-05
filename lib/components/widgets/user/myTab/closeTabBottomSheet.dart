@@ -2,16 +2,47 @@ import 'package:flutter/material.dart';
 import 'package:nuvlemobile/components/inputs/inputBox.dart';
 import 'package:nuvlemobile/components/widgets/user/myTab/payment/payBottomSheet.dart';
 import 'package:nuvlemobile/misc/functions.dart';
+import 'package:nuvlemobile/models/providers/user/order/orderProvider.dart';
+import 'package:nuvlemobile/models/skeltons/menus/menuData.dart';
 import 'package:nuvlemobile/styles/colors.dart';
 import 'package:nuvlemobile/styles/nuvleIcons.dart';
+import 'package:provider/provider.dart';
 
 class CloseTabBottomSheet extends StatefulWidget {
+  final List<MenuItems> tab;
+
+  const CloseTabBottomSheet({Key key, @required this.tab}) : super(key: key);
   @override
   _CloseTabBottomSheetState createState() => _CloseTabBottomSheetState();
 }
 
 class _CloseTabBottomSheetState extends State<CloseTabBottomSheet> {
   String _selectedTip = "No Tip";
+  TextEditingController controller = TextEditingController();
+
+  double total() {
+    OrderProvider _orderProvider =
+        Provider.of<OrderProvider>(context, listen: false);
+    double result = 0;
+    widget.tab.forEach((element) {
+      result += int.parse(element.price);
+    });
+    if (_selectedTip != "No Tip") {
+      result += (result * int.parse(_selectedTip) / 100);
+    }
+    if (controller.text.isNotEmpty && controller.text != null) {
+      result += int.parse(controller.text);
+    }
+    _orderProvider.getBill(result);
+    return result;
+  }
+
+  @override
+  void initState() {
+    controller.text = "250";
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
@@ -77,7 +108,7 @@ class _CloseTabBottomSheetState extends State<CloseTabBottomSheet> {
                         Expanded(
                           child: Wrap(
                             alignment: WrapAlignment.spaceBetween,
-                            children: ["No Tip", "10%", "15%", "20%"]
+                            children: ["No Tip", "10", "15", "20"]
                                 .map(
                                   (e) => Container(
                                     height: 68,
@@ -90,7 +121,7 @@ class _CloseTabBottomSheetState extends State<CloseTabBottomSheet> {
                                                 horizontal: 4),
                                             color: Color(0xffD4B471),
                                             child: Text(
-                                              e,
+                                              '${_selectedTip == 'No Tip' ? e : e + '\%'}',
                                               style: TextStyle(
                                                 letterSpacing: 0.3,
                                                 fontSize: 16,
@@ -108,7 +139,7 @@ class _CloseTabBottomSheetState extends State<CloseTabBottomSheet> {
                                             padding: EdgeInsets.symmetric(
                                                 horizontal: 4),
                                             child: Text(
-                                              e,
+                                              '${e == 'No Tip' ? e : e + '\%'}',
                                               style: TextStyle(
                                                 color: Colors.white,
                                                 letterSpacing: 0.3,
@@ -139,17 +170,18 @@ class _CloseTabBottomSheetState extends State<CloseTabBottomSheet> {
                       ),
                     ),
                     InputBox(
+                      controller: controller,
                       bottomMargin: 25,
                       hintText: "Enter custom amount...",
-                      initialValue: "\$250",
                       textStyle: TextStyle(
                         fontSize: 24,
                         letterSpacing: -0.28,
                         color: Color(0xffF2F2F9),
                       ),
-                      textInputType: TextInputType.text,
+                      textInputType: TextInputType.number,
                       textInputAction: TextInputAction.done,
                       onSaved: (String val) {},
+                      onChange: (a) => setState(() {}),
                       contentPadding: EdgeInsets.zero,
                       enabledBorderColor: Colors.white,
                     ),
@@ -171,7 +203,7 @@ class _CloseTabBottomSheetState extends State<CloseTabBottomSheet> {
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: <Widget>[
                               Text(
-                                '\$1200',
+                                '\$${total().toString()}',
                                 style: TextStyle(
                                   fontSize: 30,
                                   fontWeight: FontWeight.bold,
@@ -197,19 +229,27 @@ class _CloseTabBottomSheetState extends State<CloseTabBottomSheet> {
               ),
             ),
           ),
-          Functions().customButton(
-            context,
-            onTap: () =>
-                Functions.openBottomSheet(context, PayBottomSheet(), true),
-            width: screenSize.width,
-            text: "Pay",
-            specificBorderRadius: BorderRadius.zero,
-            hasIcon: true,
-            trailing: Icon(
-              NuvleIcons.icon_right,
-              color: Color(0xff474551),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 20,
+            ),
+            child: Functions().customButton(
+              context,
+              onTap: () => Functions.openBottomSheet(
+                  context, PayBottomSheet(amount: total()), true),
+              width: screenSize.width,
+              text: "Pay",
+              specificBorderRadius: BorderRadius.circular(5),
+              hasIcon: true,
+              trailing: Icon(
+                NuvleIcons.icon_right,
+                color: Color(0xff474551),
+              ),
             ),
           ),
+          SizedBox(
+            height: 20,
+          )
         ],
       ),
     );

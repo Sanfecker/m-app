@@ -16,7 +16,7 @@ class RateOrder extends StatefulWidget {
 }
 
 class _RateOrderState extends State<RateOrder> {
-  double _rating = 1;
+  // double _rating = 1;
 
   _handleSubmitted(BuildContext context) async {
     Navigator.pop(context);
@@ -74,9 +74,9 @@ class _RateOrderState extends State<RateOrder> {
                             double rating =
                                 pro.getSingleItem(widget.menuItem).rating;
                             return Image.asset(
-                              rating == 1.0
+                              rating >= 1.0 && rating < 3
                                   ? "assets/images/Frame 119.png"
-                                  : rating == 2.0
+                                  : rating >= 3.0 && rating < 5
                                       ? "assets/images/Frame 119 (1).png"
                                       : "assets/images/Frame 119 (2).png",
                               height: 240,
@@ -96,8 +96,8 @@ class _RateOrderState extends State<RateOrder> {
                           builder: (context, pro, child) => Slider(
                             value: pro.getSingleItem(widget.menuItem).rating,
                             min: 1.0,
-                            max: 3.0,
-                            divisions: 2,
+                            max: 5.0,
+                            divisions: 4,
                             onChanged: (val) =>
                                 pro.rateOrder(widget.menuItem, val),
                           ),
@@ -156,7 +156,17 @@ class RectangleSliderThumbShape extends SliderComponentShape {
   }
 
   @override
-  void paint(PaintingContext context, Offset center, {Animation<double> activationAnimation, Animation<double> enableAnimation, bool isDiscrete, TextPainter labelPainter, RenderBox parentBox, SliderThemeData sliderTheme, TextDirection textDirection, double value, double textScaleFactor, Size sizeWithOverflow}) {
+  void paint(PaintingContext context, Offset center,
+      {Animation<double> activationAnimation,
+      Animation<double> enableAnimation,
+      bool isDiscrete,
+      TextPainter labelPainter,
+      RenderBox parentBox,
+      SliderThemeData sliderTheme,
+      TextDirection textDirection,
+      double value,
+      double textScaleFactor,
+      Size sizeWithOverflow}) {
     assert(context != null);
     assert(center != null);
     assert(enableAnimation != null);

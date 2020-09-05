@@ -1,36 +1,125 @@
 import 'package:flutter/material.dart';
 import 'package:nuvlemobile/components/inputs/customListTileCheckBox.dart';
+import 'package:nuvlemobile/components/widgets/user/dietaryBottomSheet.dart';
 import 'package:nuvlemobile/misc/functions.dart';
+import 'package:nuvlemobile/models/providers/menus/menusProvider.dart';
 import 'package:nuvlemobile/styles/colors.dart';
+import 'package:provider/provider.dart';
 
 class FilterBottomSheet extends StatefulWidget {
   @override
   _FilterBottomSheetState createState() => _FilterBottomSheetState();
 }
 
+List<String> filter = List<String>();
+bool _nut = false;
+bool _sea = false;
+bool _lac = false;
+bool _glu = false;
+
 class _FilterBottomSheetState extends State<FilterBottomSheet> {
-  bool _nut = true;
-  bool _sea = false;
-  bool _lac = false;
-  bool _glu = false;
+  void _onNutChanged(bool newValue) => setState(() {
+        _nut = newValue;
+        if (newValue == true && !filter.contains('Nut Allergies')) {
+          filter.add('Nut Allergies');
+        }
+        if (newValue == false && filter.contains('Nut Allergies')) {
+          filter.remove('Nut Allergies');
+        }
+      });
+  void _onSeaChanged(bool newValue) => setState(() {
+        _sea = newValue;
+        if (newValue == true && !filter.contains('Sea Food')) {
+          filter.add('Sea Food');
+        }
+        if (newValue == false && filter.contains('Sea Food')) {
+          filter.remove('Sea Food');
+        }
+      });
+  void _onLacChanged(bool newValue) => setState(() {
+        _lac = newValue;
+        if (newValue == true && !filter.contains('Lactose - Intolerant')) {
+          filter.add('Lactose - Intolerant');
+        }
+        if (newValue == false && filter.contains('Lactose - Intolerant')) {
+          filter.remove('Lactose - Intolerant');
+        }
+      });
+  void _onGluChanged(bool newValue) => setState(() {
+        _glu = newValue;
+        if (newValue == true && !filter.contains('Glucose')) {
+          filter.add('Glucose');
+        }
+        if (newValue == false && filter.contains('Glucose')) {
+          filter.remove('Glucose');
+        }
+      });
 
-  void _onNutChanged(bool newValue) => setState(() => _nut = newValue);
-  void _onSeaChanged(bool newValue) => setState(() => _sea = newValue);
-  void _onLacChanged(bool newValue) => setState(() => _lac = newValue);
-  void _onGluChanged(bool newValue) => setState(() => _glu = newValue);
-
-  bool _vege = true;
-  bool _vegan = false;
-  bool _gluten = false;
-  bool _halal = false;
-
-  void _onVegeChanged(bool newValue) => setState(() => _vege = newValue);
-  void _onVeganChanged(bool newValue) => setState(() => _vegan = newValue);
-  void _onGlutenChanged(bool newValue) => setState(() => _gluten = newValue);
-  void _onHalalChanged(bool newValue) => setState(() => _halal = newValue);
+  void _onVegeChanged(bool newValue) => setState(() {
+        if (newValue == true && !filter.contains('Vegetarian')) {
+          filter.add('Vegetarian');
+        }
+        if (newValue == false && filter.contains('Vegetarian')) {
+          filter.remove('Vegetarian');
+        }
+        if (newValue == true && !dietaryRestrictions.contains('Vegetarian')) {
+          dietaryRestrictions.add('Vegetarian');
+        }
+        if (newValue == false && dietaryRestrictions.contains('Vegetarian')) {
+          dietaryRestrictions.remove('Vegetarian');
+        }
+      });
+  void _onVeganChanged(bool newValue) => setState(() {
+        if (newValue == true && !filter.contains('Vegan')) {
+          filter.add('Vegan');
+        }
+        if (newValue == false && filter.contains('Vegan')) {
+          filter.remove('Vegan');
+        }
+        if (newValue == true && !dietaryRestrictions.contains('Vegan')) {
+          dietaryRestrictions.add('Vegan');
+        }
+        if (newValue == false && dietaryRestrictions.contains('Vegan')) {
+          dietaryRestrictions.remove('Vegan');
+        }
+      });
+  void _onGlutenChanged(bool newValue) => setState(() {
+        if (newValue == true && !filter.contains('Gluten - free')) {
+          filter.add('Gluten - free');
+        }
+        if (newValue == false && filter.contains('Gluten - free')) {
+          filter.remove('Gluten - free');
+        }
+        if (newValue == true &&
+            !dietaryRestrictions.contains('Gluten - free')) {
+          dietaryRestrictions.add('Gluten - free');
+        }
+        if (newValue == false &&
+            dietaryRestrictions.contains('Gluten - free')) {
+          dietaryRestrictions.remove('Gluten - free');
+        }
+      });
+  void _onHalalChanged(bool newValue) => setState(() {
+        if (newValue == true && !filter.contains('Halal')) {
+          filter.add('Halal');
+        }
+        if (newValue == false && filter.contains('Halal')) {
+          filter.remove('Halal');
+        }
+        if (newValue == true && !dietaryRestrictions.contains('Halal')) {
+          dietaryRestrictions.add('Halal');
+        }
+        if (newValue == false && dietaryRestrictions.contains('Halal')) {
+          dietaryRestrictions.remove('Halal');
+        }
+      });
 
   _handleSubmitted(BuildContext context) async {
+    MenusProvider _menusProvider;
+    _menusProvider = Provider.of<MenusProvider>(context, listen: false);
+    _menusProvider.setState();
     Navigator.pop(context);
+    setState(() {});
   }
 
   @override
@@ -99,22 +188,22 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
               children: <Widget>[
                 CustomListTileCheckBox(
                   text: "Vegetarian",
-                  value: _vege,
+                  value: dietaryRestrictions.contains('Vegetarian'),
                   onChanged: _onVegeChanged,
                 ),
                 CustomListTileCheckBox(
                   text: "Vegan",
-                  value: _vegan,
+                  value: dietaryRestrictions.contains('Vegan'),
                   onChanged: _onVeganChanged,
                 ),
                 CustomListTileCheckBox(
                   text: "Gluten - free",
-                  value: _gluten,
+                  value: dietaryRestrictions.contains('Gluten - free'),
                   onChanged: _onGlutenChanged,
                 ),
                 CustomListTileCheckBox(
                   text: "Halal",
-                  value: _halal,
+                  value: dietaryRestrictions.contains('Halal'),
                   onChanged: _onHalalChanged,
                 ),
               ],

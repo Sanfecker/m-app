@@ -1,26 +1,40 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:nuvlemobile/misc/functions.dart';
+import 'package:nuvlemobile/misc/settings.dart';
+import 'package:nuvlemobile/models/providers/user/order/orderProvider.dart';
 import 'package:nuvlemobile/models/skeltons/menus/item.dart';
+import 'package:nuvlemobile/models/skeltons/menus/menuData.dart';
 import 'package:nuvlemobile/pages/user/main/menus/myTab/feedback/rateOrder.dart';
 import 'package:nuvlemobile/styles/colors.dart';
 import 'package:nuvlemobile/styles/nuvleIcons.dart';
+import 'package:provider/provider.dart';
 
 class FeedbackListingWidget extends StatefulWidget {
-  final MenuItem menuItem;
+  final MenuItems menuItem;
 
-  const FeedbackListingWidget({Key key, @required this.menuItem})
-      : super(key: key);
+  const FeedbackListingWidget({
+    Key key,
+    @required this.menuItem,
+  }) : super(key: key);
 
   @override
   _FeedbackListingWidgetState createState() => _FeedbackListingWidgetState();
 }
 
 class _FeedbackListingWidgetState extends State<FeedbackListingWidget> {
+  List emoji = [
+    NuvleIcons.unhappy_1,
+    NuvleIcons.face_1,
+    NuvleIcons.scared_1,
+    NuvleIcons.smile__1__1,
+    NuvleIcons.smile_1,
+  ];
   @override
   Widget build(BuildContext context) {
     return InkResponse(
-      // onTap: () =>
-      //     Functions().transitTo(context, RateOrder(menuItem: widget.menuItem)),
+      onTap: () =>
+          Functions().transitTo(context, RateOrder(menuItem: widget.menuItem)),
       child: Container(
         margin: EdgeInsets.only(bottom: 20),
         padding: EdgeInsets.all(14),
@@ -29,10 +43,26 @@ class _FeedbackListingWidgetState extends State<FeedbackListingWidget> {
           children: <Widget>[
             ClipRRect(
               borderRadius: BorderRadius.circular(5),
-              child: Image.asset(
-                widget.menuItem.img,
-                width: 86,
-                height: 86,
+              child: CachedNetworkImage(
+                imageUrl: widget.menuItem.imageUrl ?? '',
+                width: 109,
+                // height: 125,
+                height: 110,
+                errorWidget: (context, url, error) => Image.asset(
+                  Settings.placeholderImageSmall,
+                  width: 109,
+                  height: 125,
+                ),
+                placeholder: (BuildContext context, String val) {
+                  return Image.asset(
+                    Settings.placeholderImageSmall,
+                    width: 109,
+                    height: 125,
+                  );
+                },
+                fit: widget.menuItem.itemType.toLowerCase() == 'drink'
+                    ? BoxFit.contain
+                    : BoxFit.cover,
               ),
             ),
             Flexible(
@@ -45,7 +75,7 @@ class _FeedbackListingWidgetState extends State<FeedbackListingWidget> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text(
-                      widget.menuItem.name,
+                      widget.menuItem.itemName,
                       maxLines: 2,
                       style: TextStyle(
                         fontSize: 16,
@@ -53,27 +83,24 @@ class _FeedbackListingWidgetState extends State<FeedbackListingWidget> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    Row(
-                      children: [
-                        NuvleIcons.unhappy_1,
-                        NuvleIcons.face_1,
-                        NuvleIcons.scared_1,
-                        NuvleIcons.smile_1,
-                        NuvleIcons.smile__1__1,
-                      ]
-                          .map(
-                            (e) => Container(
-                              margin: EdgeInsets.only(right: 9),
-                              child: Icon(
-                                e,
-                                color: e == NuvleIcons.smile_1
-                                    ? Color(0xffCCAD6E)
-                                    : Color(0xff9F9FAF),
+                    Consumer<OrderProvider>(builder: (context, pro, child) {
+                      return Row(
+                        children: emoji
+                            .map(
+                              (e) => Container(
+                                margin: EdgeInsets.only(right: 9),
+                                child: Icon(
+                                  e,
+                                  color: emoji.indexOf(e) + 1 ==
+                                          widget.menuItem.rating
+                                      ? Color(0xffCCAD6E)
+                                      : Color(0xff9F9FAF),
+                                ),
                               ),
-                            ),
-                          )
-                          .toList(),
-                    ),
+                            )
+                            .toList(),
+                      );
+                    }),
                   ],
                 ),
               ),

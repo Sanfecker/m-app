@@ -46,7 +46,7 @@ class _ItemInfoState extends State<ItemInfo> {
           child: Container(
             height: widget.menuItem.sides != null &&
                     widget.menuItem.sides.isNotEmpty
-                ? 812
+                ? 850
                 : MediaQuery.of(context).size.height * 0.8,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

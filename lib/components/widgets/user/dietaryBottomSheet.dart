@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nuvlemobile/components/inputs/customListTileCheckBox.dart';
+import 'package:nuvlemobile/components/widgets/user/filterBottomSheet.dart';
 import 'package:nuvlemobile/misc/functions.dart';
 import 'package:nuvlemobile/models/providers/menus/menusProvider.dart';
 import 'package:nuvlemobile/styles/colors.dart';
@@ -25,6 +26,12 @@ class _DietaryBottomSheetState extends State<DietaryBottomSheet> {
         if (newValue == false && dietaryRestrictions.contains('Vegetarian')) {
           dietaryRestrictions.remove('Vegetarian');
         }
+        if (newValue == true && !filter.contains('Vegetarian')) {
+          filter.add('Vegetarian');
+        }
+        if (newValue == false && filter.contains('Vegetarian')) {
+          filter.remove('Vegetarian');
+        }
       });
   void _onVeganChanged(bool newValue) => setState(() {
         _vegan = newValue;
@@ -33,6 +40,12 @@ class _DietaryBottomSheetState extends State<DietaryBottomSheet> {
         }
         if (newValue == false && dietaryRestrictions.contains('Vegan')) {
           dietaryRestrictions.remove('Vegan');
+        }
+        if (newValue == true && !filter.contains('Vegan')) {
+          filter.add('Vegan');
+        }
+        if (newValue == false && filter.contains('Vegan')) {
+          filter.remove('Vegan');
         }
       });
   void _onGlutenChanged(bool newValue) => setState(() {
@@ -45,6 +58,12 @@ class _DietaryBottomSheetState extends State<DietaryBottomSheet> {
             dietaryRestrictions.contains('Gluten - free')) {
           dietaryRestrictions.remove('Gluten - free');
         }
+        if (newValue == true && !filter.contains('Gluten - free')) {
+          filter.add('Gluten - free');
+        }
+        if (newValue == false && filter.contains('Gluten - free')) {
+          filter.remove('Gluten - free');
+        }
       });
   void _onHalalChanged(bool newValue) => setState(() {
         _halal = newValue;
@@ -53,6 +72,12 @@ class _DietaryBottomSheetState extends State<DietaryBottomSheet> {
         }
         if (newValue == false && dietaryRestrictions.contains('Halal')) {
           dietaryRestrictions.remove('Halal');
+        }
+        if (newValue == true && !filter.contains('Halal')) {
+          filter.add('Halal');
+        }
+        if (newValue == false && filter.contains('Halal')) {
+          filter.remove('Halal');
         }
       });
 
@@ -104,31 +129,33 @@ class _DietaryBottomSheetState extends State<DietaryBottomSheet> {
             ],
           ),
         ),
-        Container(
-          margin: EdgeInsets.symmetric(vertical: 20),
-          child: Column(
-            children: <Widget>[
-              CustomListTileCheckBox(
-                text: "Vegetarian",
-                value: _vege,
-                onChanged: _onVegeChanged,
-              ),
-              CustomListTileCheckBox(
-                text: "Vegan",
-                value: _vegan,
-                onChanged: _onVeganChanged,
-              ),
-              CustomListTileCheckBox(
-                text: "Gluten - free",
-                value: _gluten,
-                onChanged: _onGlutenChanged,
-              ),
-              CustomListTileCheckBox(
-                text: "Halal",
-                value: _halal,
-                onChanged: _onHalalChanged,
-              ),
-            ],
+        Flexible(
+          child: Container(
+            margin: EdgeInsets.symmetric(vertical: 20),
+            child: ListView(
+              children: <Widget>[
+                CustomListTileCheckBox(
+                  text: "Vegetarian",
+                  value: dietaryRestrictions.contains('Vegetarian'),
+                  onChanged: _onVegeChanged,
+                ),
+                CustomListTileCheckBox(
+                  text: "Vegan",
+                  value: dietaryRestrictions.contains('Vegan'),
+                  onChanged: _onVeganChanged,
+                ),
+                CustomListTileCheckBox(
+                  text: "Gluten - free",
+                  value: dietaryRestrictions.contains('Gluten - free'),
+                  onChanged: _onGlutenChanged,
+                ),
+                CustomListTileCheckBox(
+                  text: "Halal",
+                  value: dietaryRestrictions.contains('Halal'),
+                  onChanged: _onHalalChanged,
+                ),
+              ],
+            ),
           ),
         ),
         Padding(
@@ -140,6 +167,9 @@ class _DietaryBottomSheetState extends State<DietaryBottomSheet> {
             text: "Apply",
             specificBorderRadius: BorderRadius.circular(5),
           ),
+        ),
+        SizedBox(
+          height: 20,
         ),
       ],
     );

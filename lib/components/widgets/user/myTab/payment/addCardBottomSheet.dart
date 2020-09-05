@@ -247,16 +247,19 @@ class _AddCardBottomSheetState extends State<AddCardBottomSheet> {
               ],
             ),
           ),
-          Functions().customButton(
-            context,
-            onTap: () => _handleSubmitted(context),
-            width: screenSize.width,
-            text: "Add Card",
-            specificBorderRadius: BorderRadius.only(
-              topLeft: Radius.circular(5),
-              topRight: Radius.circular(5),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Functions().customButton(
+              context,
+              onTap: () => _handleSubmitted(context),
+              width: screenSize.width,
+              text: "Add Card",
+              specificBorderRadius: BorderRadius.circular(5),
             ),
           ),
+          SizedBox(
+            height: 20,
+          )
         ],
       ),
     );
