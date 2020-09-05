@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:nuvlemobile/api/apiRequests.dart';
 import 'package:nuvlemobile/misc/validations.dart';
 import 'package:nuvlemobile/models/skeltons/api/apiRequestModel.dart';
@@ -12,6 +13,7 @@ class OrderProvider extends ChangeNotifier {
   bool _showOrderList = false;
   List<MenuItems> _orders = [];
   List<MenuItems> _tab = List<MenuItems>();
+  List<List<dynamic>> _history = List<List<dynamic>>();
   List<MenuItems> _feedbackList = List<MenuItems>();
   ScrollController scrollController = ScrollController();
   double _bill = 0;
@@ -20,6 +22,7 @@ class OrderProvider extends ChangeNotifier {
   bool get showOrderList => _showOrderList;
   List<MenuItems> get orders => _orders;
   List<MenuItems> get tab => _tab;
+  List<List<dynamic>> get history => _history;
   List<MenuItems> get feedbackList => _feedbackList;
   double get bill => _bill;
 
@@ -48,6 +51,10 @@ class OrderProvider extends ChangeNotifier {
   }
 
   closeTab() {
+    _tab.forEach((element) {
+      _history
+          .add([element, DateFormat.yMMMd().format(DateTime.now()).toString()]);
+    });
     _feedbackList.addAll(_tab);
     _tab.clear();
   }

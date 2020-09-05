@@ -23,7 +23,7 @@ class _ScanSuccessfulState extends State<ScanSuccessful> {
 
   @override
   void initState() {
-    // startTimer();
+    startTimer();
     super.initState();
   }
 
@@ -113,7 +113,7 @@ class _ScanSuccessfulState extends State<ScanSuccessful> {
             SizedBox(height: 16),
             Center(
               child: Text(
-                "$myTab.tab.TabModelAttributes.user.attributes.groupCode",
+                "${widget.userAccount.tab.attributes.groupCode}",
                 style: TextStyle(
                   color: CustomColors.primary,
                   letterSpacing: 1,

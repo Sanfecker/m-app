@@ -87,7 +87,7 @@ class _OrdersFeedbackState extends State<OrdersFeedback> {
               Flexible(child:
                   Consumer<OrderProvider>(builder: (context, pro, child) {
                 return ListView(
-                    children: pro.viewedItems
+                    children: pro.feedbackList
                         .map(
                           (e) => FeedbackListingWidget(
                             menuItem: e,

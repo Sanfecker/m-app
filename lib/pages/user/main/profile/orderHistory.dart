@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:intl/intl.dart';
 import 'package:nuvlemobile/components/inputs/inputBox.dart';
 import 'package:nuvlemobile/misc/functions.dart';
 import 'package:nuvlemobile/models/providers/homePageProvider.dart';
 import 'package:nuvlemobile/models/providers/mainPageProvider.dart';
+import 'package:nuvlemobile/models/providers/user/order/orderHistoryProvider.dart';
+import 'package:nuvlemobile/models/providers/user/order/orderProvider.dart';
 import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
 import 'package:nuvlemobile/pages/user/main/profile/profile.dart';
 import 'package:nuvlemobile/styles/colors.dart';
@@ -20,7 +24,6 @@ class OrderHistory extends StatefulWidget {
 class _OrderHistoryState extends State<OrderHistory> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -28,114 +31,124 @@ class _OrderHistoryState extends State<OrderHistory> {
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
+      appBar: AppBar(
+        leading: page == 'home'
+            ? Consumer<HomePageProvider>(
+                builder: (context, pro, child) => Container(
+                  margin: EdgeInsets.only(left: 20),
+                  height: screenSize.height * 0.1,
+                  child: GestureDetector(
+                    onTap: () => pro.selectedIndex = 1,
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.arrow_back_ios,
+                          color: Color(0xFFD2B271),
+                          size: 20,
+                        ),
+                        Text(
+                          'Back',
+                          style: TextStyle(
+                            color: Color(0xFFD2B271),
+                            fontSize: 14,
+                            letterSpacing: 1,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              )
+            : Consumer<MainPageProvider>(
+                builder: (context, pro, child) => Container(
+                  margin: EdgeInsets.only(left: 20),
+                  height: screenSize.height * 0.1,
+                  child: GestureDetector(
+                    onTap: () => pro.selectedIndex = 1,
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.arrow_back_ios,
+                          color: Color(0xFFD2B271),
+                          size: 20,
+                        ),
+                        Text(
+                          'Back',
+                          style: TextStyle(
+                            color: Color(0xFFD2B271),
+                            fontSize: 14,
+                            letterSpacing: 1,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+        leadingWidth: 200,
+        elevation: 0,
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              page == 'home'
-                  ? Consumer<HomePageProvider>(
-                      builder: (context, pro, child) => Container(
-                        margin: EdgeInsets.only(left: 20),
-                        height: screenSize.height * 0.1,
-                        child: GestureDetector(
-                          onTap: () => pro.selectedIndex = 1,
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.arrow_back_ios,
-                                color: Color(0xFFD2B271),
-                                size: 20,
-                              ),
-                              Text(
-                                'Back',
-                                style: TextStyle(
-                                  color: Color(0xFFD2B271),
-                                  fontSize: 14,
-                                  letterSpacing: 1,
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    )
-                  : Consumer<MainPageProvider>(
-                      builder: (context, pro, child) => Container(
-                        margin: EdgeInsets.only(left: 20),
-                        height: screenSize.height * 0.1,
-                        child: GestureDetector(
-                          onTap: () => pro.selectedIndex = 1,
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.arrow_back_ios,
-                                color: Color(0xFFD2B271),
-                                size: 20,
-                              ),
-                              Text(
-                                'Back',
-                                style: TextStyle(
-                                  color: Color(0xFFD2B271),
-                                  fontSize: 14,
-                                  letterSpacing: 1,
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 width: screenSize.width * 0.60,
-                margin: EdgeInsets.only(bottom: 60, top: 20),
+                margin: EdgeInsets.only(bottom: 32, top: 20),
                 child: Text(
                   "Orders",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
                 ),
               ),
-              Column(children: [
-                Divider(color: Colors.white),
-                ...ListTile.divideTiles(
-                  tiles: List.generate(
-                    4,
-                    (i) => ListTile(
-                      contentPadding:
-                          EdgeInsets.symmetric(vertical: 7, horizontal: 20),
-                      onTap: () => print("Hey"),
-                      // Functions().transitTo(context,
-                      //     ProfileSettings(userAccount: widget.userAccount)),
-                      title: Text(
-                        "Le Bardin",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                      ),
-                      subtitle: Container(
-                        margin: EdgeInsets.only(top: 5),
-                        child: Text(
-                          "Thur 25th 2020",
-                          style: TextStyle(
-                            color: Color(0xffA6A6A6),
+              Consumer<OrderProvider>(
+                builder: (context, pro, child) {
+                  return Column(
+                    children: [
+                      if (pro.history.isNotEmpty)
+                        Divider(color: Color(0xff4a444a)),
+                      ...ListTile.divideTiles(
+                        tiles: pro.history.map(
+                          (i) => ListTile(
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 20, horizontal: 20),
+                            // Functions().transitTo(context,
+                            //     ProfileSettings(userAccount: widget.userAccount)),
+                            title: Text(
+                              i[0].itemName,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
+                            subtitle: Container(
+                              margin: EdgeInsets.only(top: 5),
+                              child: Text(
+                                i[1],
+                                style: TextStyle(
+                                  color: Color(0xffA6A6A6),
+                                ),
+                              ),
+                            ),
+                            trailing: Container(
+                              margin: EdgeInsets.only(right: 25),
+                              child: Icon(
+                                NuvleIcons.icon_right,
+                                color: Color(0xffC7C7D4),
+                              ),
+                            ),
                           ),
                         ),
+                        color: Color(0xff4a444a),
+                        context: context,
                       ),
-                      trailing: Container(
-                        margin: EdgeInsets.only(right: 25),
-                        child: Icon(
-                          NuvleIcons.icon_right,
-                          color: Color(0xffC7C7D4),
-                        ),
-                      ),
-                    ),
-                  ),
-                  color: Colors.white,
-                  context: context,
-                ),
-                Divider(color: Colors.white),
-              ]),
+                      if (pro.history.isNotEmpty)
+                        Divider(color: Color(0xff4a444a)),
+                    ],
+                  );
+                },
+              )
             ],
           ),
         ),

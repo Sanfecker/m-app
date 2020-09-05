@@ -55,8 +55,8 @@ class _ScanCodePageState extends State<ScanCodePage> {
         widget.userAccount.tab = tab;
         Provider.of<UserAccountProvider>(context, listen: false)
             .setCurrentUserTabs(tab);
-        Navigator.pop(context);
-        Functions().transitToReplace(
+
+        await Functions().transitToReplace(
             context, ScanSuccessfulPage(userAccount: widget.userAccount),
             removePreviousRoots: true);
       } else {
@@ -185,7 +185,6 @@ class _ScanCodePageState extends State<ScanCodePage> {
                                       Provider.of<UserAccountProvider>(context,
                                               listen: false)
                                           .setCurrentUserTabs(tab);
-                                      Navigator.pop(context);
                                       Functions().scaleToReplace(
                                           context,
                                           ScanSuccessful(

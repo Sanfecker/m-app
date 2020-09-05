@@ -3,6 +3,7 @@ import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
 import 'package:nuvlemobile/pages/user/main/profile/changeDp.dart';
 import 'package:nuvlemobile/pages/user/main/profile/contactSupport.dart';
 import 'package:nuvlemobile/pages/user/main/profile/orderHistory.dart';
+import 'package:nuvlemobile/pages/user/main/profile/paymentMethods.dart';
 import 'package:nuvlemobile/pages/user/main/profile/profile.dart';
 import 'package:nuvlemobile/pages/user/main/profile/profileSettings.dart';
 import 'package:nuvlemobile/pages/user/scan/scanCode.dart';
@@ -22,6 +23,7 @@ class HomePageProvider extends ChangeNotifier {
         OrderHistory(
           userAccount: userAccount,
         ),
+        PaymentMethods(),
         ContactSupport(
           userAccount: userAccount,
         ),

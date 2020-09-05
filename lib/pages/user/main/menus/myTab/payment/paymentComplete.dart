@@ -31,7 +31,7 @@ class PaymentComplete extends StatelessWidget {
                       "We hope you enjoyed your meal",
                       textAlign: TextAlign.center,
                       style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                     ),
                     SizedBox(height: 30),
                     Text(
@@ -49,7 +49,7 @@ class PaymentComplete extends StatelessWidget {
                   Functions().transitToReplace(context, OrdersFeedback());
                 },
                 width: screenSize.width,
-                text: "Okay",
+                text: "OK",
                 color: CustomColors.primary900,
                 hasIcon: true,
                 trailing: Icon(

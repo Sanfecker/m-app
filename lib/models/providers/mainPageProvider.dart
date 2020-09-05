@@ -4,6 +4,7 @@ import 'package:nuvlemobile/pages/user/main/menus/menus.dart';
 import 'package:nuvlemobile/pages/user/main/profile/changeDp.dart';
 import 'package:nuvlemobile/pages/user/main/profile/contactSupport.dart';
 import 'package:nuvlemobile/pages/user/main/profile/orderHistory.dart';
+import 'package:nuvlemobile/pages/user/main/profile/paymentMethods.dart';
 import 'package:nuvlemobile/pages/user/main/profile/profile.dart';
 import 'package:nuvlemobile/pages/user/main/profile/profileSettings.dart';
 import 'package:nuvlemobile/styles/nuvleIcons.dart';
@@ -19,6 +20,7 @@ class MainPageProvider extends ChangeNotifier {
         OrderHistory(
           userAccount: userAccount,
         ),
+        PaymentMethods(),
         ContactSupport(
           userAccount: userAccount,
         ),

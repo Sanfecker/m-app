@@ -28,7 +28,7 @@ class TabProvider extends ChangeNotifier {
       apiRequestModel.errorMessage = "Internal error, please try again";
     }
     return apiRequestModel;
-  } 
+  }
 
   Future<ApiRequestModel> createTab(
       ScanResponse scanResponse, UserAccount account) async {
