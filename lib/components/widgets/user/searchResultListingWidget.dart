@@ -20,6 +20,7 @@ class SearchResultListingWidget extends StatelessWidget {
       child: Container(
         margin: EdgeInsets.only(bottom: 30),
         child: Stack(
+          alignment: Alignment.center,
           overflow: Overflow.visible,
           children: <Widget>[
             ClipRRect(
@@ -54,30 +55,23 @@ class SearchResultListingWidget extends StatelessWidget {
                                   fontSize: 14,
                                 ),
                               ),
-                              Stack(
-                                children: <Widget>[
-                                  Container(
-                                    height: 38,
+                              Container(
+                                width: 109,
+                                height: 38,
+                                child: FlatButton(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.zero,
                                   ),
-                                  Container(
-                                    width: 109,
-                                    height: 38,
-                                    child: FlatButton(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.zero,
-                                      ),
-                                      color: CustomColors.primary,
-                                      onPressed: () => print("Hey"),
-                                      child: Text(
-                                        "Order Now",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.black,
-                                        ),
-                                      ),
+                                  color: CustomColors.primary,
+                                  onPressed: () => print("Hey"),
+                                  child: Text(
+                                    "Order Now",
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.black,
                                     ),
                                   ),
-                                ],
+                                ),
                               )
                             ],
                           ),

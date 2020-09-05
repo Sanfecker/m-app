@@ -39,24 +39,28 @@ class ListingWidget extends StatelessWidget {
               children: <Widget>[
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 15),
-                  child: CachedNetworkImage(
-                    imageUrl: menuItem.imageUrl ?? '',
-                    width: 109,
-                    height: 125,
-                    // height: 110,
-                    errorWidget: (context, url, error) => Image.asset(
-                      Settings.placeholderImageSmall,
+                  child: ClipOval(
+                    child: CachedNetworkImage(
+                      imageUrl: menuItem.imageUrl ?? '',
                       width: 109,
-                      height: 125,
-                    ),
-                    placeholder: (BuildContext context, String val) {
-                      return Image.asset(
+                      // height: 125,
+                      height: 110,
+                      errorWidget: (context, url, error) => Image.asset(
                         Settings.placeholderImageSmall,
                         width: 109,
                         height: 125,
-                      );
-                    },
-                    fit: BoxFit.contain,
+                      ),
+                      placeholder: (BuildContext context, String val) {
+                        return Image.asset(
+                          Settings.placeholderImageSmall,
+                          width: 109,
+                          height: 125,
+                        );
+                      },
+                      fit: menuItem.itemType.toLowerCase() == 'drink'
+                          ? BoxFit.contain
+                          : BoxFit.cover,
+                    ),
                   ),
                 ),
                 Flexible(

@@ -20,9 +20,25 @@ class SearchBottomSheet extends StatefulWidget {
   _SearchBottomSheetState createState() => _SearchBottomSheetState();
 }
 
+List<MenuItems> menuItems = List<MenuItems>();
+
 class _SearchBottomSheetState extends State<SearchBottomSheet> {
-  ScrollController _scrollController = ScrollController();
-  List<MenuItems> menuItems = List<MenuItems>();
+  List<MenuItems> filterList(List<MenuItems> listOfItems) {
+    List<MenuItems> result = List<MenuItems>();
+    List<int> list2 = List<int>();
+    List<String> list = List<String>();
+    listOfItems.forEach((element) {
+      list.add(element.itemName);
+    });
+    for (var i in list) {
+      list2.add(list.indexWhere((element) => element == i));
+    }
+    list2.toSet().forEach((element) {
+      result.add(listOfItems[element]);
+    });
+    return result;
+  }
+
   MenusProvider _menusProvider;
   String search;
   List<MenuType> type = [
@@ -43,31 +59,13 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
   @override
   void initState() {
     _menusProvider = Provider.of<MenusProvider>(context, listen: false);
-    _scrollController.addListener(scrollListener);
-    for (var i in type) {
-      SchedulerBinding.instance.addPostFrameCallback(
-          (_) => _menusProvider.fetchMenus(context, i, widget.userAccount));
-    }
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-  scrollListener() {
-    for (var i in type) {
-      if (_scrollController.offset >=
-              _scrollController.position.maxScrollExtent &&
-          !_scrollController.position.outOfRange &&
-          _menusProvider.moreAPIRequestStatus != APIRequestStatus.loading) {
+    if (menuItems.isEmpty) {
+      for (var i in type) {
         SchedulerBinding.instance.addPostFrameCallback(
-          (_) => _menusProvider.fetchMoreMenus(context, i, widget.userAccount),
-        );
+            (_) => _menusProvider.fetchMenus(context, i, widget.userAccount));
       }
     }
+    super.initState();
   }
 
   @override
@@ -133,21 +131,43 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                         break;
                       case APIRequestStatus.loaded:
                         for (var i in type) {
-                          menuItems.addAll(pro.fetchMenuItems(i));
-                          var menu = menuItems.toSet();
-                          menuItems = menu.toList();
+                          if (pro.getPage(i)) {
+                            SchedulerBinding.instance.addPostFrameCallback(
+                              (_) => _menusProvider.fetchMoreMenus(
+                                  context, i, widget.userAccount, 'next'),
+                            );
+                          }
+
+                          var menu = pro.fetchMenuItems(i);
+                          menuItems.addAll(menu);
                         }
-                        return menuItems.length > 0
+
+                        return menuItems.length > 0 &&
+                                search != null &&
+                                search.isNotEmpty
                             ? ListView(
-                                controller: _scrollController,
+                                // controller: _scrollController,
                                 padding: EdgeInsets.symmetric(
                                     vertical: 30, horizontal: 12),
                                 children: [
-                                  ...menuItems
-                                      .where((element) => element.itemName
+                                  ...filterList(menuItems).where((element) {
+                                    if (element.categoryName != null)
+                                      return element.itemName
+                                              .toLowerCase()
+                                              .split(' ')
+                                              .contains(search.toLowerCase())
+                                          ? true
+                                          : element.categoryName
+                                                      .toLowerCase() ==
+                                                  search.toLowerCase()
+                                              ? true
+                                              : false;
+                                    else
+                                      return element.itemName
+                                          .toLowerCase()
                                           .split(' ')
-                                          .contains(search))
-                                      .map((e) {
+                                          .contains(search.toLowerCase());
+                                  }).map((e) {
                                     return SearchResultListingWidget(
                                       menuItem: e,
                                     );
@@ -162,9 +182,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                                     ),
                                 ],
                               )
-                            : Center(
-                                child: Text("Nothing to show"),
-                              );
+                            : Center();
                         break;
                       case APIRequestStatus.connectionError:
                         return InternetConnectionError(refreshCallBack: () {

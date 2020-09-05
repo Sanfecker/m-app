@@ -1,13 +1,16 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:nuvlemobile/misc/functions.dart';
+import 'package:nuvlemobile/misc/settings.dart';
 import 'package:nuvlemobile/models/providers/user/order/orderProvider.dart';
 import 'package:nuvlemobile/models/skeltons/menus/item.dart';
+import 'package:nuvlemobile/models/skeltons/menus/menuData.dart';
 import 'package:nuvlemobile/pages/user/main/menus/itemInfooo.dart';
 import 'package:nuvlemobile/styles/colors.dart';
 import 'package:provider/provider.dart';
 
 class MyTabListingWidget extends StatelessWidget {
-  final MenuItem menuItem;
+  final MenuItems menuItem;
 
   const MyTabListingWidget({Key key, @required this.menuItem})
       : super(key: key);
@@ -28,11 +31,25 @@ class MyTabListingWidget extends StatelessWidget {
               children: <Widget>[
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 15),
-                  child: Image.asset(
-                    menuItem.img,
-                    width: 112,
-                    height: 109,
-                    fit: BoxFit.fitHeight,
+                  padding: EdgeInsets.symmetric(vertical: 15),
+                  child: CachedNetworkImage(
+                    imageUrl: menuItem.imageUrl ?? '',
+                    // width: 109,
+                    // height: 125,
+                    height: 110,
+                    errorWidget: (context, url, error) => Image.asset(
+                      Settings.placeholderImageSmall,
+                      width: 109,
+                      height: 125,
+                    ),
+                    placeholder: (BuildContext context, String val) {
+                      return Image.asset(
+                        Settings.placeholderImageSmall,
+                        width: 109,
+                        height: 125,
+                      );
+                    },
+                    fit: BoxFit.cover,
                   ),
                 ),
                 Flexible(
@@ -42,116 +59,126 @@ class MyTabListingWidget extends StatelessWidget {
                       Container(
                         padding: EdgeInsets.only(top: 13, right: 15),
                         child: Text(
-                          menuItem.name.toLowerCase(),
+                          menuItem.itemName.toLowerCase(),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
-                          style: TextStyle(fontSize: 15),
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
                         ),
                       ),
                       Spacer(),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            menuItem.price,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          right: 10,
+                          bottom: 10,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            Text(
+                              Functions.getCurrencySymbol(menuItem.currency) +
+                                  menuItem.price,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                                color: Color(0xffd0b06f),
+                              ),
                             ),
-                          ),
-                          Stack(
-                            children: <Widget>[
-                              Container(
-                                height: 38,
-                              ),
-                              Container(
-                                child: Consumer<OrderProvider>(
-                                  builder: (context, pro, child) => Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      // Container(
-                                      //   width: 40,
-                                      //   height: 40,
-                                      //   child: FlatButton(
-                                      //     shape: RoundedRectangleBorder(
-                                      //       borderRadius: BorderRadius.zero,
-                                      //     ),
-                                      //     color: CustomColors.primary,
-                                      //     onPressed: () =>
-                                      //         pro.changeOrderQuantity(
-                                      //             menuItem, false),
-                                      //     child: Text(
-                                      //       "-",
-                                      //       style: TextStyle(
-                                      //         fontSize: 30,
-                                      //         color: Colors.black,
-                                      //       ),
-                                      //     ),
-                                      //   ),
-                                      // ),
-                                      // Container(
-                                      //   margin:
-                                      //       EdgeInsets.symmetric(horizontal: 5),
-                                      //   child: Text(
-                                      //     pro
-                                      //         .getSingleItem(menuItem)
-                                      //         .orderQuantity
-                                      //         .toString(),
-                                      //     style: TextStyle(
-                                      //       fontSize: 16,
-                                      //       color: Colors.black,
-                                      //       fontWeight: FontWeight.bold,
-                                      //     ),
-                                      //   ),
-                                      // ),
-                                      // Container(
-                                      //   width: 45,
-                                      //   height: 40,
-                                      //   child: FlatButton(
-                                      //     shape: RoundedRectangleBorder(
-                                      //       borderRadius: BorderRadius.zero,
-                                      //     ),
-                                      //     color: CustomColors.primary,
-                                      //     onPressed: () =>
-                                      //         pro.changeOrderQuantity(menuItem),
-                                      //     child: Text(
-                                      //       "+",
-                                      //       style: TextStyle(
-                                      //         fontSize: 30,
-                                      //         color: Colors.black,
-                                      //       ),
-                                      //     ),
-                                      //   ),
-                                      // ),
-                                    ],
-                                  ),
-                                ),
-                                decoration: BoxDecoration(
-                                  color: CustomColors.primary,
-                                ),
-                              ),
-                              // Container(
-                              //   width: 109,
-                              //   height: 38,
-                              //   child: FlatButton(
-                              //     shape: RoundedRectangleBorder(
-                              //       borderRadius: BorderRadius.zero,
-                              //     ),
-                              //     color: CustomColors.primary,
-                              //     onPressed: () => print("Hey"),
-                              //     child: Text(
-                              //       "Order Now",
-                              //       style: TextStyle(
-                              //         fontSize: 14,
-                              //         color: Colors.black,
-                              //       ),
-                              //     ),
-                              //   ),
-                              // ),
-                            ],
-                          )
-                        ],
+                            // Stack(
+                            //   children: <Widget>[
+                            //     Container(
+                            //       height: 38,
+                            //     ),
+                            //     Container(
+                            //       child: Consumer<OrderProvider>(
+                            //         builder: (context, pro, child) => Row(
+                            //           mainAxisAlignment: MainAxisAlignment.center,
+                            //           mainAxisSize: MainAxisSize.min,
+                            //           children: <Widget>[
+                            //             // Container(
+                            //             //   width: 40,
+                            //             //   height: 40,
+                            //             //   child: FlatButton(
+                            //             //     shape: RoundedRectangleBorder(
+                            //             //       borderRadius: BorderRadius.zero,
+                            //             //     ),
+                            //             //     color: CustomColors.primary,
+                            //             //     onPressed: () =>
+                            //             //         pro.changeOrderQuantity(
+                            //             //             menuItem, false),
+                            //             //     child: Text(
+                            //             //       "-",
+                            //             //       style: TextStyle(
+                            //             //         fontSize: 30,
+                            //             //         color: Colors.black,
+                            //             //       ),
+                            //             //     ),
+                            //             //   ),
+                            //             // ),
+                            //             // Container(
+                            //             //   margin:
+                            //             //       EdgeInsets.symmetric(horizontal: 5),
+                            //             //   child: Text(
+                            //             //     pro
+                            //             //         .getSingleItem(menuItem)
+                            //             //         .orderQuantity
+                            //             //         .toString(),
+                            //             //     style: TextStyle(
+                            //             //       fontSize: 16,
+                            //             //       color: Colors.black,
+                            //             //       fontWeight: FontWeight.bold,
+                            //             //     ),
+                            //             //   ),
+                            //             // ),
+                            //             // Container(
+                            //             //   width: 45,
+                            //             //   height: 40,
+                            //             //   child: FlatButton(
+                            //             //     shape: RoundedRectangleBorder(
+                            //             //       borderRadius: BorderRadius.zero,
+                            //             //     ),
+                            //             //     color: CustomColors.primary,
+                            //             //     onPressed: () =>
+                            //             //         pro.changeOrderQuantity(menuItem),
+                            //             //     child: Text(
+                            //             //       "+",
+                            //             //       style: TextStyle(
+                            //             //         fontSize: 30,
+                            //             //         color: Colors.black,
+                            //             //       ),
+                            //             //     ),
+                            //             //   ),
+                            //             // ),
+                            //           ],
+                            //         ),
+                            //       ),
+                            //       decoration: BoxDecoration(
+                            //         color: CustomColors.primary,
+                            //       ),
+                            //     ),
+                            //     // Container(
+                            //     //   width: 109,
+                            //     //   height: 38,
+                            //     //   child: FlatButton(
+                            //     //     shape: RoundedRectangleBorder(
+                            //     //       borderRadius: BorderRadius.zero,
+                            //     //     ),
+                            //     //     color: CustomColors.primary,
+                            //     //     onPressed: () => print("Hey"),
+                            //     //     child: Text(
+                            //     //       "Order Now",
+                            //     //       style: TextStyle(
+                            //     //         fontSize: 14,
+                            //     //         color: Colors.black,
+                            //     //       ),
+                            //     //     ),
+                            //     //   ),
+                            //     // ),
+                            //   ],
+                            // )
+                          ],
+                        ),
                       ),
                     ],
                   ),

@@ -8,11 +8,9 @@ import 'package:nuvlemobile/styles/colors.dart';
 import 'package:provider/provider.dart';
 
 class SidesBottomSheet extends StatefulWidget {
-  final MenuItems menuItem;
   final UserAccount userAccount;
 
-  const SidesBottomSheet(
-      {Key key, @required this.menuItem, @required this.userAccount})
+  const SidesBottomSheet({Key key, @required this.userAccount})
       : super(key: key);
 
   @override
@@ -29,19 +27,15 @@ class _SidesBottomSheetState extends State<SidesBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
+    MenuItems menuItem;
     Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
-      bottomNavigationBar: Functions().customButton(context,
-          onTap: () => _handleSubmitted(context),
-          width: screenSize.width,
-          text: "Add Side",
-          specificBorderRadius: BorderRadius.zero),
       body: SafeArea(
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             children: <Widget>[
-              SizedBox(height: 60),
+              SizedBox(height: 50),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -58,7 +52,7 @@ class _SidesBottomSheetState extends State<SidesBottomSheet> {
                     icon: Icon(
                       Icons.close,
                       size: 30,
-                      color: CustomColors.primary100,
+                      color: Colors.white,
                     ),
                     onPressed: () {
                       Navigator.of(context).pop();
@@ -67,19 +61,41 @@ class _SidesBottomSheetState extends State<SidesBottomSheet> {
                 ],
               ),
               SizedBox(height: 20),
-              Flexible(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: widget.menuItem.sides
-                        .map(
-                          (e) => SelectableListingWidget(
-                              menuItem: e,
-                              parent: widget.menuItem,
-                              userAccount: widget.userAccount),
-                        )
-                        .toList(),
-                  ),
-                ),
+              Consumer<OrderProvider>(
+                builder: (context, pro, child) {
+                  List<List<MenuItems>> menuItems = List<List<MenuItems>>();
+                  pro.orders.forEach((element) {
+                    if (element.sides.isNotEmpty) {
+                      menuItems.addAll(
+                          element.sides.map((e) => [element, e]).toList());
+                    }
+                  });
+                  return Flexible(
+                    child: ListView(
+                      children: pro.orders.isNotEmpty && menuItems.isNotEmpty
+                          ? menuItems
+                              .map(
+                                (e) => SelectableListingWidget(
+                                  menuItem: e[1],
+                                  parent: e[0],
+                                  userAccount: widget.userAccount,
+                                ),
+                              )
+                              .toList()
+                          : [],
+                    ),
+                  );
+                },
+              ),
+              Functions().customButton(
+                context,
+                onTap: () => _handleSubmitted(context),
+                width: screenSize.width,
+                text: "Add Side",
+                specificBorderRadius: BorderRadius.circular(5),
+              ),
+              SizedBox(
+                height: 20,
               ),
             ],
           ),

@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:nuvlemobile/components/widgets/user/myTab/closeTabBottomSheet.dart';
 import 'package:nuvlemobile/components/widgets/user/myTab/myTabListingWidget.dart';
 import 'package:nuvlemobile/misc/functions.dart';
+import 'package:nuvlemobile/models/providers/user/order/orderProvider.dart';
 import 'package:nuvlemobile/models/skeltons/menus/item.dart';
+import 'package:nuvlemobile/models/skeltons/menus/menuData.dart';
 import 'package:nuvlemobile/pages/user/main/menus/myTab/shareTab.dart';
 import 'package:nuvlemobile/styles/colors.dart';
 import 'package:nuvlemobile/styles/nuvleIcons.dart';
+import 'package:provider/provider.dart';
 
 class MyTab extends StatefulWidget {
   @override
@@ -13,6 +16,28 @@ class MyTab extends StatefulWidget {
 }
 
 class _MyTabState extends State<MyTab> {
+  List<MenuItems> food = List<MenuItems>();
+  List<MenuItems> drinks = List<MenuItems>();
+  List<MenuItems> dessert = List<MenuItems>();
+  OrderProvider _orderProvider;
+  @override
+  void initState() {
+    _orderProvider = Provider.of<OrderProvider>(context, listen: false);
+    if (_orderProvider.showOrderList && _orderProvider.orders.length > 0) {
+      for (var e in _orderProvider.orders) {
+        print(e.itemType);
+        if (e.itemType.toLowerCase() == 'main dish') {
+          food.add(e);
+        } else if (e.itemType.toLowerCase() == 'drink') {
+          drinks.add(e);
+        } else if (e.itemType.toLowerCase() == 'dessert') {
+          dessert.add(e);
+        }
+      }
+    }
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
@@ -20,70 +45,73 @@ class _MyTabState extends State<MyTab> {
       appBar: AppBar(
         elevation: 0,
       ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: Consumer<OrderProvider>(
+        builder: (context, pro, child) {
+          return Container(
+            height: 730.8,
+            width: double.infinity,
+            padding: EdgeInsets.symmetric(horizontal: 12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(
-                  "My Tab",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 30,
-                    color: Color(0xffF2F2F9),
-                  ),
-                ),
-                FlatButton(
-                  color: Color(0xffCFB06F),
-                  padding: EdgeInsets.symmetric(horizontal: 25),
-                  child: Text(
-                    "Share Tab",
-                    style: TextStyle(
-                      color: Colors.black,
-                      letterSpacing: 0.3,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 13,
-                    ),
-                  ),
-                  shape: StadiumBorder(),
-                  onPressed: () => Functions().transitTo(context, ShareTab()),
-                ),
-              ],
-            ),
-            if (1 == 2)
-              Expanded(
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Image.asset(
-                        "assets/images/illustration page 36.png",
-                        height: 140,
-                        width: 168,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      "My Tab",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30,
+                        color: Color(0xffF2F2F9),
                       ),
-                      SizedBox(height: 20),
-                      Text(
-                        'No Orders Yet',
+                    ),
+                    FlatButton(
+                      color: Color(0xffCFB06F),
+                      padding: EdgeInsets.symmetric(horizontal: 25),
+                      child: Text(
+                        "Share Tab",
                         style: TextStyle(
+                          color: Colors.black,
+                          letterSpacing: 0.3,
                           fontWeight: FontWeight.bold,
-                          fontSize: 20,
+                          fontSize: 13,
                         ),
-                      )
-                    ],
-                  ),
+                      ),
+                      shape: StadiumBorder(),
+                      onPressed: () =>
+                          Functions().transitTo(context, ShareTab()),
+                    ),
+                  ],
                 ),
-              )
-            else
-              Flexible(
-                child: SingleChildScrollView(
-                  child: SafeArea(
+                if (pro.orders.isEmpty)
+                  Expanded(
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Image.asset(
+                            "assets/images/illustration page 36.png",
+                            height: 140,
+                            width: 168,
+                          ),
+                          SizedBox(height: 20),
+                          Text(
+                            'No Orders Yet',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  )
+                else
+                  Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        SizedBox(height: 50),
+                        SizedBox(height: 15),
                         Text(
                           "Food",
                           style: TextStyle(
@@ -93,28 +121,26 @@ class _MyTabState extends State<MyTab> {
                             letterSpacing: 0.4,
                           ),
                         ),
-                        SizedBox(height: 20),
-                        Container(
-                          width: double.infinity,
-                          height: 115,
-                          child: ListView(
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            children: List.generate(
-                              10,
-                              (i) => MyTabListingWidget(
-                                menuItem: MenuItem(
-                                  sId: "fo" + i.toString(),
-                                  img:
-                                      "assets/images/FAVPNG_barbecue-grill-beefsteak-beef-plate-grilling_PMai9z2w 2.png",
-                                  name: "TEXAS-RAISED JAPANESE BROWN",
-                                  price: "\$2,200",
-                                ),
-                              ),
-                            ).toList(),
+                        SizedBox(height: 15),
+                        Flexible(
+                          child: Container(
+                            width: double.infinity,
+                            // height: 115,
+                            padding: EdgeInsets.symmetric(
+                              vertical: 5,
+                            ),
+                            child: ListView(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              children: food
+                                  .map(
+                                    (i) => MyTabListingWidget(menuItem: i),
+                                  )
+                                  .toList(),
+                            ),
                           ),
                         ),
-                        SizedBox(height: 50),
+                        SizedBox(height: 30),
                         Text(
                           "Drinks",
                           style: TextStyle(
@@ -124,28 +150,26 @@ class _MyTabState extends State<MyTab> {
                             letterSpacing: 0.4,
                           ),
                         ),
-                        SizedBox(height: 20),
-                        Container(
-                          width: double.infinity,
-                          height: 115,
-                          child: ListView(
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            children: List.generate(
-                              10,
-                              (i) => MyTabListingWidget(
-                                menuItem: MenuItem(
-                                  sId: "dr" + i.toString(),
-                                  img: "assets/images/drink1 1.png",
-                                  name: "Virgin Mohito",
-                                  price: "\$1,200",
-                                  isCookable: false,
-                                ),
-                              ),
-                            ).toList(),
+                        SizedBox(height: 15),
+                        Flexible(
+                          child: Container(
+                            width: double.infinity,
+                            // height: 115,
+                            padding: EdgeInsets.symmetric(
+                              vertical: 5,
+                            ),
+                            child: ListView(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              children: drinks
+                                  .map(
+                                    (i) => MyTabListingWidget(menuItem: i),
+                                  )
+                                  .toList(),
+                            ),
                           ),
                         ),
-                        SizedBox(height: 50),
+                        SizedBox(height: 30),
                         Text(
                           "Dessert",
                           style: TextStyle(
@@ -155,32 +179,30 @@ class _MyTabState extends State<MyTab> {
                             letterSpacing: 0.4,
                           ),
                         ),
-                        SizedBox(height: 20),
-                        Container(
-                          width: double.infinity,
-                          height: 115,
-                          child: ListView(
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            children: List.generate(
-                              10,
-                              (i) => MyTabListingWidget(
-                                menuItem: MenuItem(
-                                  sId: "de" + i.toString(),
-                                  img: "assets/images/cake 4 1.png",
-                                  name: "Strawberry tres leche",
-                                  price: "\$1,500",
-                                  isCookable: false,
-                                ),
-                              ),
-                            ).toList(),
+                        SizedBox(height: 15),
+                        Flexible(
+                          child: Container(
+                            width: double.infinity,
+                            // height: 115,
+                            padding: EdgeInsets.symmetric(
+                              vertical: 5,
+                            ),
+                            child: ListView(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              children: dessert
+                                  .map(
+                                    (i) => MyTabListingWidget(menuItem: i),
+                                  )
+                                  .toList(),
+                            ),
                           ),
                         ),
-                        SizedBox(height: 80),
+                        SizedBox(height: 20),
                         Functions().customButton(
                           context,
-                          onTap: () =>
-                              Functions.openBottomSheet(context, CloseTabBottomSheet(), true),
+                          onTap: () => Functions.openBottomSheet(
+                              context, CloseTabBottomSheet(), true),
                           width: screenSize.width,
                           height: 70,
                           text: "Close Tab",
@@ -192,13 +214,16 @@ class _MyTabState extends State<MyTab> {
                             color: Color(0xff474551),
                           ),
                         ),
+                        SizedBox(
+                          height: 20,
+                        )
                       ],
                     ),
                   ),
-                ),
-              ),
-          ],
-        ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }

@@ -74,6 +74,7 @@ class MenuItems {
   String itemId;
   String itemName;
   List<ItemTags> itemTags;
+  List<String> itemTagsList;
   String itemType;
   String price;
   String restaurantId;
@@ -102,6 +103,7 @@ class MenuItems {
       this.itemId,
       this.itemName,
       this.itemTags,
+      this.itemTagsList,
       this.itemType,
       this.price,
       this.restaurantId,
@@ -131,8 +133,10 @@ class MenuItems {
     itemName = json['item_name'];
     if (json['item_tags'] != null) {
       itemTags = new List<ItemTags>();
+      itemTagsList = new List<String>();
       json['item_tags'].forEach((v) {
         itemTags.add(new ItemTags.fromJson(v));
+        itemTagsList.add(new ItemTags.fromJson(v).tagName);
       });
     }
     itemType = json['item_type'];

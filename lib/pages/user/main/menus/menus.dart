@@ -6,6 +6,7 @@ import 'package:nuvlemobile/components/others/tabBarIndicator.dart';
 import 'package:nuvlemobile/components/widgets/user/categoriesBottomSheet.dart';
 import 'package:nuvlemobile/components/widgets/user/dietaryBottomSheet.dart';
 import 'package:nuvlemobile/components/widgets/user/filterBottomSheet.dart';
+import 'package:nuvlemobile/components/widgets/user/sidesBottomSheet.dart';
 import 'package:nuvlemobile/misc/functions.dart';
 import 'package:nuvlemobile/models/skeltons/menus/bottomAppBarButton.dart';
 import 'package:nuvlemobile/models/skeltons/menus/restaurantMenuType.dart';
@@ -81,7 +82,7 @@ class _MenusState extends State<Menus> with SingleTickerProviderStateMixin {
           decoration: BoxDecoration(
             color: CustomColors.primary100,
             border: Border.all(
-              color: Colors.black,
+              color: Color(0xff4a444a),
               width: 1.5,
             ),
             shape: BoxShape.circle,
@@ -156,9 +157,12 @@ class _MenusState extends State<Menus> with SingleTickerProviderStateMixin {
                     ),
                     BottomAppButton(
                       name: "Sides +",
-                      onPressed: () => print("hEY"),
-                      // Functions.openBottomSheet(
-                      //     context, SidesBottomSheet(), true),
+                      onPressed: () => Functions.openBottomSheet(
+                          context,
+                          SidesBottomSheet(
+                            userAccount: widget.userAccount,
+                          ),
+                          true),
                     ),
                     BottomAppButton(
                       name: "Categories",

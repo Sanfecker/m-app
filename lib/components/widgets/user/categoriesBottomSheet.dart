@@ -1,25 +1,63 @@
 import 'package:flutter/material.dart';
 import 'package:nuvlemobile/components/inputs/customListTileCheckBox.dart';
 import 'package:nuvlemobile/misc/functions.dart';
+import 'package:nuvlemobile/models/providers/menus/menusProvider.dart';
 import 'package:nuvlemobile/styles/colors.dart';
+import 'package:provider/provider.dart';
 
 class CategoriesBottomSheet extends StatefulWidget {
   @override
   _CategoriesBottomSheetState createState() => _CategoriesBottomSheetState();
 }
 
-class _CategoriesBottomSheetState extends State<CategoriesBottomSheet> {
-  bool _sea = true;
-  bool _children = false;
-  bool _grill = false;
-  bool _lebrard = false;
+bool _sea = false;
+bool _children = false;
+bool _grill = false;
+bool _lebrard = false;
+List<String> categories = List<String>();
 
-  void _onSeaChanged(bool newValue) => setState(() => _sea = newValue);
-  void _onChildrenChanged(bool newValue) => setState(() => _children = newValue);
-  void _onGrillChanged(bool newValue) => setState(() => _grill = newValue);
-  void _onLebrardChanged(bool newValue) => setState(() => _lebrard = newValue);
+class _CategoriesBottomSheetState extends State<CategoriesBottomSheet> {
+  void _onSeaChanged(bool newValue) => setState(() {
+        _sea = newValue;
+        if (newValue == true && !categories.contains('Seafood')) {
+          categories.add('Seafood');
+        }
+        if (newValue == false && categories.contains('Seafood')) {
+          categories.remove('Seafood');
+        }
+      });
+  void _onChildrenChanged(bool newValue) => setState(() {
+        _children = newValue;
+        if (newValue == true && !categories.contains('Children Dishes')) {
+          categories.add('Children Dishes');
+        }
+        if (newValue == false && categories.contains('Children Dishes')) {
+          categories.remove('Children Dishes');
+        }
+      });
+  void _onGrillChanged(bool newValue) => setState(() {
+        _grill = newValue;
+        if (newValue == true && !categories.contains('From the Grill')) {
+          categories.add('From the Grill');
+        }
+        if (newValue == false && categories.contains('From the Grill')) {
+          categories.remove('From the Grill');
+        }
+      });
+  void _onLebrardChanged(bool newValue) => setState(() {
+        _lebrard = newValue;
+        if (newValue == true && !categories.contains('Le Brardin Entrees')) {
+          categories.add('Le Brardin Entrees');
+        }
+        if (newValue == false && categories.contains('Le Brardin Entrees')) {
+          categories.remove('Le Brardin Entrees');
+        }
+      });
 
   _handleSubmitted(BuildContext context) async {
+    MenusProvider _menusProvider;
+    _menusProvider = Provider.of<MenusProvider>(context, listen: false);
+    _menusProvider.setState();
     Navigator.pop(context);
   }
 
@@ -90,15 +128,18 @@ class _CategoriesBottomSheetState extends State<CategoriesBottomSheet> {
             ],
           ),
         ),
-        Functions().customButton(
-          context,
-          onTap: () => _handleSubmitted(context),
-          width: screenSize.width,
-          text: "Apply",
-          specificBorderRadius: BorderRadius.only(
-            topLeft: Radius.circular(5),
-            topRight: Radius.circular(5),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Functions().customButton(
+            context,
+            onTap: () => _handleSubmitted(context),
+            width: screenSize.width,
+            text: "Apply",
+            specificBorderRadius: BorderRadius.circular(5),
           ),
+        ),
+        SizedBox(
+          height: 20,
         ),
       ],
     );

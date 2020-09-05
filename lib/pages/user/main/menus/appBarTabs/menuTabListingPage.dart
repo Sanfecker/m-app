@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:nuvlemobile/components/animations/lazyLoad/listLazyLoad.dart';
 import 'package:nuvlemobile/components/others/internetConnectionError.dart';
+import 'package:nuvlemobile/components/widgets/user/categoriesBottomSheet.dart';
+import 'package:nuvlemobile/components/widgets/user/dietaryBottomSheet.dart';
 import 'package:nuvlemobile/components/widgets/user/listingWidget.dart';
 import 'package:nuvlemobile/misc/enum.dart';
 import 'package:nuvlemobile/models/providers/menus/menusProvider.dart';
@@ -49,7 +51,15 @@ class _MenuTabListingState extends State<MenuTabListing> {
         _menusProvider.moreAPIRequestStatus != APIRequestStatus.loading) {
       SchedulerBinding.instance.addPostFrameCallback(
         (_) => _menusProvider.fetchMoreMenus(
-            context, widget.menuType, widget.userAccount),
+            context, widget.menuType, widget.userAccount, 'next'),
+      );
+    } else if (_scrollController.offset >=
+            _scrollController.position.minScrollExtent &&
+        !_scrollController.position.outOfRange &&
+        _menusProvider.moreAPIRequestStatus != APIRequestStatus.loading) {
+      SchedulerBinding.instance.addPostFrameCallback(
+        (_) => _menusProvider.fetchMoreMenus(
+            context, widget.menuType, widget.userAccount, 'previous'),
       );
     }
   }
@@ -77,6 +87,20 @@ class _MenuTabListingState extends State<MenuTabListing> {
                     padding: EdgeInsets.symmetric(vertical: 30, horizontal: 12),
                     children: [
                       ...menuItems
+                          .where((element) {
+                            if (dietaryRestrictions != null &&
+                                dietaryRestrictions.isNotEmpty)
+                              return dietaryRestrictions.toList() ==
+                                  element.dietaryRestrictions.toList();
+                            else
+                              return true;
+                          })
+                          .where((element) {
+                            if (categories != null && categories.isNotEmpty)
+                              return categories.contains(element.categoryName);
+                            else
+                              return true;
+                          })
                           .map((e) => ListingWidget(
                               menuItem: e, userAccount: widget.userAccount))
                           .toList(),
