@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
+
 import 'package:nuvlemobile/components/widgets/user/myTab/payment/enterCouponButtonSheet.dart';
 import 'package:nuvlemobile/components/widgets/user/myTab/payment/savedCardsBottomSheet.dart';
 import 'package:nuvlemobile/misc/functions.dart';
+import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
 import 'package:nuvlemobile/styles/colors.dart';
 import 'package:nuvlemobile/styles/nuvleIcons.dart';
 
 class PayBottomSheet extends StatefulWidget {
+  final UserAccount userAccount;
   final double amount;
 
-  const PayBottomSheet({Key key, this.amount}) : super(key: key);
+  const PayBottomSheet({
+    Key key,
+    this.userAccount,
+    this.amount,
+  }) : super(key: key);
   @override
   _PayBottomSheetState createState() => _PayBottomSheetState();
 }
@@ -72,7 +79,9 @@ class _PayBottomSheetState extends State<PayBottomSheet> {
                       margin: EdgeInsets.only(bottom: 20),
                       child: FlatButton(
                         onPressed: () => Functions.openBottomSheet(
-                            context, SavedCardsBottomSheet()),
+                            context,
+                            SavedCardsBottomSheet(
+                                userAccount: widget.userAccount)),
                         color: Colors.black,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5)),

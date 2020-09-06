@@ -5,12 +5,16 @@ import 'package:nuvlemobile/misc/functions.dart';
 import 'package:nuvlemobile/models/providers/user/order/orderProvider.dart';
 import 'package:nuvlemobile/models/skeltons/menus/item.dart';
 import 'package:nuvlemobile/models/skeltons/menus/menuData.dart';
+import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
 import 'package:nuvlemobile/pages/user/main/menus/myTab/shareTab.dart';
 import 'package:nuvlemobile/styles/colors.dart';
 import 'package:nuvlemobile/styles/nuvleIcons.dart';
 import 'package:provider/provider.dart';
 
 class MyTab extends StatefulWidget {
+  final UserAccount userAccount;
+
+  const MyTab({Key key, @required this.userAccount}) : super(key: key);
   @override
   _MyTabState createState() => _MyTabState();
 }
@@ -78,8 +82,11 @@ class _MyTabState extends State<MyTab> {
                         ),
                       ),
                       shape: StadiumBorder(),
-                      onPressed: () =>
-                          Functions().transitTo(context, ShareTab()),
+                      onPressed: () => Functions().transitTo(
+                          context,
+                          ShareTab(
+                            userAccount: widget.userAccount,
+                          )),
                     ),
                   ],
                 ),
@@ -205,6 +212,7 @@ class _MyTabState extends State<MyTab> {
                               context,
                               CloseTabBottomSheet(
                                 tab: pro.tab,
+                                userAccount: widget.userAccount,
                               ),
                               true),
                           width: screenSize.width,

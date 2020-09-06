@@ -23,7 +23,7 @@ class UserAccountProvider extends ChangeNotifier {
     } catch (e) {
       print("SHARE PRE $e");
     }
-  } 
+  }
 
   logoutCurrentUser(BuildContext context) async {
     try {
@@ -43,6 +43,7 @@ class UserAccountProvider extends ChangeNotifier {
       if (currentUserDetails != null) {
         _currentUserAccount =
             UserAccount.fromJson(jsonDecode(currentUserDetails));
+        print(_currentUserAccount.attributes.firstname);
         notifyListeners();
         freshFetch();
       } else {
@@ -85,6 +86,13 @@ class UserAccountProvider extends ChangeNotifier {
     _currentUserAccount.tab = tab;
     notifyListeners();
     updateCurrentUserDetailsInPrefs(_currentUserAccount);
+  }
+
+  closeCurrentUserTabs(BuildContext context) async {
+    synchronizeCurrentUser(context);
+    _currentUserAccount.tab = null;
+    notifyListeners();
+    // updateCurrentUserDetailsInPrefs(_currentUserAccount);
   }
 
   updateCurrentUserDetailsInPrefs(UserAccount account) async {

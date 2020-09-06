@@ -207,7 +207,7 @@ class OrderProvider extends ChangeNotifier {
       if (responseBody["success"]) {
         // OrderModel order = OrderModel.fromJson(responseBody["data"]);
         apiRequestModel.isSuccessful = true;
-        _tab.addAll(_orders);
+        _tab.addAll(items);
         _orders.clear();
         // apiRequestModel.result = order;
         notifyListeners();

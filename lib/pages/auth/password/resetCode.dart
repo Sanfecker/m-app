@@ -3,12 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:nuvlemobile/components/inputs/pinInputBox.dart';
 import 'package:nuvlemobile/misc/functions.dart';
+import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
 import 'package:nuvlemobile/pages/auth/login/loginEmail.dart';
 import 'package:nuvlemobile/pages/auth/password/choosePassword.dart';
 import 'package:nuvlemobile/styles/colors.dart';
 import 'package:nuvlemobile/styles/nuvleIcons.dart';
 
 class ResetCode extends StatefulWidget {
+  final UserAccount userAccount;
+
+  const ResetCode({Key key, this.userAccount}) : super(key: key);
   @override
   _ResetCodeState createState() => _ResetCodeState();
 }
@@ -65,8 +69,8 @@ class _ResetCodeState extends State<ResetCode> {
                 hasTextBorderColor: CustomColors.primary,
                 hasError: false,
                 wrapAlignment: WrapAlignment.center,
-                onDone: (text) =>
-                    Functions().navigateTo(context, ChoosePassword()),
+                onDone: (text) => Functions().navigateTo(
+                    context, ChoosePassword(userAccount: widget.userAccount)),
                 pinBoxDecoration:
                     ProvidedPinBoxDecoration.underlinedPinBoxDecoration,
                 pinTextStyle: TextStyle(fontSize: 24),

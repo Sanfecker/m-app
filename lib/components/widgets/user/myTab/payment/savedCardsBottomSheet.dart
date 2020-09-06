@@ -4,6 +4,7 @@ import 'package:nuvlemobile/misc/enum.dart';
 import 'package:nuvlemobile/misc/functions.dart';
 import 'package:nuvlemobile/models/providers/user/order/orderProvider.dart';
 import 'package:nuvlemobile/models/skeltons/payment/paymentCard.dart';
+import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
 import 'package:nuvlemobile/pages/user/main/menus/myTab/payment/paymentComplete.dart';
 import 'package:nuvlemobile/pages/user/scan/learnGroupCode.dart';
 import 'package:nuvlemobile/styles/colors.dart';
@@ -11,6 +12,9 @@ import 'package:nuvlemobile/styles/nuvleIcons.dart';
 import 'package:provider/provider.dart';
 
 class SavedCardsBottomSheet extends StatefulWidget {
+  final UserAccount userAccount;
+
+  const SavedCardsBottomSheet({Key key, this.userAccount}) : super(key: key);
   @override
   _SavedCardsBottomSheetState createState() => _SavedCardsBottomSheetState();
 }
@@ -23,6 +27,7 @@ class _SavedCardsBottomSheetState extends State<SavedCardsBottomSheet> {
         Provider.of<OrderProvider>(context, listen: false);
     _orderProvider.getBill(0);
     _orderProvider.closeTab();
+    widget.userAccount.tab;
     Navigator.popUntil(context, (route) => route.isFirst);
     Functions().scaleTo(context, PaymentComplete());
   }

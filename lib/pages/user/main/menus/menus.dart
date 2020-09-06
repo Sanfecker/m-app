@@ -77,7 +77,11 @@ class _MenusState extends State<Menus> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: GestureDetector(
-        onTap: () => Functions().scaleTo(context, MyTab()),
+        onTap: () => Functions().scaleTo(
+            context,
+            MyTab(
+              userAccount: widget.userAccount,
+            )),
         child: Container(
           decoration: BoxDecoration(
             color: CustomColors.primary100,

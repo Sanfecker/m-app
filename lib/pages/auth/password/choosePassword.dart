@@ -3,11 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:nuvlemobile/components/inputs/inputBox.dart';
 import 'package:nuvlemobile/misc/functions.dart';
+import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
 import 'package:nuvlemobile/pages/auth/login/loginEmail.dart';
 import 'package:nuvlemobile/pages/user/main/mainPage.dart';
 import 'package:nuvlemobile/styles/nuvleIcons.dart';
 
 class ChoosePassword extends StatefulWidget {
+  final UserAccount userAccount;
+
+  const ChoosePassword({Key key, this.userAccount}) : super(key: key);
   @override
   _ChoosePasswordState createState() => _ChoosePasswordState();
 }
@@ -18,7 +22,9 @@ class _ChoosePasswordState extends State<ChoosePassword> {
   _handleSubmitted(BuildContext context) async {
     Functions().transitTo(
       context,
-      MainPage(),
+      MainPage(
+        userAccount: widget.userAccount,
+      ),
     );
   }
 

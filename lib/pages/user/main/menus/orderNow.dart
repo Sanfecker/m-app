@@ -74,10 +74,7 @@ class _OrderNowState extends State<OrderNow> {
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Container(
-            height: widget.menuItem.sides != null &&
-                    widget.menuItem.sides.isNotEmpty
-                ? 1150
-                : MediaQuery.of(context).size.height * 0.8,
+            height: 1150,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -91,6 +88,7 @@ class _OrderNowState extends State<OrderNow> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: widget.menuItem.itemTags
                             .map(
                               (e) => Container(

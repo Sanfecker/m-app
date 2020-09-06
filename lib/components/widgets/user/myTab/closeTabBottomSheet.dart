@@ -4,14 +4,17 @@ import 'package:nuvlemobile/components/widgets/user/myTab/payment/payBottomSheet
 import 'package:nuvlemobile/misc/functions.dart';
 import 'package:nuvlemobile/models/providers/user/order/orderProvider.dart';
 import 'package:nuvlemobile/models/skeltons/menus/menuData.dart';
+import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
 import 'package:nuvlemobile/styles/colors.dart';
 import 'package:nuvlemobile/styles/nuvleIcons.dart';
 import 'package:provider/provider.dart';
 
 class CloseTabBottomSheet extends StatefulWidget {
   final List<MenuItems> tab;
+  final UserAccount userAccount;
 
-  const CloseTabBottomSheet({Key key, @required this.tab}) : super(key: key);
+  const CloseTabBottomSheet({Key key, @required this.tab, this.userAccount})
+      : super(key: key);
   @override
   _CloseTabBottomSheetState createState() => _CloseTabBottomSheetState();
 }
@@ -236,7 +239,10 @@ class _CloseTabBottomSheetState extends State<CloseTabBottomSheet> {
             child: Functions().customButton(
               context,
               onTap: () => Functions.openBottomSheet(
-                  context, PayBottomSheet(amount: total()), true),
+                  context,
+                  PayBottomSheet(
+                      amount: total(), userAccount: widget.userAccount),
+                  true),
               width: screenSize.width,
               text: "Pay",
               specificBorderRadius: BorderRadius.circular(5),
