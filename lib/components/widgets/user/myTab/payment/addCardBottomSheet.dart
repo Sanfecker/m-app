@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_paystack/flutter_paystack.dart';
 import 'package:nuvlemobile/components/inputs/cardInputFormatter.dart';
 import 'package:nuvlemobile/components/inputs/inputBox.dart';
 import 'package:nuvlemobile/misc/functions.dart';
+import 'package:nuvlemobile/payment/paystack/paystack.dart';
 import 'package:nuvlemobile/styles/colors.dart';
 
 class AddCardBottomSheet extends StatefulWidget {
@@ -10,11 +12,23 @@ class AddCardBottomSheet extends StatefulWidget {
   _AddCardBottomSheetState createState() => _AddCardBottomSheetState();
 }
 
+String backendUrl = 'https://nulve-node-api.herokuapp.com/api/v1';
+String paystackPublicKey = 'pk_test_2f74a98a582cce6ae13f49f53ee8375f85832d00';
+const String appName = 'Nuvle';
+
 class _AddCardBottomSheetState extends State<AddCardBottomSheet> {
   FocusNode cardNumFN = FocusNode();
   FocusNode expiryDateFN = FocusNode();
   FocusNode cvvFN = FocusNode();
   FocusNode pinFN = FocusNode();
+
+  CheckoutMethod _method;
+  bool _inProgress = false;
+  String _cardNumber;
+  String _cvv;
+  int _expiryMonth = 0;
+  int _expiryYear = 0;
+  int _pin;
 
   @override
   void dispose() {
@@ -27,6 +41,12 @@ class _AddCardBottomSheetState extends State<AddCardBottomSheet> {
 
   _handleSubmitted(BuildContext context) async {
     Navigator.pop(context);
+  }
+
+  @override
+  void initState() {
+    PaystackPlugin.initialize(publicKey: paystackPublicKey);
+    super.initState();
   }
 
   @override
@@ -88,12 +108,19 @@ class _AddCardBottomSheetState extends State<AddCardBottomSheet> {
                 InputBox(
                   bottomMargin: 25,
                   hintText: "xxxx - xxxx - xxxx - xxxx",
+                  hintStyle: TextStyle(
+                    color: Color(0xffF2F2F9),
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                  ),
                   textStyle: TextStyle(
                     fontSize: 24,
-                    letterSpacing: -0.28,
+                    letterSpacing: 1.8,
                     color: Color(0xffF2F2F9),
                   ),
-                  onSaved: (String val) {},
+                  onSaved: (String val) {
+                    _cardNumber = val;
+                  },
                   contentPadding: EdgeInsets.zero,
                   enabledBorderColor: Colors.white,
                   textInputType: TextInputType.number,
@@ -130,13 +157,16 @@ class _AddCardBottomSheetState extends State<AddCardBottomSheet> {
                             ),
                             InputBox(
                               bottomMargin: 25,
-                              hintText: "xx/xx",
                               textStyle: TextStyle(
                                 fontSize: 24,
-                                letterSpacing: -0.28,
+                                letterSpacing: 1.8,
                                 color: Color(0xffF2F2F9),
                               ),
-                              onSaved: (String val) {},
+                              onSaved: (String val) {
+                                List<String> sp = val.split(' / ');
+                                _expiryMonth = int.parse(sp[0]);
+                                _expiryYear = int.parse(sp[1]);
+                              },
                               contentPadding: EdgeInsets.zero,
                               enabledBorderColor: Colors.white,
                               textInputType: TextInputType.number,
@@ -174,7 +204,6 @@ class _AddCardBottomSheetState extends State<AddCardBottomSheet> {
                           ),
                           InputBox(
                             bottomMargin: 25,
-                            hintText: "xxx",
                             textStyle: TextStyle(
                               fontSize: 24,
                               letterSpacing: -0.28,
@@ -186,7 +215,9 @@ class _AddCardBottomSheetState extends State<AddCardBottomSheet> {
                                 FocusScope.of(context).requestFocus(pinFN);
                               }
                             },
-                            onSaved: (String val) {},
+                            onSaved: (String val) {
+                              _cvv = val;
+                            },
                             contentPadding: EdgeInsets.zero,
                             enabledBorderColor: Colors.white,
                             textInputType: TextInputType.number,
@@ -217,12 +248,15 @@ class _AddCardBottomSheetState extends State<AddCardBottomSheet> {
                           InputBox(
                             bottomMargin: 25,
                             hintText: "xxxx",
+                            obscureText: true,
                             textStyle: TextStyle(
                               fontSize: 24,
                               letterSpacing: -0.28,
                               color: Color(0xffF2F2F9),
                             ),
-                            onSaved: (String val) {},
+                            onSaved: (String val) {
+                              _pin = int.parse(val);
+                            },
                             contentPadding: EdgeInsets.zero,
                             enabledBorderColor: Colors.white,
                             textInputType: TextInputType.number,
@@ -251,7 +285,10 @@ class _AddCardBottomSheetState extends State<AddCardBottomSheet> {
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Functions().customButton(
               context,
-              onTap: () => _handleSubmitted(context),
+              // onTap: () => _handleSubmitted(context),
+              onTap: () {
+                Functions().navigateTo(context, Paystack());
+              },
               width: screenSize.width,
               text: "Add Card",
               specificBorderRadius: BorderRadius.circular(5),

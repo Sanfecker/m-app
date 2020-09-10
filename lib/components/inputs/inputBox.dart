@@ -17,6 +17,7 @@ class InputBox extends StatelessWidget {
   final bool obscureText, enableSuggestions;
   final double bottomMargin;
   final TextStyle textStyle;
+  final TextStyle hintStyle;
   final FormFieldValidator<String> validateFunction;
   final void Function(String) onSaved, onChange;
   final Key key;
@@ -57,7 +58,8 @@ class InputBox extends StatelessWidget {
     this.onChange,
     this.onSaved,
     this.enabledBorderColor = CustomColors.primary,
-    this. contentPadding = const EdgeInsets.symmetric(horizontal: 20),
+    this.contentPadding = const EdgeInsets.symmetric(horizontal: 20),
+    this.hintStyle,
   });
 
   @override
@@ -107,11 +109,13 @@ class InputBox extends StatelessWidget {
             enableSuggestions: enableSuggestions,
             decoration: InputDecoration(
               icon: icon,
-              hintStyle: TextStyle(
-                color: Colors.grey[800],
-                fontSize: 15,
-                letterSpacing: 1,
-              ),
+              hintStyle: hintStyle == null
+                  ? TextStyle(
+                      color: Colors.grey[800],
+                      fontSize: 15,
+                      letterSpacing: 1,
+                    )
+                  : hintStyle,
               hintText: hintText,
               prefix: prefix,
               prefixIcon: prefixIcon != null

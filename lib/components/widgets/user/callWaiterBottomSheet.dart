@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:nuvlemobile/components/buttons/circledButtonWithArrow.dart';
 import 'package:nuvlemobile/components/curves/curveWave.dart';
 import 'package:nuvlemobile/components/painters/circlePainter.dart';
+import 'package:nuvlemobile/misc/functions.dart';
+import 'package:nuvlemobile/models/providers/socket/socket_provider.dart';
 import 'package:nuvlemobile/styles/colors.dart';
 import 'package:nuvlemobile/styles/nuvleIcons.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CallWaiterBottomSheet extends StatefulWidget {
@@ -87,15 +90,22 @@ class _CallWaiterBottomSheetState extends State<CallWaiterBottomSheet>
               child: Center(
                 child: Column(
                   children: <Widget>[
-                    CustomPaint(
-                      painter: CirclePainter(
-                        _controller,
-                        color: CustomColors.primary100,
-                      ),
-                      child: SizedBox(
-                        width: 80 * 4.125,
-                        height: 80 * 4.125,
-                        child: _button(),
+                    InkWell(
+                      onLongPress: () {
+                        SocketProvider provider =
+                            Provider.of<SocketProvider>(context, listen: false);
+                        provider.connect1();
+                      },
+                      child: CustomPaint(
+                        painter: CirclePainter(
+                          _controller,
+                          color: CustomColors.primary100,
+                        ),
+                        child: SizedBox(
+                          width: 80 * 4.125,
+                          height: 80 * 4.125,
+                          child: _button(),
+                        ),
                       ),
                     ),
                     SizedBox(height: 30),

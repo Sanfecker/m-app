@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:nuvlemobile/components/icons/callWaiterIcon.dart';
 import 'package:nuvlemobile/components/inputs/inputBox.dart';
-import 'package:nuvlemobile/components/widgets/user/sidesBottomSheet.dart';
 import 'package:nuvlemobile/misc/functions.dart';
 import 'package:nuvlemobile/misc/settings.dart';
 import 'package:nuvlemobile/models/providers/user/order/orderProvider.dart';
@@ -84,6 +83,7 @@ class _OrderItemState extends State<OrderItem> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: widget.menuItem.itemTags
                         .map(
                           (e) => Container(
@@ -220,7 +220,13 @@ class _OrderItemState extends State<OrderItem> {
               ),
             ),
             if (widget.menuItem.cookingPreferences != null &&
-                widget.menuItem.cookingPreferences.isNotEmpty)
+                widget.menuItem.cookingPreferences.isNotEmpty &&
+                widget.menuItem.cookingPreferences.any((element) {
+                  if (element != '')
+                    return true;
+                  else
+                    return false;
+                }))
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -239,6 +245,7 @@ class _OrderItemState extends State<OrderItem> {
                         child: Wrap(
                           spacing: 18,
                           children: widget.menuItem.cookingPreferences
+                              .where((element) => element != '')
                               .map(
                                 (e) => Consumer<OrderProvider>(
                                     builder: (context, pro, child) {
@@ -251,9 +258,7 @@ class _OrderItemState extends State<OrderItem> {
                                               .selectedCookingPreference
                                               .toLowerCase() ==
                                           e.toLowerCase()
-                                      : widget.menuItem.cookingPreferences
-                                              .first ==
-                                          e.toLowerCase();
+                                      : false;
                                   return FlatButton(
                                     color: isMarked
                                         ? Color(0xffCFB06F)
@@ -267,7 +272,17 @@ class _OrderItemState extends State<OrderItem> {
                                           letterSpacing: 0.3,
                                           fontSize: 13),
                                     ),
-                                    shape: StadiumBorder(),
+                                    shape: StadiumBorder(
+                                        side: pro
+                                                    .getSingleItem(
+                                                        widget.menuItem)
+                                                    .selectedCookingPreference ==
+                                                null
+                                            ? BorderSide(
+                                                color: Colors.red,
+                                                width: 2,
+                                              )
+                                            : BorderSide.none),
                                     onPressed: () =>
                                         pro.changeCookingPreference(
                                             widget.menuItem, e),
@@ -341,6 +356,10 @@ class _OrderItemState extends State<OrderItem> {
                 hintText: "Any preference",
                 textInputType: TextInputType.text,
                 textInputAction: TextInputAction.done,
+                onChange: (String val) {
+                  Provider.of<OrderProvider>(context, listen: false)
+                      .saveOrderNote(val, widget.menuItem);
+                },
                 onSaved: (String val) {
                   Provider.of<OrderProvider>(context, listen: false)
                       .saveOrderNote(val, widget.menuItem);

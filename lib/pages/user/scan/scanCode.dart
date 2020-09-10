@@ -1,17 +1,14 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:nuvlemobile/misc/settings.dart';
 import 'package:nuvlemobile/misc/functions.dart';
+import 'package:nuvlemobile/models/providers/socket/socket_provider.dart';
 import 'package:nuvlemobile/models/providers/user/tabProvider.dart';
 import 'package:nuvlemobile/models/providers/user/userAccountProvider.dart';
 import 'package:nuvlemobile/models/skeltons/api/apiRequestModel.dart';
 import 'package:nuvlemobile/models/skeltons/user/scanResponse.dart';
 import 'package:nuvlemobile/models/skeltons/user/tab.dart';
 import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
-import 'package:nuvlemobile/pages/user/main/mainPage.dart';
 import 'package:nuvlemobile/pages/user/scan/scanissuccess.dart';
 import 'package:nuvlemobile/pages/user/scan/learnGroupCode.dart';
 import 'package:nuvlemobile/styles/colors.dart';
@@ -19,10 +16,7 @@ import 'package:nuvlemobile/styles/nuvleIcons.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:nuvlemobile/pages/user/scan/scanSuccessful.dart';
-import 'package:nuvlemobile/models/providers/mainPageProvider.dart';
-import 'package:nuvlemobile/models/providers/user/order/orderProvider.dart';
-import 'package:nuvlemobile/pages/user/main/menus/orderComplete.dart';
-import 'package:page_transition/page_transition.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class ScanCodePage extends StatefulWidget {
   final UserAccount userAccount;
@@ -34,6 +28,28 @@ class ScanCodePage extends StatefulWidget {
 }
 
 class _ScanCodePageState extends State<ScanCodePage> {
+  static final String baseUrl = 'https://nulve-node-api.herokuapp.com/api/v1';
+
+  IO.Socket socket = IO.io(baseUrl, <String, dynamic>{
+    'transports': ['websocket'],
+  });
+
+  void connect() {
+    socket.connect();
+    // socket.emit('init');
+  }
+
+  void createTab(String tableID, String restaurantID, String userID) {
+    Map<String, dynamic> map = {
+      "restaurant_id": restaurantID,
+      "table": tableID,
+      "user": userID,
+    };
+
+    socket.emit('open_tab', map);
+    print('emitt');
+  }
+
   QRViewController controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
 
@@ -48,8 +64,10 @@ class _ScanCodePageState extends State<ScanCodePage> {
     Functions().showLoadingDialog(context);
     try {
       ApiRequestModel apiRequestModel =
-          await Provider.of<TabProvider>(context, listen: false)
-              .joinTabByCode(code, widget.userAccount);
+          await Provider.of<TabProvider>(context, listen: false).joinTabByCode(
+              code,
+              widget.userAccount,
+              Provider.of<SocketProvider>(context, listen: false));
       if (apiRequestModel.isSuccessful) {
         TabModel tab = apiRequestModel.result;
         widget.userAccount.tab = tab;
@@ -173,6 +191,7 @@ class _ScanCodePageState extends State<ScanCodePage> {
                                   ScanResponse scanResponse =
                                       ScanResponse.fromJson(responseBody);
                                   Functions().showLoadingDialog(context);
+                                  print(scanResponse.restaurantId);
                                   try {
                                     ApiRequestModel apiRequestModel =
                                         await Provider.of<TabProvider>(context,
@@ -180,11 +199,19 @@ class _ScanCodePageState extends State<ScanCodePage> {
                                             .createTab(scanResponse,
                                                 widget.userAccount);
                                     if (apiRequestModel.isSuccessful) {
+                                      connect();
+                                      createTab(
+                                          responseBody['table_id'],
+                                          responseBody['restaurant_id'],
+                                          widget.userAccount.id);
                                       TabModel tab = apiRequestModel.result;
                                       widget.userAccount.tab = tab;
                                       Provider.of<UserAccountProvider>(context,
                                               listen: false)
                                           .setCurrentUserTabs(tab);
+                                      Provider.of<SocketProvider>(context,
+                                              listen: false)
+                                          .closeTab();
                                       Functions().scaleToReplace(
                                           context,
                                           ScanSuccessful(

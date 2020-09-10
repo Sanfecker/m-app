@@ -1,13 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_paystack/flutter_paystack.dart';
+import 'package:geocoder/geocoder.dart';
 import 'package:nuvlemobile/components/inputs/inputBox.dart';
 import 'package:nuvlemobile/components/widgets/user/myTab/payment/payBottomSheet.dart';
 import 'package:nuvlemobile/misc/functions.dart';
+import 'package:nuvlemobile/misc/settings.dart';
 import 'package:nuvlemobile/models/providers/user/order/orderProvider.dart';
+import 'package:nuvlemobile/models/providers/user/userAccountProvider.dart';
 import 'package:nuvlemobile/models/skeltons/menus/menuData.dart';
 import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
+import 'package:nuvlemobile/pages/user/main/menus/myTab/payment/paymentComplete.dart';
+import 'package:nuvlemobile/payment/paystack/paystack.dart';
+import 'package:nuvlemobile/payment/stripe/stripe.dart';
 import 'package:nuvlemobile/styles/colors.dart';
 import 'package:nuvlemobile/styles/nuvleIcons.dart';
 import 'package:provider/provider.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:stripe_payment/stripe_payment.dart';
 
 class CloseTabBottomSheet extends StatefulWidget {
   final List<MenuItems> tab;
@@ -22,6 +31,40 @@ class CloseTabBottomSheet extends StatefulWidget {
 class _CloseTabBottomSheetState extends State<CloseTabBottomSheet> {
   String _selectedTip = "No Tip";
   TextEditingController controller = TextEditingController();
+
+  _handleCheckout(int bill, BuildContext context) async {
+    Charge charge = Charge()
+      ..amount = bill // In base currency
+      ..email = widget.userAccount.attributes.email;
+    // ..card = _getCardFromUI();
+    // Functions().navigateTo(context, Paystack());
+    charge.reference = DateTime.now().millisecondsSinceEpoch.toString();
+    try {
+      CheckoutResponse response = await PaystackPlugin.checkout(
+        context,
+        method: CheckoutMethod.card,
+        charge: charge,
+        fullscreen: false,
+        logo: Image.asset(
+          Settings.placeholderImageSmall,
+          height: 50,
+          width: 50,
+        ),
+      );
+      print('Response = $response');
+      if (response.message == 'Success') {
+        Functions().navigateTo(context, PaymentComplete());
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  payWithNewCard() async {
+    var paymentMethod = await StripePayment.paymentRequestWithCardForm(
+        CardFormPaymentRequest());
+    // var paymentIntent = await Stripe
+  }
 
   double total() {
     OrderProvider _orderProvider =
@@ -40,9 +83,39 @@ class _CloseTabBottomSheetState extends State<CloseTabBottomSheet> {
     return result;
   }
 
+  String location;
+  bool getLocation() {
+    checkPermission().then((value) {
+      if (value == LocationPermission.denied) {
+        requestPermission();
+      }
+    });
+    try {
+      getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+          .then((value) async {
+        List<Address> placemark = await Geocoder.local
+            .findAddressesFromCoordinates(
+                Coordinates(value.latitude, value.longitude));
+
+        location = placemark[0].countryName;
+        print(location);
+      });
+    } catch (e) {
+      print(e);
+    }
+    return location == 'Nigeria';
+  }
+
   @override
   void initState() {
-    controller.text = "250";
+    getLocation()
+        ? PaystackPlugin.initialize(publicKey: paystackPublicKey)
+        : StripePayment.setOptions(StripeOptions(
+            publishableKey:
+                "pk_test_51HBKGCAEqZIazashJa8IJ1IRT8j7m8CdmfuomZGRUCEF7lHjt2HltE4nem5GkiFhaWm3F79eDXr75U6un9mmy0Dg00ZaLbhqv7",
+            merchantId: "Test",
+            androidPayMode: 'test'));
+
     super.initState();
   }
 
@@ -118,8 +191,12 @@ class _CloseTabBottomSheetState extends State<CloseTabBottomSheet> {
                                     width: 75,
                                     child: _selectedTip == e
                                         ? FlatButton(
-                                            onPressed: () => setState(
-                                                () => _selectedTip = e),
+                                            onPressed: () => setState(() {
+                                              _selectedTip = e;
+                                              if (e != 'No Tip') {
+                                                controller.clear();
+                                              }
+                                            }),
                                             padding: EdgeInsets.symmetric(
                                                 horizontal: 4),
                                             color: Color(0xffD4B471),
@@ -136,8 +213,12 @@ class _CloseTabBottomSheetState extends State<CloseTabBottomSheet> {
                                             ),
                                           )
                                         : OutlineButton(
-                                            onPressed: () => setState(
-                                                () => _selectedTip = e),
+                                            onPressed: () => setState(() {
+                                              _selectedTip = e;
+                                              if (e != 'No Tip') {
+                                                controller.clear();
+                                              }
+                                            }),
                                             color: Color(0xffD4B471),
                                             padding: EdgeInsets.symmetric(
                                                 horizontal: 4),
@@ -184,7 +265,9 @@ class _CloseTabBottomSheetState extends State<CloseTabBottomSheet> {
                       textInputType: TextInputType.number,
                       textInputAction: TextInputAction.done,
                       onSaved: (String val) {},
-                      onChange: (a) => setState(() {}),
+                      onChange: (a) => setState(() {
+                        _selectedTip = 'No Tip';
+                      }),
                       contentPadding: EdgeInsets.zero,
                       enabledBorderColor: Colors.white,
                     ),
@@ -233,26 +316,49 @@ class _CloseTabBottomSheetState extends State<CloseTabBottomSheet> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 20,
-            ),
-            child: Functions().customButton(
-              context,
-              onTap: () => Functions.openBottomSheet(
-                  context,
-                  PayBottomSheet(
-                      amount: total(), userAccount: widget.userAccount),
-                  true),
-              width: screenSize.width,
-              text: "Pay",
-              specificBorderRadius: BorderRadius.circular(5),
-              hasIcon: true,
-              trailing: Icon(
-                NuvleIcons.icon_right,
-                color: Color(0xff474551),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 20,
               ),
-            ),
-          ),
+              child: Consumer<UserAccountProvider>(
+                builder: (context, pro, child) => Functions().customButton(
+                  context,
+                  // onTap: () => Functions.openBottomSheet(
+                  //     context,
+                  //     PayBottomSheet(
+                  //         amount: total(), userAccount: widget.userAccount),
+                  //     true),
+                  onTap: () {
+                    if (getLocation()) {
+                      _handleCheckout((total() * 100).round(), context);
+                    } else {
+                      StripePayment.paymentRequestWithNativePay(
+                        androidPayOptions: AndroidPayPaymentRequest(
+                          totalPrice: "${total() * 100}",
+                          currencyCode: getLocation() ? 'NGN' : 'USD',
+                        ),
+                        applePayOptions: ApplePayPaymentOptions(
+                          countryCode: getLocation() ? 'NG' : 'US',
+                          currencyCode: getLocation() ? 'NGN' : 'USD',
+                          items: [
+                            ApplePayItem(
+                              // label: 'Test',
+                              amount: "${total() * 100}",
+                            )
+                          ],
+                        ),
+                      );
+                    }
+                  },
+                  width: screenSize.width,
+                  text: "Pay",
+                  specificBorderRadius: BorderRadius.circular(5),
+                  hasIcon: true,
+                  trailing: Icon(
+                    NuvleIcons.icon_right,
+                    color: Color(0xff474551),
+                  ),
+                ),
+              )),
           SizedBox(
             height: 20,
           )

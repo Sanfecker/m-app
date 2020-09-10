@@ -1,6 +1,7 @@
 import 'package:nuvlemobile/models/providers/homePageProvider.dart';
 import 'package:nuvlemobile/models/providers/mainPageProvider.dart';
 import 'package:nuvlemobile/models/providers/menus/menusProvider.dart';
+import 'package:nuvlemobile/models/providers/socket/socket_provider.dart';
 import 'package:nuvlemobile/models/providers/user/order/orderProvider.dart';
 import 'package:nuvlemobile/models/providers/onBoardProvider.dart';
 import 'package:nuvlemobile/models/providers/user/supportTicketProvider.dart';
@@ -22,4 +23,6 @@ final registerProviders = <SingleChildWidget>[
   //MENUS
   ChangeNotifierProvider(create: (_) => MenusProvider()),
   ChangeNotifierProvider(create: (_) => OrderProvider()),
+
+  ChangeNotifierProvider(create: (_) => SocketProvider()),
 ];
