@@ -1,13 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_socket_io/flutter_socket_io.dart';
-import 'package:flutter_socket_io/socket_io_manager.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:socket_io_client/socket_io_client.dart' as IOS;
-import 'package:web_socket_channel/status.dart' as status;
 
-import 'package:web_socket_channel/io.dart';
 
 class SocketProvider extends ChangeNotifier {
   static final String baseUrl = 'https://nulve-node-api.herokuapp.com/api/v1';
@@ -68,18 +64,6 @@ class SocketProvider extends ChangeNotifier {
     });
     notifyListeners();
     print('emitt');
-  }
-
-  void callWaiter2() {
-    final String baseUrl =
-        'https://nulve-node-api.herokuapp.com/api/v1/request_waiter';
-    final channel = IOWebSocketChannel.connect(baseUrl);
-
-    channel.stream.listen((message) {
-      channel.sink.add({'id': '5f07e5b364e680e03b9fc676'});
-      print(message);
-      channel.sink.close(status.goingAway);
-    });
   }
 
   void callWaiter() {
@@ -165,50 +149,14 @@ class SocketProvider extends ChangeNotifier {
     });
   }
 
-  SocketIO socketIO;
-  connectSocket01() async {
-    //update your domain before using
-    socketIO = SocketIOManager().createSocketIO(baseUrl, "/request_waiter",
-        query: "id=5f07e5b364e680e03b9fc676",
-        socketStatusCallback: _socketStatus);
-
-    //call init socket before doing anything
-    await socketIO.init();
-
-    //subscribe event
-    // socketIO.subscribe("socket_info", _onSocketInfo);
-
-    //connect socket
-    await socketIO.connect();
-    await socketIO.sendMessage('request_waiter', '{"id": "$_tableID"}');
-    _subscribes();
-  }
-
   _socketStatus(dynamic data) {
     print("Socket status: " + data);
   }
 
-  _subscribes() {
-    if (socketIO != null) {
-      socketIO.subscribe("request_waiter", _onReceiveChatMessage);
-    }
-  }
 
   void _onReceiveChatMessage(dynamic message) {
     print("Message from UFO: " + message);
   }
 
-  void _sendChatMessage(String msg) async {
-    if (socketIO != null) {
-      String jsonData =
-          '{"message":{"type":"Text","content": ${(msg != null && msg.isNotEmpty) ? '"${msg}"' : '"Hello SOCKET IO PLUGIN :))"'},"owner":"589f10b9bbcd694aa570988d","avatar":"img/avatar-default.png"},"sender":{"userId":"589f10b9bbcd694aa570988d","first":"Ha","last":"Test 2","location":{"lat":10.792273999999999,"long":106.6430356,"accuracy":38,"regionId":null,"vendor":"gps","verticalAccuracy":null},"name":"Ha Test 2"},"receivers":["587e1147744c6260e2d3a4af"],"conversationId":"589f116612aa254aa4fef79f","name":null,"isAnonymous":null}';
-      socketIO.sendMessage("chat_direct", jsonData, _onReceiveChatMessage);
-    }
-  }
 
-  _destroySocket() {
-    if (socketIO != null) {
-      SocketIOManager().destroySocket(socketIO);
-    }
-  }
 }

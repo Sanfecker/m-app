@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:nuvlemobile/components/buttons/circledButtonWithArrow.dart';
-import 'package:nuvlemobile/components/curves/curveWave.dart';
-import 'package:nuvlemobile/components/painters/circlePainter.dart';
-import 'package:nuvlemobile/misc/functions.dart';
-import 'package:nuvlemobile/models/providers/socket/socket_provider.dart';
-import 'package:nuvlemobile/styles/colors.dart';
-import 'package:nuvlemobile/styles/nuvleIcons.dart';
+import 'package:Nuvle/components/buttons/circledButtonWithArrow.dart';
+import 'package:Nuvle/components/curves/curveWave.dart';
+import 'package:Nuvle/components/painters/circlePainter.dart';
+import 'package:Nuvle/misc/functions.dart';
+import 'package:Nuvle/models/providers/socket/socket_provider.dart';
+import 'package:Nuvle/styles/colors.dart';
+import 'package:Nuvle/styles/nuvleIcons.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 

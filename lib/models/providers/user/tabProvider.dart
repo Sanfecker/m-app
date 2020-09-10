@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:nuvlemobile/api/apiRequests.dart';
-import 'package:nuvlemobile/misc/validations.dart';
-import 'package:nuvlemobile/models/providers/socket/socket_provider.dart';
-import 'package:nuvlemobile/models/skeltons/api/apiRequestModel.dart';
-import 'package:nuvlemobile/models/skeltons/user/scanResponse.dart';
-import 'package:nuvlemobile/models/skeltons/user/tab.dart';
-import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
+import 'package:Nuvle/api/apiRequests.dart';
+import 'package:Nuvle/misc/validations.dart';
+import 'package:Nuvle/models/providers/socket/socket_provider.dart';
+import 'package:Nuvle/models/skeltons/api/apiRequestModel.dart';
+import 'package:Nuvle/models/skeltons/user/scanResponse.dart';
+import 'package:Nuvle/models/skeltons/user/tab.dart';
+import 'package:Nuvle/models/skeltons/user/userAccount.dart';
 import 'package:provider/provider.dart';
 
 class TabProvider extends ChangeNotifier {

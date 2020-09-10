@@ -1,5 +1,5 @@
-import 'package:nuvlemobile/misc/enum.dart';
-import 'package:nuvlemobile/models/skeltons/api/apiRequestModel.dart';
+import 'package:Nuvle/misc/enum.dart';
+import 'package:Nuvle/models/skeltons/api/apiRequestModel.dart';
 
 class Validations {
   String validateName(String value) {

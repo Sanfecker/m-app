@@ -1,21 +1,21 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:nuvlemobile/misc/functions.dart';
-import 'package:nuvlemobile/models/providers/socket/socket_provider.dart';
-import 'package:nuvlemobile/models/providers/user/tabProvider.dart';
-import 'package:nuvlemobile/models/providers/user/userAccountProvider.dart';
-import 'package:nuvlemobile/models/skeltons/api/apiRequestModel.dart';
-import 'package:nuvlemobile/models/skeltons/user/scanResponse.dart';
-import 'package:nuvlemobile/models/skeltons/user/tab.dart';
-import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
-import 'package:nuvlemobile/pages/user/scan/scanissuccess.dart';
-import 'package:nuvlemobile/pages/user/scan/learnGroupCode.dart';
-import 'package:nuvlemobile/styles/colors.dart';
-import 'package:nuvlemobile/styles/nuvleIcons.dart';
+import 'package:Nuvle/misc/functions.dart';
+import 'package:Nuvle/models/providers/socket/socket_provider.dart';
+import 'package:Nuvle/models/providers/user/tabProvider.dart';
+import 'package:Nuvle/models/providers/user/userAccountProvider.dart';
+import 'package:Nuvle/models/skeltons/api/apiRequestModel.dart';
+import 'package:Nuvle/models/skeltons/user/scanResponse.dart';
+import 'package:Nuvle/models/skeltons/user/tab.dart';
+import 'package:Nuvle/models/skeltons/user/userAccount.dart';
+import 'package:Nuvle/pages/user/scan/scanissuccess.dart';
+import 'package:Nuvle/pages/user/scan/learnGroupCode.dart';
+import 'package:Nuvle/styles/colors.dart';
+import 'package:Nuvle/styles/nuvleIcons.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:nuvlemobile/pages/user/scan/scanSuccessful.dart';
+import 'package:Nuvle/pages/user/scan/scanSuccessful.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class ScanCodePage extends StatefulWidget {

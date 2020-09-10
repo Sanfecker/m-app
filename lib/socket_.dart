@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:nuvlemobile/models/providers/socket/socket_provider.dart';
-import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
+import 'package:Nuvle/models/providers/socket/socket_provider.dart';
+import 'package:Nuvle/models/skeltons/user/userAccount.dart';
 import 'package:provider/provider.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
@@ -40,6 +40,7 @@ class _SocketConState extends State<SocketCon> {
       provider.createTab(scanResponse.tableId, scanResponse.restaurantId,
           widget.userAccount.id);
       dynamic val = await provider.listenOpenTab();
+      provider.listenOpenTabError();
       print('listening to tab');
       print(val);
     }

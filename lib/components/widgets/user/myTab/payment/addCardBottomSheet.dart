@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_paystack/flutter_paystack.dart';
-import 'package:nuvlemobile/components/inputs/cardInputFormatter.dart';
-import 'package:nuvlemobile/components/inputs/inputBox.dart';
-import 'package:nuvlemobile/misc/functions.dart';
-import 'package:nuvlemobile/payment/paystack/paystack.dart';
-import 'package:nuvlemobile/styles/colors.dart';
+import 'package:Nuvle/components/inputs/cardInputFormatter.dart';
+import 'package:Nuvle/components/inputs/inputBox.dart';
+import 'package:Nuvle/misc/functions.dart';
+import 'package:Nuvle/payment/paystack/paystack.dart';
+import 'package:Nuvle/styles/colors.dart';
 
 class AddCardBottomSheet extends StatefulWidget {
   @override

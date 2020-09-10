@@ -1,19 +1,18 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:nuvlemobile/models/skeltons/menus/menuData.dart';
-import 'package:nuvlemobile/pages/user/main/menus/editOrderDetails.dart';
-import 'package:nuvlemobile/pages/user/main/menus/orderItem.dart';
-import 'package:nuvlemobile/styles/colors.dart';
-import 'package:nuvlemobile/styles/nuvleIcons.dart';
+import 'package:Nuvle/models/skeltons/menus/menuData.dart';
+import 'package:Nuvle/pages/user/main/menus/editOrderDetails.dart';
+import 'package:Nuvle/styles/colors.dart';
+import 'package:Nuvle/styles/nuvleIcons.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
-import 'package:nuvlemobile/misc/functions.dart';
-import 'package:nuvlemobile/misc/settings.dart';
-import 'package:nuvlemobile/models/providers/user/order/orderProvider.dart';
-import 'package:nuvlemobile/models/skeltons/api/apiRequestModel.dart';
-import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
+import 'package:Nuvle/misc/functions.dart';
+import 'package:Nuvle/misc/settings.dart';
+import 'package:Nuvle/models/providers/user/order/orderProvider.dart';
+import 'package:Nuvle/models/skeltons/api/apiRequestModel.dart';
+import 'package:Nuvle/models/skeltons/user/userAccount.dart';
 
 import 'orderComplete.dart';
 
@@ -78,32 +77,7 @@ class OrderPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: GestureDetector(
-          onTap: () => Navigator.pop(context),
-          child: Row(
-            children: [
-              SizedBox(
-                width: 14,
-              ),
-              Icon(
-                Icons.arrow_back_ios_rounded,
-                color: Color(0xffe5c27a),
-                size: 25,
-              ),
-              // Spacer(),
-              Text(
-                'Back',
-                style: TextStyle(
-                  color: Color(0xffe5c27a),
-                  fontSize: 14,
-                  letterSpacing: 1,
-                ),
-              )
-            ],
-          ),
-        ),
         elevation: 0,
-        leadingWidth: 74,
       ),
       body: Container(
         height: double.infinity,
@@ -201,7 +175,7 @@ class OrderPage extends StatelessWidget {
                               ),
                             ),
                             Icon(
-                              Icons.arrow_forward_ios_rounded,
+                              Icons.arrow_forward_ios,
                               color: isDone(e) || e.note == null
                                   ? Colors.red
                                   : Color(0xffd2b271),

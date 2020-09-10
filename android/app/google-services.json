@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:412057286922:android:6685f0a4874dec6433e2f3",
         "android_client_info": {
-          "package_name": "com.firebrainsgrp.nuvlemobile"
+          "package_name": "com.firebrainsgrp.Nuvle"
         }
       },
       "oauth_client": [
@@ -35,7 +35,7 @@
               "client_id": "412057286922-ods0p36jf4dkl33f5qgpg5c9jrdsbe5l.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.firebrainsgrp.nuvlemobile"
+                "bundle_id": "com.firebrainsgrp.Nuvle"
               }
             }
           ]

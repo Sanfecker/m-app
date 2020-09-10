@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:nuvlemobile/components/animations/scaleTransition.dart';
-import 'package:nuvlemobile/styles/colors.dart';
+import 'package:Nuvle/components/animations/scaleTransition.dart';
+import 'package:Nuvle/styles/colors.dart';
 import 'package:page_transition/page_transition.dart';
 
 class Functions {

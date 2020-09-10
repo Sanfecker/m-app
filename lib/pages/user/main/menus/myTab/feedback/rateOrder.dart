@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:nuvlemobile/components/icons/callWaiterIcon.dart';
-import 'package:nuvlemobile/misc/functions.dart';
-import 'package:nuvlemobile/models/providers/user/order/orderProvider.dart';
-import 'package:nuvlemobile/models/skeltons/menus/item.dart';
-import 'package:nuvlemobile/models/skeltons/menus/menuData.dart';
-import 'package:nuvlemobile/styles/nuvleIcons.dart';
+import 'package:Nuvle/components/icons/callWaiterIcon.dart';
+import 'package:Nuvle/misc/functions.dart';
+import 'package:Nuvle/models/providers/user/order/orderProvider.dart';
+import 'package:Nuvle/models/skeltons/menus/item.dart';
+import 'package:Nuvle/models/skeltons/menus/menuData.dart';
+import 'package:Nuvle/styles/nuvleIcons.dart';
 import 'package:provider/provider.dart';
 
 class RateOrder extends StatefulWidget {

@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_paystack/flutter_paystack.dart';
 import 'package:geocoder/geocoder.dart';
-import 'package:nuvlemobile/components/inputs/inputBox.dart';
-import 'package:nuvlemobile/components/widgets/user/myTab/payment/payBottomSheet.dart';
-import 'package:nuvlemobile/misc/functions.dart';
-import 'package:nuvlemobile/misc/settings.dart';
-import 'package:nuvlemobile/models/providers/user/order/orderProvider.dart';
-import 'package:nuvlemobile/models/providers/user/userAccountProvider.dart';
-import 'package:nuvlemobile/models/skeltons/menus/menuData.dart';
-import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
-import 'package:nuvlemobile/pages/user/main/menus/myTab/payment/paymentComplete.dart';
-import 'package:nuvlemobile/payment/paystack/paystack.dart';
-import 'package:nuvlemobile/payment/stripe/stripe.dart';
-import 'package:nuvlemobile/styles/colors.dart';
-import 'package:nuvlemobile/styles/nuvleIcons.dart';
+import 'package:Nuvle/components/inputs/inputBox.dart';
+import 'package:Nuvle/components/widgets/user/myTab/payment/payBottomSheet.dart';
+import 'package:Nuvle/misc/functions.dart';
+import 'package:Nuvle/misc/settings.dart';
+import 'package:Nuvle/models/providers/user/order/orderProvider.dart';
+import 'package:Nuvle/models/providers/user/userAccountProvider.dart';
+import 'package:Nuvle/models/skeltons/menus/menuData.dart';
+import 'package:Nuvle/models/skeltons/user/userAccount.dart';
+import 'package:Nuvle/pages/user/main/menus/myTab/payment/paymentComplete.dart';
+import 'package:Nuvle/payment/paystack/paystack.dart';
+import 'package:Nuvle/payment/stripe/stripe.dart';
+import 'package:Nuvle/styles/colors.dart';
+import 'package:Nuvle/styles/nuvleIcons.dart';
 import 'package:provider/provider.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:stripe_payment/stripe_payment.dart';
@@ -89,10 +89,10 @@ class _CloseTabBottomSheetState extends State<CloseTabBottomSheet> {
   }
 
   String location;
-  bool getLocation() {
-    checkPermission().then((value) {
+  Future<bool> getLocation() async {
+    await checkPermission().then((value) async {
       if (value == LocationPermission.denied) {
-        requestPermission();
+        await requestPermission();
       }
     });
     try {
@@ -113,13 +113,12 @@ class _CloseTabBottomSheetState extends State<CloseTabBottomSheet> {
 
   @override
   void initState() {
-    !getLocation()
-        ? PaystackPlugin.initialize(publicKey: paystackPublicKey)
+    getLocation().then((value) => {value ? PaystackPlugin.initialize(publicKey: paystackPublicKey)
         : StripePayment.setOptions(StripeOptions(
-            publishableKey:
-                "pk_test_51HBKGCAEqZIazashJa8IJ1IRT8j7m8CdmfuomZGRUCEF7lHjt2HltE4nem5GkiFhaWm3F79eDXr75U6un9mmy0Dg00ZaLbhqv7",
-            merchantId: "Test",
-            androidPayMode: 'test'));
+        publishableKey:
+        "pk_test_51HBKGCAEqZIazashJa8IJ1IRT8j7m8CdmfuomZGRUCEF7lHjt2HltE4nem5GkiFhaWm3F79eDXr75U6un9mmy0Dg00ZaLbhqv7",
+        merchantId: "Test",
+        androidPayMode: 'test'))});//..............................................................................changed
 
     super.initState();
   }
@@ -333,26 +332,28 @@ class _CloseTabBottomSheetState extends State<CloseTabBottomSheet> {
                   //         amount: total(), userAccount: widget.userAccount),
                   //     true),
                   onTap: () {
-                    if (!getLocation()) {
-                      _handleCheckout((total() * 100).round(), context);
-                    } else {
-                      StripePayment.paymentRequestWithNativePay(
-                        androidPayOptions: AndroidPayPaymentRequest(
-                          totalPrice: "${total() * 100}",
-                          currencyCode: getLocation() ? 'NGN' : 'USD',
-                        ),
-                        applePayOptions: ApplePayPaymentOptions(
-                          countryCode: getLocation() ? 'NG' : 'US',
-                          currencyCode: getLocation() ? 'NGN' : 'USD',
-                          items: [
-                            ApplePayItem(
+                    getLocation().then((value) => {
+                      if (value) {
+                        _handleCheckout((total() * 100).round(), context)
+                      } else {
+                        StripePayment.paymentRequestWithNativePay(
+                          androidPayOptions: AndroidPayPaymentRequest(
+                            totalPrice: "${total() * 100}",
+                            currencyCode: value ? 'NGN' : 'USD',
+                          ),
+                          applePayOptions: ApplePayPaymentOptions(
+                            countryCode: value ? 'NG' : 'US',
+                            currencyCode: value ? 'NGN' : 'USD',
+                            items: [
+                              ApplePayItem(
                               // label: 'Test',
-                              amount: "${total() * 100}",
-                            )
-                          ],
-                        ),
-                      );
-                    }
+                                amount: "${total() * 100}",
+                              )
+                            ],
+                          ),
+                        )
+                      }
+                    });
                   },
                   width: screenSize.width,
                   text: "Pay",

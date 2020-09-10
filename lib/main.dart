@@ -1,16 +1,17 @@
 import 'dart:convert';
 
+import 'package:Nuvle/socket_.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:nuvlemobile/misc/strings.dart';
-import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
-import 'package:nuvlemobile/pages/auth/login/loginEmail.dart';
-import 'package:nuvlemobile/pages/onBoarding.dart';
-import 'package:nuvlemobile/pages/user/homepage.dart';
-import 'package:nuvlemobile/pages/user/main/mainPage.dart';
-import 'package:nuvlemobile/pages/user/scan/scanCode.dart';
-import 'package:nuvlemobile/services/providerRegistry.dart';
-import 'package:nuvlemobile/styles/colors.dart';
+import 'package:Nuvle/misc/strings.dart';
+import 'package:Nuvle/models/skeltons/user/userAccount.dart';
+import 'package:Nuvle/pages/auth/login/loginEmail.dart';
+import 'package:Nuvle/pages/onBoarding.dart';
+import 'package:Nuvle/pages/user/homepage.dart';
+import 'package:Nuvle/pages/user/main/mainPage.dart';
+import 'package:Nuvle/pages/user/scan/scanCode.dart';
+import 'package:Nuvle/services/providerRegistry.dart';
+import 'package:Nuvle/styles/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -82,11 +83,12 @@ class AppRoot extends StatelessWidget {
             bodyColor: Colors.white,
           ),
         ),
-        home: userAccount != null
-            ? userAccount.tab != null
-                ? MainPage(userAccount: userAccount)
-                : HomePage(userAccount: userAccount)
-            : hasSeenOnBoard ? LoginEmailPage() : OnBoarding(),
+        home: SocketCon(userAccount: userAccount,),
+        // home: userAccount != null
+        //     ? userAccount.tab != null
+        //         ? MainPage(userAccount: userAccount)
+        //         : HomePage(userAccount: userAccount)
+        //     : hasSeenOnBoard ? LoginEmailPage() : OnBoarding(),
       ),
     );
   }

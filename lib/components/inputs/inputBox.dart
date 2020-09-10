@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:nuvlemobile/styles/colors.dart';
+import 'package:Nuvle/styles/colors.dart';
 
 class InputBox extends StatelessWidget {
   final Widget icon, prefix, prefixIcon;

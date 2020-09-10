@@ -1,7 +1,7 @@
 // import 'package:flutter/material.dart';
-// import 'package:nuvlemobile/components/buttons/circledButtonWithArrow.dart';
-// import 'package:nuvlemobile/misc/functions.dart';
-// import 'package:nuvlemobile/pages/user/main/mainPage.dart';
+// import 'package:Nuvle/components/buttons/circledButtonWithArrow.dart';
+// import 'package:Nuvle/misc/functions.dart';
+// import 'package:Nuvle/pages/user/main/mainPage.dart';
 
 // class ScanSuccessfulPageOld extends StatelessWidget {
 //   final int pin;

@@ -1,12 +1,12 @@
-import 'package:nuvlemobile/models/providers/homePageProvider.dart';
-import 'package:nuvlemobile/models/providers/mainPageProvider.dart';
-import 'package:nuvlemobile/models/providers/menus/menusProvider.dart';
-import 'package:nuvlemobile/models/providers/socket/socket_provider.dart';
-import 'package:nuvlemobile/models/providers/user/order/orderProvider.dart';
-import 'package:nuvlemobile/models/providers/onBoardProvider.dart';
-import 'package:nuvlemobile/models/providers/user/supportTicketProvider.dart';
-import 'package:nuvlemobile/models/providers/user/tabProvider.dart';
-import 'package:nuvlemobile/models/providers/user/userAccountProvider.dart';
+import 'package:Nuvle/models/providers/homePageProvider.dart';
+import 'package:Nuvle/models/providers/mainPageProvider.dart';
+import 'package:Nuvle/models/providers/menus/menusProvider.dart';
+import 'package:Nuvle/models/providers/socket/socket_provider.dart';
+import 'package:Nuvle/models/providers/user/order/orderProvider.dart';
+import 'package:Nuvle/models/providers/onBoardProvider.dart';
+import 'package:Nuvle/models/providers/user/supportTicketProvider.dart';
+import 'package:Nuvle/models/providers/user/tabProvider.dart';
+import 'package:Nuvle/models/providers/user/userAccountProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 

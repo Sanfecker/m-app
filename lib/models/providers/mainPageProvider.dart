@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
-import 'package:nuvlemobile/pages/user/main/menus/menus.dart';
-import 'package:nuvlemobile/pages/user/main/profile/changeDp.dart';
-import 'package:nuvlemobile/pages/user/main/profile/contactSupport.dart';
-import 'package:nuvlemobile/pages/user/main/profile/orderHistory.dart';
-import 'package:nuvlemobile/pages/user/main/profile/paymentMethods.dart';
-import 'package:nuvlemobile/pages/user/main/profile/profile.dart';
-import 'package:nuvlemobile/pages/user/main/profile/profileSettings.dart';
-import 'package:nuvlemobile/styles/nuvleIcons.dart';
+import 'package:Nuvle/models/skeltons/user/userAccount.dart';
+import 'package:Nuvle/pages/user/main/menus/menus.dart';
+import 'package:Nuvle/pages/user/main/profile/changeDp.dart';
+import 'package:Nuvle/pages/user/main/profile/contactSupport.dart';
+import 'package:Nuvle/pages/user/main/profile/orderHistory.dart';
+import 'package:Nuvle/pages/user/main/profile/paymentMethods.dart';
+import 'package:Nuvle/pages/user/main/profile/profile.dart';
+import 'package:Nuvle/pages/user/main/profile/profileSettings.dart';
+import 'package:Nuvle/styles/nuvleIcons.dart';
 
 class MainPageProvider extends ChangeNotifier {
   tabs(UserAccount userAccount) => [

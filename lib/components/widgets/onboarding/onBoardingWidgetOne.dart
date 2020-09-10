@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:nuvlemobile/models/skeltons/onBoarding/onBoardData.dart';
-import 'package:nuvlemobile/styles/colors.dart';
+import 'package:Nuvle/models/skeltons/onBoarding/onBoardData.dart';
+import 'package:Nuvle/styles/colors.dart';
 
 class OnBoardingWidgetOne extends StatelessWidget {
   final OnBoardData onBoardData;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:nuvlemobile/models/providers/homePageProvider.dart';
-import 'package:nuvlemobile/models/providers/mainPageProvider.dart';
-import 'package:nuvlemobile/pages/user/main/profile/profile.dart';
+import 'package:Nuvle/models/providers/homePageProvider.dart';
+import 'package:Nuvle/models/providers/mainPageProvider.dart';
+import 'package:Nuvle/pages/user/main/profile/profile.dart';
 import 'package:provider/provider.dart';
 
 class PaymentMethods extends StatelessWidget {
@@ -18,22 +18,10 @@ class PaymentMethods extends StatelessWidget {
                   height: screenSize.height * 0.1,
                   child: GestureDetector(
                     onTap: () => pro.selectedIndex = 1,
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.arrow_back_ios,
-                          color: Color(0xFFD2B271),
-                          size: 20,
-                        ),
-                        Text(
-                          'Back',
-                          style: TextStyle(
-                            color: Color(0xFFD2B271),
-                            fontSize: 14,
-                            letterSpacing: 1,
-                          ),
-                        )
-                      ],
+                    child: Icon(
+                      Icons.arrow_back_ios,
+                      color: Color(0xFFD2B271),
+                      size: 20,
                     ),
                   ),
                 ),
@@ -44,27 +32,14 @@ class PaymentMethods extends StatelessWidget {
                   height: screenSize.height * 0.1,
                   child: GestureDetector(
                     onTap: () => pro.selectedIndex = 1,
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.arrow_back_ios,
-                          color: Color(0xFFD2B271),
-                          size: 20,
-                        ),
-                        Text(
-                          'Back',
-                          style: TextStyle(
-                            color: Color(0xFFD2B271),
-                            fontSize: 14,
-                            letterSpacing: 1,
-                          ),
-                        )
-                      ],
+                    child: Icon(
+                      Icons.arrow_back_ios,
+                      color: Color(0xFFD2B271),
+                      size: 20,
                     ),
                   ),
                 ),
               ),
-        leadingWidth: 200,
       ),
       body: Center(
         child: Column(),

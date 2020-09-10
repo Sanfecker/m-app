@@ -1,11 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:nuvlemobile/misc/functions.dart';
-import 'package:nuvlemobile/misc/settings.dart';
-import 'package:nuvlemobile/models/skeltons/menus/item.dart';
-import 'package:nuvlemobile/models/skeltons/menus/menuData.dart';
-import 'package:nuvlemobile/pages/user/main/menus/itemInfooo.dart';
-import 'package:nuvlemobile/styles/colors.dart';
+import 'package:Nuvle/misc/functions.dart';
+import 'package:Nuvle/misc/settings.dart';
+import 'package:Nuvle/models/skeltons/menus/item.dart';
+import 'package:Nuvle/models/skeltons/menus/menuData.dart';
+import 'package:Nuvle/pages/user/main/menus/itemInfooo.dart';
+import 'package:Nuvle/styles/colors.dart';
 
 class SearchResultListingWidget extends StatelessWidget {
   final MenuItems menuItem;

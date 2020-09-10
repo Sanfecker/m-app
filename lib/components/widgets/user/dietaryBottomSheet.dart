@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:nuvlemobile/components/inputs/customListTileCheckBox.dart';
-import 'package:nuvlemobile/components/widgets/user/filterBottomSheet.dart';
-import 'package:nuvlemobile/misc/functions.dart';
-import 'package:nuvlemobile/models/providers/menus/menusProvider.dart';
-import 'package:nuvlemobile/styles/colors.dart';
+import 'package:Nuvle/components/inputs/customListTileCheckBox.dart';
+import 'package:Nuvle/components/widgets/user/filterBottomSheet.dart';
+import 'package:Nuvle/misc/functions.dart';
+import 'package:Nuvle/models/providers/menus/menusProvider.dart';
+import 'package:Nuvle/styles/colors.dart';
 import 'package:provider/provider.dart';
 
 class DietaryBottomSheet extends StatefulWidget {

@@ -1,14 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:nuvlemobile/components/icons/callWaiterIcon.dart';
-import 'package:nuvlemobile/misc/functions.dart';
-import 'package:nuvlemobile/misc/settings.dart';
-import 'package:nuvlemobile/models/providers/user/order/orderProvider.dart';
-import 'package:nuvlemobile/models/skeltons/menus/menuData.dart';
-import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
-import 'package:nuvlemobile/pages/user/main/menus/orderItem.dart';
-import 'package:nuvlemobile/styles/colors.dart';
-import 'package:nuvlemobile/styles/nuvleIcons.dart';
+import 'package:Nuvle/components/icons/callWaiterIcon.dart';
+import 'package:Nuvle/misc/functions.dart';
+import 'package:Nuvle/misc/settings.dart';
+import 'package:Nuvle/models/providers/user/order/orderProvider.dart';
+import 'package:Nuvle/models/skeltons/menus/menuData.dart';
+import 'package:Nuvle/models/skeltons/user/userAccount.dart';
+import 'package:Nuvle/pages/user/main/menus/orderItem.dart';
+import 'package:Nuvle/styles/colors.dart';
+import 'package:Nuvle/styles/nuvleIcons.dart';
 import 'package:provider/provider.dart';
 
 class ItemInfo extends StatefulWidget {
