@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:nuvlemobile/models/skeltons/menus/menuData.dart';
 import 'package:nuvlemobile/pages/user/main/menus/editOrderDetails.dart';
 import 'package:nuvlemobile/pages/user/main/menus/orderItem.dart';
 import 'package:nuvlemobile/styles/colors.dart';
@@ -22,23 +23,28 @@ class OrderPage extends StatelessWidget {
     Key key,
     this.userAccount,
   }) : super(key: key);
+
+  bool isDone(MenuItems e) {
+    if (e.cookingPreferences != null) {
+      if (e.cookingPreferences.any((element) {
+        return element != '';
+      })) {
+        if (e.selectedCookingPreference == null) {
+          return true;
+        } else
+          return false;
+      } else
+        return false;
+    } else
+      return false;
+  }
+
   _handleSubmitted(BuildContext ctx) async {
     OrderProvider orderProvider =
         Provider.of<OrderProvider>(ctx, listen: false);
     bool selectionComplete() {
       return orderProvider.orders.every((element) {
-        if (element.cookingPreferences != null &&
-                element.selectedCookingPreference == null &&
-                element.cookingPreferences.any((element) {
-                  if (element != '')
-                    return true;
-                  else
-                    return false;
-                }) ||
-            element.note == null)
-          return false;
-        else
-          return true;
+        return !isDone(element) || element.note != null;
       });
     }
 
@@ -141,12 +147,7 @@ class OrderPage extends StatelessWidget {
                         decoration: BoxDecoration(
                             color: Color(0xff363a47),
                             borderRadius: BorderRadius.circular(14),
-                            border: e.cookingPreferences != null &&
-                                        e.selectedCookingPreference == null &&
-                                        e.cookingPreferences.any((element) {
-                                          return element != '';
-                                        }) ||
-                                    e.note == null
+                            border: isDone(e) || e.note == null
                                 ? Border.all(
                                     color: Colors.red,
                                     width: 2,
@@ -201,7 +202,9 @@ class OrderPage extends StatelessWidget {
                             ),
                             Icon(
                               Icons.arrow_forward_ios_rounded,
-                              color: Color(0xffd2b271),
+                              color: isDone(e) || e.note == null
+                                  ? Colors.red
+                                  : Color(0xffd2b271),
                               size: 24,
                             )
                           ],

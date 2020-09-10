@@ -53,7 +53,12 @@ class _CloseTabBottomSheetState extends State<CloseTabBottomSheet> {
       );
       print('Response = $response');
       if (response.message == 'Success') {
-        Functions().navigateTo(context, PaymentComplete());
+        Provider.of<OrderProvider>(context, listen: false).closeTab();
+        Navigator.popUntil(context, (route) => route.isFirst);
+        Functions().navigateTo(
+          context,
+          PaymentComplete(userAccount: widget.userAccount),
+        );
       }
     } catch (e) {
       print(e);
@@ -108,7 +113,7 @@ class _CloseTabBottomSheetState extends State<CloseTabBottomSheet> {
 
   @override
   void initState() {
-    getLocation()
+    !getLocation()
         ? PaystackPlugin.initialize(publicKey: paystackPublicKey)
         : StripePayment.setOptions(StripeOptions(
             publishableKey:
@@ -328,7 +333,7 @@ class _CloseTabBottomSheetState extends State<CloseTabBottomSheet> {
                   //         amount: total(), userAccount: widget.userAccount),
                   //     true),
                   onTap: () {
-                    if (getLocation()) {
+                    if (!getLocation()) {
                       _handleCheckout((total() * 100).round(), context);
                     } else {
                       StripePayment.paymentRequestWithNativePay(

@@ -5,10 +5,16 @@ import 'package:nuvlemobile/misc/functions.dart';
 import 'package:nuvlemobile/models/providers/menus/menusProvider.dart';
 import 'package:nuvlemobile/models/providers/user/order/orderProvider.dart';
 import 'package:nuvlemobile/models/skeltons/menus/item.dart';
+import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
+import 'package:nuvlemobile/pages/user/homepage.dart';
+import 'package:nuvlemobile/pages/user/main/mainPage.dart';
 import 'package:nuvlemobile/styles/nuvleIcons.dart';
 import 'package:provider/provider.dart';
 
 class OrdersFeedback extends StatefulWidget {
+  final UserAccount userAccount;
+
+  const OrdersFeedback({Key key, this.userAccount}) : super(key: key);
   @override
   _OrdersFeedbackState createState() => _OrdersFeedbackState();
 }
@@ -18,7 +24,11 @@ class _OrdersFeedbackState extends State<OrdersFeedback> {
     OrderProvider _orderProvider =
         Provider.of<OrderProvider>(context, listen: false);
     _orderProvider.feedback();
-    Navigator.pop(context);
+    Functions().scaleToReplace(
+      context,
+      HomePage(userAccount: widget.userAccount),
+      removePreviousRoots: true,
+    );
   }
 
   @override

@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:nuvlemobile/misc/functions.dart';
+import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
 import 'package:nuvlemobile/pages/user/main/menus/myTab/feedback/ordersFeedback.dart';
 import 'package:nuvlemobile/styles/colors.dart';
 import 'package:nuvlemobile/styles/nuvleIcons.dart';
 
 class PaymentComplete extends StatelessWidget {
+  final UserAccount userAccount;
+
+  const PaymentComplete({Key key, this.userAccount}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
@@ -46,7 +50,8 @@ class PaymentComplete extends StatelessWidget {
               Functions().customButton(
                 context,
                 onTap: () {
-                  Functions().transitToReplace(context, OrdersFeedback());
+                  Functions().transitToReplace(
+                      context, OrdersFeedback(userAccount: userAccount));
                 },
                 width: screenSize.width,
                 text: "OK",
