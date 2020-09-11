@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:nuvlemobile/components/widgets/onboarding/onBoardingWidgetOne.dart';
-import 'package:nuvlemobile/models/skeltons/onBoarding/onBoardData.dart';
+import 'package:Nuvle/components/widgets/onboarding/onBoardingWidgetOne.dart';
+import 'package:Nuvle/models/skeltons/onBoarding/onBoardData.dart';
 
 class OnBoardProvider extends ChangeNotifier {
   pages() => [

@@ -1,16 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:intl/intl.dart';
-import 'package:nuvlemobile/components/inputs/inputBox.dart';
-import 'package:nuvlemobile/misc/functions.dart';
-import 'package:nuvlemobile/models/providers/homePageProvider.dart';
-import 'package:nuvlemobile/models/providers/mainPageProvider.dart';
-import 'package:nuvlemobile/models/providers/user/order/orderHistoryProvider.dart';
-import 'package:nuvlemobile/models/providers/user/order/orderProvider.dart';
-import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
-import 'package:nuvlemobile/pages/user/main/profile/profile.dart';
-import 'package:nuvlemobile/styles/colors.dart';
-import 'package:nuvlemobile/styles/nuvleIcons.dart';
+import 'package:Nuvle/models/providers/homePageProvider.dart';
+import 'package:Nuvle/models/providers/mainPageProvider.dart';
+import 'package:Nuvle/models/providers/user/order/orderProvider.dart';
+import 'package:Nuvle/models/skeltons/user/userAccount.dart';
+import 'package:Nuvle/pages/user/main/profile/profile.dart';
+import 'package:Nuvle/styles/nuvleIcons.dart';
 import 'package:provider/provider.dart';
 
 class OrderHistory extends StatefulWidget {
@@ -65,27 +59,14 @@ class _OrderHistoryState extends State<OrderHistory> {
                   height: screenSize.height * 0.1,
                   child: GestureDetector(
                     onTap: () => pro.selectedIndex = 1,
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.arrow_back_ios,
-                          color: Color(0xFFD2B271),
-                          size: 20,
-                        ),
-                        Text(
-                          'Back',
-                          style: TextStyle(
-                            color: Color(0xFFD2B271),
-                            fontSize: 14,
-                            letterSpacing: 1,
-                          ),
-                        )
-                      ],
+                    child: Icon(
+                      Icons.arrow_back_ios,
+                      color: Color(0xFFD2B271),
+                      size: 20,
                     ),
                   ),
                 ),
               ),
-        leadingWidth: 200,
         elevation: 0,
       ),
       body: SafeArea(

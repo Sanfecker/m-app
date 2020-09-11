@@ -1,4 +1,4 @@
-import 'package:nuvlemobile/misc/enum.dart';
+import 'package:Nuvle/misc/enum.dart';
 
 class ApiRequestModel {
   bool isSuccessful;

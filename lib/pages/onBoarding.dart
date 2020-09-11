@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:nuvlemobile/misc/functions.dart';
-import 'package:nuvlemobile/models/providers/onBoardProvider.dart';
-import 'package:nuvlemobile/pages/auth/login/loginEmail.dart';
-import 'package:nuvlemobile/styles/colors.dart';
+import 'package:Nuvle/misc/functions.dart';
+import 'package:Nuvle/models/providers/onBoardProvider.dart';
+import 'package:Nuvle/pages/auth/login/loginEmail.dart';
+import 'package:Nuvle/styles/colors.dart';
 import 'package:provider/provider.dart';
 
 class OnBoarding extends StatefulWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:nuvlemobile/components/buttons/circledButtonWithArrow.dart';
-import 'package:nuvlemobile/styles/colors.dart';
+import 'package:Nuvle/components/buttons/circledButtonWithArrow.dart';
+import 'package:Nuvle/styles/colors.dart';
 
 class LearnGroupCode extends StatelessWidget {
   @override

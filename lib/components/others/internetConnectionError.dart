@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nuvlemobile/styles/colors.dart';
+import 'package:Nuvle/styles/colors.dart';
 
 class InternetConnectionError extends StatelessWidget { 
   final void Function() refreshCallBack;

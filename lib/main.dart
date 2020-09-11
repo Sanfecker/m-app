@@ -1,23 +1,20 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:nuvlemobile/misc/strings.dart';
-import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
-import 'package:nuvlemobile/pages/auth/login/loginEmail.dart';
-import 'package:nuvlemobile/pages/onBoarding.dart';
-import 'package:nuvlemobile/pages/user/homepage.dart';
-import 'package:nuvlemobile/pages/user/main/mainPage.dart';
-import 'package:nuvlemobile/pages/user/scan/scanCode.dart';
-import 'package:nuvlemobile/services/providerRegistry.dart';
-import 'package:nuvlemobile/styles/colors.dart';
+import 'package:Nuvle/misc/strings.dart';
+import 'package:Nuvle/models/skeltons/user/userAccount.dart';
+import 'package:Nuvle/pages/auth/login/loginEmail.dart';
+import 'package:Nuvle/pages/onBoarding.dart';
+import 'package:Nuvle/pages/user/homepage.dart';
+import 'package:Nuvle/pages/user/main/mainPage.dart';
+import 'package:Nuvle/services/providerRegistry.dart';
+import 'package:Nuvle/styles/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  // await prefs.clear();
   String currentUserDetails = prefs.getString(Strings.currentUserSPKey);
   bool hasSeenOnBoard = prefs.getBool(Strings.hasSeenOnBoardSPKey) ?? false;
   UserAccount userAccount;

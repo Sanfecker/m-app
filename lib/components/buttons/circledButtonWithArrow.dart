@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:nuvlemobile/styles/colors.dart';
-import 'package:nuvlemobile/styles/nuvleIcons.dart';
+import 'package:Nuvle/styles/colors.dart';
+import 'package:Nuvle/styles/nuvleIcons.dart';
 
 class CircledButtonWithArrow extends StatelessWidget {
   final void Function() onPressed;

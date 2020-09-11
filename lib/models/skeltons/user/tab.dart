@@ -1,4 +1,4 @@
-import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
+import 'package:Nuvle/models/skeltons/user/userAccount.dart';
 
 class TabModel {
   String id;

@@ -1,4 +1,4 @@
-import 'package:nuvlemobile/models/skeltons/user/tab.dart';
+import 'package:Nuvle/models/skeltons/user/tab.dart';
 
 class UserAccount {
   String token;

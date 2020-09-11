@@ -1,14 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:nuvlemobile/components/icons/callWaiterIcon.dart';
-import 'package:nuvlemobile/misc/functions.dart';
-import 'package:nuvlemobile/misc/settings.dart';
-import 'package:nuvlemobile/models/providers/user/order/orderProvider.dart';
-import 'package:nuvlemobile/models/skeltons/menus/menuData.dart';
-import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
-import 'package:nuvlemobile/pages/user/main/menus/orderItem.dart';
-import 'package:nuvlemobile/styles/colors.dart';
-import 'package:nuvlemobile/styles/nuvleIcons.dart';
+import 'package:Nuvle/components/icons/callWaiterIcon.dart';
+import 'package:Nuvle/misc/functions.dart';
+import 'package:Nuvle/misc/settings.dart';
+import 'package:Nuvle/models/providers/user/order/orderProvider.dart';
+import 'package:Nuvle/models/skeltons/menus/menuData.dart';
+import 'package:Nuvle/models/skeltons/user/userAccount.dart';
+import 'package:Nuvle/pages/user/main/menus/orderItem.dart';
+import 'package:Nuvle/styles/colors.dart';
+import 'package:Nuvle/styles/nuvleIcons.dart';
 import 'package:provider/provider.dart';
 
 class ItemInfo extends StatefulWidget {
@@ -46,10 +46,14 @@ class _ItemInfoState extends State<ItemInfo> {
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Container(
+<<<<<<< HEAD
             height: widget.menuItem.sides != null &&
                     widget.menuItem.sides.isNotEmpty
                 ? 950
                 : MediaQuery.of(context).size.height * 0.8,
+=======
+            height: 1250,
+>>>>>>> 72ffa3a1abfdb6987f0ddc469a2f80e90cc80e52
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -171,7 +175,10 @@ class _ItemInfoState extends State<ItemInfo> {
                 if (widget.menuItem.sides != null &&
                     widget.menuItem.sides.isNotEmpty)
                   Container(
+<<<<<<< HEAD
                     padding: EdgeInsets.symmetric(vertical: 10),
+=======
+>>>>>>> 72ffa3a1abfdb6987f0ddc469a2f80e90cc80e52
                     height: 300,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -258,9 +265,12 @@ class _ItemInfoState extends State<ItemInfo> {
                                                     placeholder:
                                                         (BuildContext context,
                                                             String val) {
-                                                      return Image.asset(
-                                                        Settings
-                                                            .placeholderImageSmall,
+                                                      return Center(
+                                                        child: CircularProgressIndicator(
+                                                          valueColor: AlwaysStoppedAnimation(
+                                                              CustomColors.primary
+                                                          ),
+                                                        ),
                                                       );
                                                     },
                                                     fit: BoxFit.cover,

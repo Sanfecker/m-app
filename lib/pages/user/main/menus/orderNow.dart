@@ -1,16 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:nuvlemobile/components/icons/callWaiterIcon.dart';
-import 'package:nuvlemobile/components/inputs/inputBox.dart';
-import 'package:nuvlemobile/misc/functions.dart';
-import 'package:nuvlemobile/misc/settings.dart';
-import 'package:nuvlemobile/models/providers/user/order/orderProvider.dart';
-import 'package:nuvlemobile/models/skeltons/api/apiRequestModel.dart';
-import 'package:nuvlemobile/models/skeltons/menus/menuData.dart';
-import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
-import 'package:nuvlemobile/pages/user/main/menus/orderItem.dart';
-import 'package:nuvlemobile/styles/colors.dart';
-import 'package:nuvlemobile/styles/nuvleIcons.dart';
+import 'package:Nuvle/components/icons/callWaiterIcon.dart';
+import 'package:Nuvle/components/inputs/inputBox.dart';
+import 'package:Nuvle/misc/functions.dart';
+import 'package:Nuvle/misc/settings.dart';
+import 'package:Nuvle/models/providers/user/order/orderProvider.dart';
+import 'package:Nuvle/models/skeltons/api/apiRequestModel.dart';
+import 'package:Nuvle/models/skeltons/menus/menuData.dart';
+import 'package:Nuvle/models/skeltons/user/userAccount.dart';
+import 'package:Nuvle/styles/colors.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
@@ -78,7 +76,7 @@ class _OrderNowState extends State<OrderNow> {
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Container(
-            height: 1150,
+            height: 1250,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -180,7 +178,13 @@ class _OrderNowState extends State<OrderNow> {
                 ),
                 SizedBox(height: 40),
                 if (widget.menuItem.cookingPreferences != null &&
-                    widget.menuItem.cookingPreferences.isNotEmpty)
+                    widget.menuItem.cookingPreferences.isNotEmpty &&
+                    widget.menuItem.cookingPreferences.any((element) {
+                      if (element != '')
+                        return true;
+                      else
+                        return false;
+                    }))
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
@@ -246,7 +250,8 @@ class _OrderNowState extends State<OrderNow> {
                   ),
                 if (widget.menuItem.sides != null &&
                     widget.menuItem.sides.isNotEmpty)
-                  Flexible(
+                  Container(
+                    height: 300,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -332,9 +337,12 @@ class _OrderNowState extends State<OrderNow> {
                                                     placeholder:
                                                         (BuildContext context,
                                                             String val) {
-                                                      return Image.asset(
-                                                        Settings
-                                                            .placeholderImageSmall,
+                                                      return Center(
+                                                        child: CircularProgressIndicator(
+                                                          valueColor: AlwaysStoppedAnimation(
+                                                              CustomColors.primary
+                                                          ),
+                                                        ),
                                                       );
                                                     },
                                                     fit: BoxFit.cover,

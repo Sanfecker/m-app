@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:nuvlemobile/api/apiRequests.dart';
-import 'package:nuvlemobile/misc/enum.dart';
-import 'package:nuvlemobile/misc/validations.dart';
-import 'package:nuvlemobile/models/providers/user/userAccountProvider.dart';
-import 'package:nuvlemobile/models/skeltons/menus/menuData.dart';
-import 'package:nuvlemobile/models/skeltons/menus/restaurantMenuType.dart';
-import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
+import 'package:Nuvle/api/apiRequests.dart';
+import 'package:Nuvle/misc/enum.dart';
+import 'package:Nuvle/misc/validations.dart';
+import 'package:Nuvle/models/providers/user/userAccountProvider.dart';
+import 'package:Nuvle/models/skeltons/menus/menuData.dart';
+import 'package:Nuvle/models/skeltons/menus/restaurantMenuType.dart';
+import 'package:Nuvle/models/skeltons/user/userAccount.dart';
 import 'package:provider/provider.dart';
 
 class MenusProvider extends ChangeNotifier {

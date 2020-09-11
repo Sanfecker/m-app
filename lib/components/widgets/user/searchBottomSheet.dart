@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:nuvlemobile/components/inputs/inputBox.dart';
-import 'package:nuvlemobile/components/others/internetConnectionError.dart';
-import 'package:nuvlemobile/components/widgets/user/searchResultListingWidget.dart';
-import 'package:nuvlemobile/misc/enum.dart';
-import 'package:nuvlemobile/models/providers/menus/menusProvider.dart';
-import 'package:nuvlemobile/models/skeltons/menus/item.dart';
-import 'package:nuvlemobile/models/skeltons/menus/menuData.dart';
-import 'package:nuvlemobile/models/skeltons/menus/restaurantMenuType.dart';
-import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
-import 'package:nuvlemobile/styles/colors.dart';
+import 'package:Nuvle/components/inputs/inputBox.dart';
+import 'package:Nuvle/components/others/internetConnectionError.dart';
+import 'package:Nuvle/components/widgets/user/searchResultListingWidget.dart';
+import 'package:Nuvle/misc/enum.dart';
+import 'package:Nuvle/models/providers/menus/menusProvider.dart';
+import 'package:Nuvle/models/skeltons/menus/item.dart';
+import 'package:Nuvle/models/skeltons/menus/menuData.dart';
+import 'package:Nuvle/models/skeltons/menus/restaurantMenuType.dart';
+import 'package:Nuvle/models/skeltons/user/userAccount.dart';
+import 'package:Nuvle/styles/colors.dart';
 import 'package:provider/provider.dart';
 
 class SearchBottomSheet extends StatefulWidget {

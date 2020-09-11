@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:nuvlemobile/models/providers/mainPageProvider.dart';
-import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
-import 'package:nuvlemobile/styles/colors.dart';
+import 'package:Nuvle/models/providers/mainPageProvider.dart';
+import 'package:Nuvle/models/skeltons/user/userAccount.dart';
+import 'package:Nuvle/styles/colors.dart';
 import 'dart:async';
 import 'package:lottie/lottie.dart';
-import 'package:nuvlemobile/misc/functions.dart';
-import 'package:nuvlemobile/pages/user/main/mainPage.dart';
-import 'package:nuvlemobile/models/skeltons/user/tab.dart';
+import 'package:Nuvle/misc/functions.dart';
+import 'package:Nuvle/pages/user/main/mainPage.dart';
+import 'package:Nuvle/models/skeltons/user/tab.dart';
 
 class ScanSuccessful extends StatefulWidget {
   final UserAccount userAccount;
