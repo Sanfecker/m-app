@@ -16,35 +16,141 @@ class SocketProvider extends ChangeNotifier {
     'transports': ['websocket'],
   });
 
-  void connect() {
+  openTab(String restaurantId, tableId, userId) {
     socket.connect();
-    socket.on("connect", (data) => print('connected'));
-    // socket.emit('init');
+    socket.on('connect', (data) => print(data));
+
+    Map<String, dynamic> map = {
+      "restaurant_id": restaurantId,
+      "table": tableId,
+      "user": userId,
+    };
+
+    socket.emit('open_tab', map);
+    socket.on('opened_tab', (val) {
+      print(val);
+      _restaurantID = restaurantId;
+      _tableID = tableId;
+      _userID = userId;
+      _tabID = val['data']['_id'];
+    });
+    socket.on('open_tab_error', (val) {
+      print(val);
+    });
   }
 
-  void connect1() {
-    IO.Socket socket1 = IOS.io(baseUrl);
-    socket1.on('connect', (_) {
-      print('connect');
-      String map = '{"id": "$_tableID"}';
-      socket1.emit(
-        "/request_waiter",
-        jsonDecode(map),
-      );
-      // socket.emit('msg', 'test');
+  closeTab(String tabID) {
+    socket.connect();
+    socket.on('connect', (data) => print(data));
+
+    Map<String, dynamic> map = {
+      "id": tabID,
+    };
+
+    socket.emit('close_tab', map);
+
+    socket.on('tab_closed', (val) {
+      print(val);
     });
-    socket1.on('request_waiter', (data) => print(data));
+    socket.on('tab_close_error', (val) {
+      print(val);
+    });
+  }
+
+  getUserTab(String tabID, String restaurantID, String userID) {
+    print(tabID);
+    print(userID);
+    print(restaurantID);
+    socket.connect();
+    socket.on('connect', (data) => print('data'));
+
+    Map<String, dynamic> map = {
+      "restaurant": restaurantID,
+      "tab": tabID,
+      "user": userID,
+    };
+
+    socket.emit('get_user_tab', map);
+    socket.on('user_tab', (val) {
+      print(val);
+      // return val;
+    });
+    socket.on('tabs_error', (val) {
+      print(val);
+      // return val;
+    });
+  }
+
+  requestWaiter(String tableID) {
+    socket.connect();
+    socket.on('connect', (data) => print(data));
+
+    Map<String, dynamic> map = {"id": tableID};
+
+    socket.emit('request_waiter', map);
+    socket.on('waiter_requested', (val) {
+      print(val);
+    });
+    socket.on('request_waiter_error', (val) {
+      print(val);
+    });
+  }
+
+  placeOrder(Map map) {
+    socket.connect();
+    socket.on('connect', (data) => print(data));
+
+    // Map<String, dynamic> map = {"id": tableID};
+
+    socket.emit('place_order', map);
+    socket.on('order_placed', (val) {
+      print(val);
+    });
+    socket.on('place_order_error', (val) {
+      print(val);
+    });
+  }
+
+  placeMultipleOrders(Map map) {
+    socket.connect();
+    socket.on('connect', (data) => print(data));
+
+    // Map<String, dynamic> map = {"id": tableID};
+
+    socket.emit('place_orders', map);
+    socket.on('orders_placed', (val) {
+      print(val);
+    });
+    socket.on('place_orders_error', (val) {
+      print(val);
+    });
+  }
+
+  void connect() {
+    if (!socket.connected) {
+      socket.connect();
+      print('connecting...');
+    } else if (socket.connected) {
+      socket.emit(
+        'open_tab',
+      );
+    }
+    socket.on('connect', (data) {
+      socket.emit('open_tab');
+    });
+    // socket.on("connect", (data) => print('connected'));
+    // socket.emit('init');
   }
 
   String _tableID;
   String _restaurantID;
   String _userID;
-  String _tab;
+  String _tabID;
 
   String get userID => _userID;
   String get restaurantID => _restaurantID;
   String get tableID => _tableID;
-  String get tab => _tab;
+  String get tab => _tabID;
 
   setTab(String tableID, String restaurantID, String userID) {
     _tableID = tableID;
@@ -54,6 +160,7 @@ class SocketProvider extends ChangeNotifier {
   }
 
   void createTab(String tableID, String restaurantID, String userID) {
+    connect();
     Map<String, dynamic> map = {
       "restaurant_id": restaurantID,
       "table": tableID,
@@ -63,83 +170,74 @@ class SocketProvider extends ChangeNotifier {
     _restaurantID = restaurantID;
     _userID = userID;
 
-    socket.emitWithAck('open_tab', map, ack: (data) {
-      print(data);
-    });
-    notifyListeners();
-    print('emitt');
-  }
-
-  void callWaiter2() {
-    final String baseUrl =
-        'https://nulve-node-api.herokuapp.com/api/v1/request_waiter';
-    final channel = IOWebSocketChannel.connect(baseUrl);
-
-    channel.stream.listen((message) {
-      channel.sink.add({'id': '5f07e5b364e680e03b9fc676'});
-      print(message);
-      channel.sink.close(status.goingAway);
+    socket.on('connect', (data) {
+      socket.emit('open_tab', map);
+      socket.on('tab_opened', (data) {
+        print(data);
+      });
+      socket.on('open_tab_error', (data) {
+        print(data);
+      });
     });
   }
+
+  // getUserTab() {
+  //   if (!socket.connected) {
+  //     connect();
+  //   }
+
+  //   socket.on('connect', (data) {
+  //     print('connected');
+  //     String map =
+  //         '{"restaurant": "$_restaurantID", "tab": "$_tableID", "user": "$_userID"}';
+  //     print(jsonDecode(map));
+
+  //     socket.emit('get_user_tab', jsonDecode(map));
+  //     socket.on('user_tab', (data) {
+  //       print('sata');
+  //       print(data);
+  //     });
+  //     socket.on('tabs_error', (data) {
+  //       print('sata');
+  //       print(data);
+  //     });
+  //   });
+  // }
 
   void callWaiter() {
     print(_tableID);
-    Map<String, dynamic> map = {
-      "id": _tableID,
-    };
-    _tableID = tableID;
-    socket.connect();
+    connect();
+    String map = '{"id": "$_tableID"}';
+    // _tableID = tableID;
+    // socket.connect();
     notifyListeners();
-    socket.on('connect', (data) => print('$data: connected'));
+    // socket.on('connect', (data) => print('$data: connected'));
 
-    socket.once('connect', (data) {
+    socket.on('connect', (data) {
       print('connected');
       print('requesting');
-      socket.emitWithAck("request_waiter", map, ack: (data) {
-        print(data);
-        if (data != null) {
-          print('from server $data');
-        } else {
-          print("Null");
-        }
-        print('requested');
+      socket.emit("request_waiter", jsonDecode(map));
+      socket.on('Waiter Requested', (data) {
+        print(jsonEncode(data));
+        print('waiter called');
+      });
+      socket.on('request_waiter_error', (data) {
+        print(jsonEncode(data));
       });
     });
 
     notifyListeners();
-    print('waiter called');
   }
 
-  void connect2() async {
-    final String baseUrl = 'https://nulve-node-api.herokuapp.com/api/v1';
+  // void closeTab() {
+  //   Map<String, dynamic> map = {
+  //     "restaurant_id": _restaurantID,
+  //   };
 
-    IO.Socket socket = IO.io(baseUrl, <String, dynamic>{
-      'transports': ['websocket'],
-      // 'extraHeaders': {'foo': 'bar'} // optional
-    });
-    Map<String, dynamic> map = {"id": _tableID};
-    socket.connect();
-    socket.on('connect', (data) {
-      socket.emitWithAck("request_waiter", map, ack: (data) {
-        print(data);
-        if (data != null) {
-          print('from server $data');
-        } else {
-          print("Null");
-        }
-      });
-    });
-  }
-
-  void closeTab() {
-    Map<String, dynamic> map = {
-      "restaurant_id": _restaurantID,
-    };
-
-    socket.emit('close_tab', map);
-    notifyListeners();
-    print('close');
-  }
+  //   socket.emit('close_tab', map);
+  //   notifyListeners();
+  //   print('close');
+  // }
 
   void getTab() {
     Map<String, dynamic> map = {

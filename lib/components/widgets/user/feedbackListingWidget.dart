@@ -1,21 +1,25 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'package:nuvlemobile/misc/functions.dart';
 import 'package:nuvlemobile/misc/settings.dart';
 import 'package:nuvlemobile/models/providers/user/order/orderProvider.dart';
 import 'package:nuvlemobile/models/skeltons/menus/item.dart';
 import 'package:nuvlemobile/models/skeltons/menus/menuData.dart';
+import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
 import 'package:nuvlemobile/pages/user/main/menus/myTab/feedback/rateOrder.dart';
 import 'package:nuvlemobile/styles/colors.dart';
 import 'package:nuvlemobile/styles/nuvleIcons.dart';
-import 'package:provider/provider.dart';
 
 class FeedbackListingWidget extends StatefulWidget {
   final MenuItems menuItem;
+  final UserAccount userAccount;
 
   const FeedbackListingWidget({
     Key key,
     @required this.menuItem,
+    @required this.userAccount,
   }) : super(key: key);
 
   @override
@@ -33,8 +37,13 @@ class _FeedbackListingWidgetState extends State<FeedbackListingWidget> {
   @override
   Widget build(BuildContext context) {
     return InkResponse(
-      onTap: () =>
-          Functions().transitTo(context, RateOrder(menuItem: widget.menuItem)),
+      onTap: () => Functions().transitTo(
+        context,
+        RateOrder(
+          menuItem: widget.menuItem,
+          userAccount: widget.userAccount,
+        ),
+      ),
       child: Container(
         margin: EdgeInsets.only(bottom: 20),
         padding: EdgeInsets.all(14),

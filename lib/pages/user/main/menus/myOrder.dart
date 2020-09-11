@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:nuvlemobile/models/providers/socket/socket_provider.dart';
 import 'package:nuvlemobile/models/skeltons/menus/menuData.dart';
 import 'package:nuvlemobile/pages/user/main/menus/editOrderDetails.dart';
 import 'package:nuvlemobile/pages/user/main/menus/orderItem.dart';
@@ -17,13 +18,18 @@ import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
 
 import 'orderComplete.dart';
 
-class OrderPage extends StatelessWidget {
+class OrderPage extends StatefulWidget {
   final UserAccount userAccount;
   const OrderPage({
     Key key,
     this.userAccount,
   }) : super(key: key);
 
+  @override
+  _OrderPageState createState() => _OrderPageState();
+}
+
+class _OrderPageState extends State<OrderPage> {
   bool isDone(MenuItems e) {
     if (e.cookingPreferences != null) {
       if (e.cookingPreferences.any((element) {
@@ -48,13 +54,16 @@ class OrderPage extends StatelessWidget {
       });
     }
 
-    print(selectionComplete());
+    // print(selectionComplete());
 
     if (selectionComplete()) {
       Functions().showLoadingDialog(ctx);
       try {
-        ApiRequestModel apiRequestModel =
-            await orderProvider.order(userAccount, orderProvider.orders);
+        ApiRequestModel apiRequestModel = await orderProvider.order(
+          widget.userAccount,
+          ctx,
+          orderProvider.orders,
+        );
         if (apiRequestModel.isSuccessful) {
           Navigator.pop(ctx);
           Functions()
@@ -66,12 +75,21 @@ class OrderPage extends StatelessWidget {
           );
         }
       } catch (e) {
+        print(e);
         Navigator.pop(ctx);
         await Fluttertoast.showToast(
           msg: "Internal Error",
         );
       }
     }
+  }
+
+  @override
+  void initState() {
+    // SocketProvider socketProvider =
+    //     Provider.of<SocketProvider>(context, listen: false);
+    // socketProvider.getUserTab();
+    super.initState();
   }
 
   @override
@@ -134,7 +152,8 @@ class OrderPage extends StatelessWidget {
                     return GestureDetector(
                       onTap: () => Functions().scaleTo(
                         context,
-                        EditOrderDetails(menuItem: e, userAccount: userAccount),
+                        EditOrderDetails(
+                            menuItem: e, userAccount: widget.userAccount),
                       ),
                       child: Container(
                         margin: EdgeInsets.only(

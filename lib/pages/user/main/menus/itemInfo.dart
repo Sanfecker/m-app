@@ -37,7 +37,9 @@ class _ItemInfoState extends State<ItemInfo> {
       appBar: AppBar(
         elevation: 0,
         actions: <Widget>[
-          CallWaiterIcon(),
+          CallWaiterIcon(
+            userAccount: widget.userAccount,
+          ),
         ],
       ),
       body: SingleChildScrollView(

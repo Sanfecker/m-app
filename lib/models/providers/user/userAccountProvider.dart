@@ -82,8 +82,8 @@ class UserAccountProvider extends ChangeNotifier {
     // }
   }
 
-  setCurrentUserTabs(TabModel tab) async {
-    _currentUserAccount.tab = tab;
+  setCurrentUserTabs(UserAccount userAccount, TabModel tab) async {
+    userAccount.tab = tab;
     notifyListeners();
     updateCurrentUserDetailsInPrefs(_currentUserAccount);
   }

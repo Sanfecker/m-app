@@ -18,10 +18,11 @@ class ShareTab extends StatefulWidget {
 
 class _ShareTabState extends State<ShareTab> {
   _handleSubmitted(BuildContext context) async {
-    Functions().scaleToReplace(
-      context,
-      TabSharingCompleted(),
-    );
+    print(widget.userAccount.tab.id);
+    // Functions().scaleToReplace(
+    //   context,
+    //   TabSharingCompleted(),
+    // );
   }
 
   @override

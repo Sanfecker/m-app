@@ -32,6 +32,16 @@ class _OrdersFeedbackState extends State<OrdersFeedback> {
   }
 
   @override
+  void initState() {
+    Provider.of<OrderProvider>(context, listen: false)
+        .feedbackList
+        .forEach((element) {
+      element.rating = 5;
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
@@ -76,7 +86,9 @@ class _OrdersFeedbackState extends State<OrdersFeedback> {
         automaticallyImplyLeading: false,
         elevation: 0,
         actions: <Widget>[
-          CallWaiterIcon(),
+          CallWaiterIcon(
+            userAccount: widget.userAccount,
+          ),
         ],
       ),
       body: SafeArea(
@@ -97,13 +109,12 @@ class _OrdersFeedbackState extends State<OrdersFeedback> {
               Flexible(child:
                   Consumer<OrderProvider>(builder: (context, pro, child) {
                 return ListView(
-                    children: pro.feedbackList
-                        .map(
-                          (e) => FeedbackListingWidget(
-                            menuItem: e,
-                          ),
-                        )
-                        .toList());
+                    children: pro.feedbackList.map((e) {
+                  FeedbackListingWidget(
+                    menuItem: e,
+                    userAccount: widget.userAccount,
+                  );
+                }).toList());
               })),
             ],
           ),

@@ -28,28 +28,6 @@ class ScanCodePage extends StatefulWidget {
 }
 
 class _ScanCodePageState extends State<ScanCodePage> {
-  static final String baseUrl = 'https://nulve-node-api.herokuapp.com/api/v1';
-
-  IO.Socket socket = IO.io(baseUrl, <String, dynamic>{
-    'transports': ['websocket'],
-  });
-
-  void connect() {
-    socket.connect();
-    // socket.emit('init');
-  }
-
-  void createTab(String tableID, String restaurantID, String userID) {
-    Map<String, dynamic> map = {
-      "restaurant_id": restaurantID,
-      "table": tableID,
-      "user": userID,
-    };
-
-    socket.emit('open_tab', map);
-    print('emitt');
-  }
-
   QRViewController controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
 
@@ -69,10 +47,11 @@ class _ScanCodePageState extends State<ScanCodePage> {
               widget.userAccount,
               Provider.of<SocketProvider>(context, listen: false));
       if (apiRequestModel.isSuccessful) {
+        print(apiRequestModel.result);
         TabModel tab = apiRequestModel.result;
         widget.userAccount.tab = tab;
-        Provider.of<UserAccountProvider>(context, listen: false)
-            .setCurrentUserTabs(tab);
+        // Provider.of<UserAccountProvider>(context, listen: false)
+        //     .setCurrentUserTabs(tab);
 
         await Functions().transitToReplace(
             context, ScanSuccessfulPage(userAccount: widget.userAccount),
@@ -191,7 +170,7 @@ class _ScanCodePageState extends State<ScanCodePage> {
                                   ScanResponse scanResponse =
                                       ScanResponse.fromJson(responseBody);
                                   Functions().showLoadingDialog(context);
-                                  print(scanResponse.restaurantId);
+                                  // print(scanResponse.restaurantId);
                                   try {
                                     ApiRequestModel apiRequestModel =
                                         await Provider.of<TabProvider>(context,
@@ -199,19 +178,21 @@ class _ScanCodePageState extends State<ScanCodePage> {
                                             .createTab(scanResponse,
                                                 widget.userAccount);
                                     if (apiRequestModel.isSuccessful) {
-                                      connect();
-                                      createTab(
-                                          responseBody['table_id'],
-                                          responseBody['restaurant_id'],
-                                          widget.userAccount.id);
                                       TabModel tab = apiRequestModel.result;
                                       widget.userAccount.tab = tab;
-                                      Provider.of<UserAccountProvider>(context,
-                                              listen: false)
-                                          .setCurrentUserTabs(tab);
-                                      Provider.of<SocketProvider>(context,
-                                              listen: false)
-                                          .closeTab();
+                                      // print(tab.id);
+                                      // Provider.of<UserAccountProvider>(context,
+                                      //         listen: false)
+                                      //     .setCurrentUserTabs(w tab);
+                                      SocketProvider socketProvider =
+                                          Provider.of<SocketProvider>(context,
+                                              listen: false);
+                                      socketProvider.openTab(
+                                        tab.attributes.restaurantId,
+                                        tab.attributes.tableId,
+                                        widget.userAccount.id,
+                                      );
+                                      // socketProvider.closeTab(tab.id);
                                       Functions().scaleToReplace(
                                           context,
                                           ScanSuccessful(
@@ -224,7 +205,7 @@ class _ScanCodePageState extends State<ScanCodePage> {
                                     }
                                   } catch (e) {
                                     print(e);
-                                    Navigator.pop(context);
+                                    // Navigator.pop(context);
                                     showInSnackBar("Internal Error");
                                   }
                                 }

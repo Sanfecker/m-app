@@ -72,7 +72,9 @@ class _EditOrderDetailsState extends State<EditOrderDetails> {
       appBar: AppBar(
         elevation: 0,
         actions: <Widget>[
-          CallWaiterIcon(),
+          CallWaiterIcon(
+            userAccount: widget.userAccount,
+          ),
         ],
       ),
       body: SingleChildScrollView(

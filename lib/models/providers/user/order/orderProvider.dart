@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:nuvlemobile/api/apiRequests.dart';
 import 'package:nuvlemobile/misc/validations.dart';
+import 'package:nuvlemobile/models/providers/socket/socket_provider.dart';
 import 'package:nuvlemobile/models/skeltons/api/apiRequestModel.dart';
 import 'package:nuvlemobile/models/skeltons/menus/menuData.dart';
 import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
+import 'package:provider/provider.dart';
 
 class OrderProvider extends ChangeNotifier {
   List<MenuItems> _viewedItems = [];
@@ -56,6 +58,9 @@ class OrderProvider extends ChangeNotifier {
           .add([element, DateFormat.yMMMd().format(DateTime.now()).toString()]);
     });
     _feedbackList.addAll(_tab);
+    _feedbackList.forEach((element) {
+      element.rating = 5;
+    });
     _tab.clear();
   }
 
@@ -175,9 +180,28 @@ class OrderProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<ApiRequestModel> order(UserAccount account,
+  Future<ApiRequestModel> order(UserAccount account, BuildContext context,
       [List<MenuItems> items]) async {
+    SocketProvider provider =
+        Provider.of<SocketProvider>(context, listen: false);
     ApiRequestModel apiRequestModel = ApiRequestModel();
+    List<Map<String, dynamic>> list = items
+        .map((e) => {
+              "restaurant_id": account.tab.attributes.restaurantId,
+              "tab": account.tab.attributes.id,
+              "side_dishes_ids": e.selectedSides != null
+                  ? e.selectedSides.map((e) => e.itemId).toList()
+                  : [],
+              "item_id": e.itemId,
+              "amount": e.price,
+              "note": e.note,
+              "quantity": e.orderQuantity,
+              "toGo": e.takeAway,
+              "user": account.id,
+              "cooking_preferences": e.selectedCookingPreference
+            })
+        .toList();
+
     Map<String, dynamic> body = {
       "tab_id": account.tab.attributes.id,
       "orders": items.map((e) {
@@ -199,12 +223,15 @@ class OrderProvider extends ChangeNotifier {
         return res;
       }).toList(),
     };
-    print(body);
+    // print(body);
     try {
       var responseBody = await ApiRequest.postJSON(
           body, "${account.tab.attributes.restaurantId}/orders", account.token);
-      print(responseBody);
+      // print(responseBody);
       if (responseBody["success"]) {
+        list.length > 1
+            ? provider.placeMultipleOrders({"orders": list})
+            : provider.placeOrder(list[0]);
         // OrderModel order = OrderModel.fromJson(responseBody["data"]);
         apiRequestModel.isSuccessful = true;
         _tab.addAll(items);

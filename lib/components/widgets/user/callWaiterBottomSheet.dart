@@ -1,15 +1,23 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:nuvlemobile/components/buttons/circledButtonWithArrow.dart';
 import 'package:nuvlemobile/components/curves/curveWave.dart';
 import 'package:nuvlemobile/components/painters/circlePainter.dart';
 import 'package:nuvlemobile/misc/functions.dart';
 import 'package:nuvlemobile/models/providers/socket/socket_provider.dart';
+import 'package:nuvlemobile/models/skeltons/user/scanResponse.dart';
+import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
 import 'package:nuvlemobile/styles/colors.dart';
 import 'package:nuvlemobile/styles/nuvleIcons.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CallWaiterBottomSheet extends StatefulWidget {
+  final UserAccount userAccount;
+
+  const CallWaiterBottomSheet({Key key, @required this.userAccount})
+      : super(key: key);
   @override
   _CallWaiterBottomSheetState createState() => _CallWaiterBottomSheetState();
 }
@@ -64,6 +72,29 @@ class _CallWaiterBottomSheetState extends State<CallWaiterBottomSheet>
     );
   }
 
+  // void onScan(BuildContext context) async {
+  //   print('jude');
+  //   String data =
+  //       '{"table_id":"5f1444977cb553df21b320e9","restaurant_id":"5ef0a89b27322047f0f0ce71"}';
+  //   Map<String, dynamic> responseBody = jsonDecode(data);
+  //   if (responseBody.containsKey("table_id") &&
+  //       responseBody.containsKey("restaurant_id")) {
+  //     ScanResponse scanResponse = ScanResponse.fromJson(responseBody);
+  //     SocketProvider provider =
+  //         Provider.of<SocketProvider>(context, listen: false);
+
+  //     // print(widget.userAccount.id);
+
+  //     provider.connect();
+  //     // provider.createTab(scanResponse.tableId, scanResponse.restaurantId,
+  //     //     widget.userAccount.id);
+  //     dynamic val = await provider.listenOpenTab();
+  //     provider.listenOpenTabError();
+  //     print('listening to tab');
+  //     print(val);
+  //   }
+  // }
+
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
@@ -94,7 +125,10 @@ class _CallWaiterBottomSheetState extends State<CallWaiterBottomSheet>
                       onLongPress: () {
                         SocketProvider provider =
                             Provider.of<SocketProvider>(context, listen: false);
-                        provider.connect1();
+                        // provider.callWaiter();
+
+                        provider.requestWaiter(
+                            widget.userAccount.tab.attributes.tableId);
                       },
                       child: CustomPaint(
                         painter: CirclePainter(

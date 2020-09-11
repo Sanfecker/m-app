@@ -38,8 +38,8 @@ class _HomePageState extends State<HomePage> {
       OrderProvider orderProvider =
           Provider.of<OrderProvider>(ctx, listen: false);
       try {
-        ApiRequestModel apiRequestModel =
-            await orderProvider.order(widget.userAccount, orderProvider.orders);
+        ApiRequestModel apiRequestModel = await orderProvider.order(
+            widget.userAccount, ctx, orderProvider.orders);
         if (apiRequestModel.isSuccessful) {
           Navigator.pop(ctx);
           Functions()

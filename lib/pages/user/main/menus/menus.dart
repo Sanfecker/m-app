@@ -32,6 +32,7 @@ class _MenusState extends State<Menus> with SingleTickerProviderStateMixin {
 
   @override
   void initState() {
+    print(widget.userAccount.tab.id);
     page = 'main';
     tabs = [
       MainTabBarItem(
@@ -108,7 +109,9 @@ class _MenusState extends State<Menus> with SingleTickerProviderStateMixin {
         elevation: 0,
         leading: SearchIcon(userAccount: widget.userAccount),
         actions: <Widget>[
-          CallWaiterIcon(),
+          CallWaiterIcon(
+            userAccount: widget.userAccount,
+          ),
         ],
         bottom: TabBar(
           controller: tabController,

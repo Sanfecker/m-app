@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'package:nuvlemobile/components/icons/callWaiterIcon.dart';
 import 'package:nuvlemobile/misc/functions.dart';
 import 'package:nuvlemobile/models/providers/user/order/orderProvider.dart';
 import 'package:nuvlemobile/models/skeltons/menus/item.dart';
 import 'package:nuvlemobile/models/skeltons/menus/menuData.dart';
+import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
 import 'package:nuvlemobile/styles/nuvleIcons.dart';
-import 'package:provider/provider.dart';
 
 class RateOrder extends StatefulWidget {
   final MenuItems menuItem;
+  final UserAccount userAccount;
 
-  const RateOrder({Key key, @required this.menuItem}) : super(key: key);
+  const RateOrder({
+    Key key,
+    this.menuItem,
+    @required this.userAccount,
+  }) : super(key: key);
   @override
   _RateOrderState createState() => _RateOrderState();
 }
@@ -45,7 +52,9 @@ class _RateOrderState extends State<RateOrder> {
         automaticallyImplyLeading: false,
         elevation: 0,
         actions: <Widget>[
-          CallWaiterIcon(),
+          CallWaiterIcon(
+            userAccount: widget.userAccount,
+          ),
         ],
       ),
       body: SafeArea(

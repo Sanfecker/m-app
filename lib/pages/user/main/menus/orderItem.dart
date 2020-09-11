@@ -43,7 +43,9 @@ class _OrderItemState extends State<OrderItem> {
         Provider.of<OrderProvider>(ctx, listen: false);
     try {
       ApiRequestModel apiRequestModel = await orderProvider.order(
-          widget.userAccount, [orderProvider.getSingleItem(widget.menuItem)]);
+          widget.userAccount,
+          ctx,
+          [orderProvider.getSingleItem(widget.menuItem)]);
       if (apiRequestModel.isSuccessful) {
         Navigator.pop(ctx);
         Functions()
@@ -66,7 +68,9 @@ class _OrderItemState extends State<OrderItem> {
       appBar: AppBar(
         elevation: 0,
         actions: <Widget>[
-          CallWaiterIcon(),
+          CallWaiterIcon(
+            userAccount: widget.userAccount,
+          ),
         ],
       ),
       body: SingleChildScrollView(

@@ -11,7 +11,7 @@ import 'models/skeltons/user/scanResponse.dart';
 class SocketCon extends StatefulWidget {
   final UserAccount userAccount;
 
-  const SocketCon({Key key, this.userAccount}) : super(key: key);
+  const SocketCon({Key key, @required this.userAccount}) : super(key: key);
 
   @override
   _SocketConState createState() => _SocketConState();
@@ -36,12 +36,12 @@ class _SocketConState extends State<SocketCon> {
 
       print(widget.userAccount.id);
 
-      provider.connect();
-      provider.createTab(scanResponse.tableId, scanResponse.restaurantId,
-          widget.userAccount.id);
-      dynamic val = await provider.listenOpenTab();
-      print('listening to tab');
-      print(val);
+      connect();
+      // provider.createTab(scanResponse.tableId, scanResponse.restaurantId,
+      //     widget.userAccount.id);
+      // dynamic val = await provider.listenOpenTab();
+      // print('listening to tab');
+      // print(val);
     }
   }
 
@@ -53,14 +53,18 @@ class _SocketConState extends State<SocketCon> {
       // 'extraHeaders': {'foo': 'bar'} // optional
     });
     socket.connect();
-    print('jude');
+    socket.on('connect', (data) => print(data));
 
     Map<String, dynamic> map = {
-      "restaurant": "5ef0a89b27322047f0f0ce71",
+      "id": "5f5b3723aafe87001e861754",
     };
 
-    socket.emit('get_menu_items', map);
-    socket.on('fetched_items', (val) {
+    socket.emit('close_tab', map);
+
+    socket.on('tab_closed', (val) {
+      print(val);
+    });
+    socket.on('tab_close_error', (val) {
       print(val);
     });
   }

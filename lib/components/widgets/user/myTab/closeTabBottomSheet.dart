@@ -5,6 +5,7 @@ import 'package:nuvlemobile/components/inputs/inputBox.dart';
 import 'package:nuvlemobile/components/widgets/user/myTab/payment/payBottomSheet.dart';
 import 'package:nuvlemobile/misc/functions.dart';
 import 'package:nuvlemobile/misc/settings.dart';
+import 'package:nuvlemobile/models/providers/socket/socket_provider.dart';
 import 'package:nuvlemobile/models/providers/user/order/orderProvider.dart';
 import 'package:nuvlemobile/models/providers/user/userAccountProvider.dart';
 import 'package:nuvlemobile/models/skeltons/menus/menuData.dart';
@@ -54,6 +55,8 @@ class _CloseTabBottomSheetState extends State<CloseTabBottomSheet> {
       print('Response = $response');
       if (response.message == 'Success') {
         Provider.of<OrderProvider>(context, listen: false).closeTab();
+        Provider.of<SocketProvider>(context, listen: false)
+            .closeTab(widget.userAccount.tab.id);
         Navigator.popUntil(context, (route) => route.isFirst);
         Functions().navigateTo(
           context,
@@ -89,31 +92,31 @@ class _CloseTabBottomSheetState extends State<CloseTabBottomSheet> {
   }
 
   String location;
-  bool getLocation() {
-    checkPermission().then((value) {
-      if (value == LocationPermission.denied) {
-        requestPermission();
-      }
-    });
-    try {
-      getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
-          .then((value) async {
-        List<Address> placemark = await Geocoder.local
-            .findAddressesFromCoordinates(
-                Coordinates(value.latitude, value.longitude));
+  // bool getLocation() {
+  //   checkPermission().then((value) async {
+  //     if (value == LocationPermission.denied) {
+  //       await requestPermission();
+  //     }
+  //   });
+  //   try {
+  //     getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+  //         .then((value) async {
+  //       List<Address> placemark = await Geocoder.local
+  //           .findAddressesFromCoordinates(
+  //               Coordinates(value.latitude, value.longitude));
 
-        location = placemark[0].countryName;
-        print(location);
-      });
-    } catch (e) {
-      print(e);
-    }
-    return location == 'Nigeria';
-  }
+  //       location = placemark[0].countryName;
+  //       print(location);
+  //     });
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  //   return location == 'Nigeria';
+  // }
 
   @override
   void initState() {
-    !getLocation()
+    widget.tab[0].currency == 'USD'
         ? PaystackPlugin.initialize(publicKey: paystackPublicKey)
         : StripePayment.setOptions(StripeOptions(
             publishableKey:
@@ -333,17 +336,17 @@ class _CloseTabBottomSheetState extends State<CloseTabBottomSheet> {
                   //         amount: total(), userAccount: widget.userAccount),
                   //     true),
                   onTap: () {
-                    if (!getLocation()) {
+                    if (widget.tab[0].currency == 'USD') {
                       _handleCheckout((total() * 100).round(), context);
                     } else {
                       StripePayment.paymentRequestWithNativePay(
                         androidPayOptions: AndroidPayPaymentRequest(
                           totalPrice: "${total() * 100}",
-                          currencyCode: getLocation() ? 'NGN' : 'USD',
+                          currencyCode: 'USD',
                         ),
                         applePayOptions: ApplePayPaymentOptions(
-                          countryCode: getLocation() ? 'NG' : 'US',
-                          currencyCode: getLocation() ? 'NGN' : 'USD',
+                          countryCode: 'US',
+                          currencyCode: 'USD',
                           items: [
                             ApplePayItem(
                               // label: 'Test',

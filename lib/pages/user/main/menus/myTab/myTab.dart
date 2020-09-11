@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nuvlemobile/components/widgets/user/myTab/closeTabBottomSheet.dart';
 import 'package:nuvlemobile/components/widgets/user/myTab/myTabListingWidget.dart';
 import 'package:nuvlemobile/misc/functions.dart';
+import 'package:nuvlemobile/models/providers/socket/socket_provider.dart';
 import 'package:nuvlemobile/models/providers/user/order/orderProvider.dart';
 import 'package:nuvlemobile/models/skeltons/menus/item.dart';
 import 'package:nuvlemobile/models/skeltons/menus/menuData.dart';
@@ -29,7 +30,7 @@ class _MyTabState extends State<MyTab> {
     _orderProvider = Provider.of<OrderProvider>(context, listen: false);
     if (_orderProvider.tab.length > 0) {
       for (var e in _orderProvider.tab) {
-        print(e.itemType);
+        // print(e.itemType);
         if (e.itemType.toLowerCase() == 'main dish') {
           food.add(e);
         } else if (e.itemType.toLowerCase() == 'drink') {
@@ -39,6 +40,9 @@ class _MyTabState extends State<MyTab> {
         }
       }
     }
+    // SocketProvider socketProvider =
+    //     Provider.of<SocketProvider>(context, listen: false);
+    // socketProvider.getUserTab();
     super.initState();
   }
 
@@ -208,13 +212,19 @@ class _MyTabState extends State<MyTab> {
                         SizedBox(height: 20),
                         Functions().customButton(
                           context,
-                          onTap: () => Functions.openBottomSheet(
-                              context,
-                              CloseTabBottomSheet(
-                                tab: pro.tab,
-                                userAccount: widget.userAccount,
-                              ),
-                              true),
+                          onTap: () {
+                            Functions.openBottomSheet(
+                                context,
+                                CloseTabBottomSheet(
+                                  tab: pro.tab,
+                                  userAccount: widget.userAccount,
+                                ),
+                                true);
+                            // SocketProvider socketProvider =
+                            //     Provider.of<SocketProvider>(context,
+                            //         listen: false);
+                            // socketProvider.getUserTab();
+                          },
                           width: screenSize.width,
                           height: 70,
                           text: "Close Tab",

@@ -18,10 +18,11 @@ class TabProvider extends ChangeNotifier {
       if (responseBody["success"]) {
         TabModel myTab = TabModel.fromJson(responseBody["data"]);
         print(responseBody['data']);
-        socketProvider.setTab(
-            responseBody['data']['attributes']['table_id'],
-            responseBody['data']['attributes']['restaurant_id'],
-            responseBody['data']['id']);
+        // socketProvider.openTab(
+        //   responseBody['data']['attributes']['restaurant_id'],
+        //   responseBody['data']['attributes']['table_id'],
+        //   account.id,
+        // );
         apiRequestModel.isSuccessful = true;
         apiRequestModel.result = myTab;
         notifyListeners();
@@ -44,9 +45,10 @@ class TabProvider extends ChangeNotifier {
     try {
       var responseBody = await ApiRequest.post(
           body, "${scanResponse.restaurantId}/tabs", account.token);
-      print(responseBody);
+      // print(responseBody);
       if (responseBody["success"]) {
         TabModel myTab = TabModel.fromJson(responseBody["data"]);
+        print(responseBody["data"]);
         apiRequestModel.isSuccessful = true;
         apiRequestModel.result = myTab;
         notifyListeners();
