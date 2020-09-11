@@ -1,14 +1,14 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:nuvlemobile/api/apiRequests.dart';
-import 'package:nuvlemobile/misc/functions.dart';
-import 'package:nuvlemobile/misc/strings.dart';
-import 'package:nuvlemobile/misc/validations.dart';
-import 'package:nuvlemobile/models/skeltons/api/apiRequestModel.dart';
-import 'package:nuvlemobile/models/skeltons/user/tab.dart';
-import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
-import 'package:nuvlemobile/pages/auth/login/loginEmail.dart';
+import 'package:Nuvle/api/apiRequests.dart';
+import 'package:Nuvle/misc/functions.dart';
+import 'package:Nuvle/misc/strings.dart';
+import 'package:Nuvle/misc/validations.dart';
+import 'package:Nuvle/models/skeltons/api/apiRequestModel.dart';
+import 'package:Nuvle/models/skeltons/user/tab.dart';
+import 'package:Nuvle/models/skeltons/user/userAccount.dart';
+import 'package:Nuvle/pages/auth/login/loginEmail.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserAccountProvider extends ChangeNotifier {

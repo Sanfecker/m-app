@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-import 'package:nuvlemobile/misc/strings.dart';
+import 'package:Nuvle/misc/strings.dart';
 
 class ApiRequest {
   static Future<Map<String, dynamic>> get(String pointer,

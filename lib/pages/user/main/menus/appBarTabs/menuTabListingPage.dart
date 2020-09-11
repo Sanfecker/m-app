@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:nuvlemobile/components/animations/lazyLoad/listLazyLoad.dart';
-import 'package:nuvlemobile/components/others/internetConnectionError.dart';
-import 'package:nuvlemobile/components/widgets/user/categoriesBottomSheet.dart';
-import 'package:nuvlemobile/components/widgets/user/dietaryBottomSheet.dart';
-import 'package:nuvlemobile/components/widgets/user/filterBottomSheet.dart';
-import 'package:nuvlemobile/components/widgets/user/listingWidget.dart';
-import 'package:nuvlemobile/misc/enum.dart';
-import 'package:nuvlemobile/models/providers/menus/menusProvider.dart';
-import 'package:nuvlemobile/models/skeltons/menus/menuData.dart';
-import 'package:nuvlemobile/models/skeltons/menus/restaurantMenuType.dart';
-import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
-import 'package:nuvlemobile/styles/colors.dart';
+import 'package:Nuvle/components/others/internetConnectionError.dart';
+import 'package:Nuvle/components/widgets/user/categoriesBottomSheet.dart';
+import 'package:Nuvle/components/widgets/user/dietaryBottomSheet.dart';
+import 'package:Nuvle/components/widgets/user/filterBottomSheet.dart';
+import 'package:Nuvle/components/widgets/user/listingWidget.dart';
+import 'package:Nuvle/misc/enum.dart';
+import 'package:Nuvle/models/providers/menus/menusProvider.dart';
+import 'package:Nuvle/models/skeltons/menus/menuData.dart';
+import 'package:Nuvle/models/skeltons/menus/restaurantMenuType.dart';
+import 'package:Nuvle/models/skeltons/user/userAccount.dart';
+import 'package:Nuvle/styles/colors.dart';
 import 'package:provider/provider.dart';
 
 class MenuTabListing extends StatefulWidget {

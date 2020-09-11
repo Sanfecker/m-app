@@ -1,19 +1,19 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:nuvlemobile/components/inputs/cupertinoSwitchTile.dart';
-import 'package:nuvlemobile/misc/functions.dart';
-import 'package:nuvlemobile/models/providers/homePageProvider.dart';
-import 'package:nuvlemobile/models/providers/mainPageProvider.dart';
-import 'package:nuvlemobile/models/providers/user/userAccountProvider.dart';
-import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
-import 'package:nuvlemobile/pages/user/homepage.dart';
-import 'package:nuvlemobile/pages/user/main/profile/changeDp.dart';
-import 'package:nuvlemobile/pages/user/main/profile/contactSupport.dart';
-import 'package:nuvlemobile/pages/user/main/profile/orderHistory.dart';
-import 'package:nuvlemobile/pages/user/main/profile/profileSettings.dart';
-import 'package:nuvlemobile/styles/colors.dart';
-import 'package:nuvlemobile/styles/nuvleIcons.dart';
+import 'package:Nuvle/components/inputs/cupertinoSwitchTile.dart';
+import 'package:Nuvle/misc/functions.dart';
+import 'package:Nuvle/models/providers/homePageProvider.dart';
+import 'package:Nuvle/models/providers/mainPageProvider.dart';
+import 'package:Nuvle/models/providers/user/userAccountProvider.dart';
+import 'package:Nuvle/models/skeltons/user/userAccount.dart';
+import 'package:Nuvle/pages/user/homepage.dart';
+import 'package:Nuvle/pages/user/main/profile/changeDp.dart';
+import 'package:Nuvle/pages/user/main/profile/contactSupport.dart';
+import 'package:Nuvle/pages/user/main/profile/orderHistory.dart';
+import 'package:Nuvle/pages/user/main/profile/profileSettings.dart';
+import 'package:Nuvle/styles/colors.dart';
+import 'package:Nuvle/styles/nuvleIcons.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

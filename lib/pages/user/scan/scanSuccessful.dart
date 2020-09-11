@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:nuvlemobile/misc/functions.dart';
-import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
-import 'package:nuvlemobile/pages/user/main/mainPage.dart';
-import 'package:nuvlemobile/pages/user/main/profile/profile.dart';
+import 'package:Nuvle/misc/functions.dart';
+import 'package:Nuvle/models/skeltons/user/userAccount.dart';
+import 'package:Nuvle/pages/user/main/mainPage.dart';
+import 'package:Nuvle/pages/user/main/profile/profile.dart';
 
 class ScanSuccessfulPage extends StatefulWidget {
   final UserAccount userAccount;

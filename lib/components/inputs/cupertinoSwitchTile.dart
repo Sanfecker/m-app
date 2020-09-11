@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:nuvlemobile/styles/colors.dart';
+import 'package:Nuvle/styles/colors.dart';
 
 class CupertinoSwitchListTile extends StatelessWidget {
   /// This has been shamelessly copied from Material/SwitchListTile.

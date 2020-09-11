@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:nuvlemobile/components/widgets/user/selectableListingWidget.dart';
-import 'package:nuvlemobile/misc/functions.dart';
-import 'package:nuvlemobile/models/providers/user/order/orderProvider.dart';
-import 'package:nuvlemobile/models/skeltons/menus/menuData.dart';
-import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
-import 'package:nuvlemobile/styles/colors.dart';
+import 'package:Nuvle/components/widgets/user/selectableListingWidget.dart';
+import 'package:Nuvle/misc/functions.dart';
+import 'package:Nuvle/models/providers/user/order/orderProvider.dart';
+import 'package:Nuvle/models/skeltons/menus/menuData.dart';
+import 'package:Nuvle/models/skeltons/user/userAccount.dart';
+import 'package:Nuvle/styles/colors.dart';
 import 'package:provider/provider.dart';
 
 class SidesBottomSheet extends StatefulWidget {

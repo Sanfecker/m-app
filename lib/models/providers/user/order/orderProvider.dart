@@ -2,12 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:nuvlemobile/api/apiRequests.dart';
-import 'package:nuvlemobile/misc/validations.dart';
-import 'package:nuvlemobile/models/providers/socket/socket_provider.dart';
-import 'package:nuvlemobile/models/skeltons/api/apiRequestModel.dart';
-import 'package:nuvlemobile/models/skeltons/menus/menuData.dart';
-import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
+import 'package:Nuvle/api/apiRequests.dart';
+import 'package:Nuvle/misc/validations.dart';
+import 'package:Nuvle/models/providers/socket/socket_provider.dart';
+import 'package:Nuvle/models/skeltons/api/apiRequestModel.dart';
+import 'package:Nuvle/models/skeltons/menus/menuData.dart';
+import 'package:Nuvle/models/skeltons/user/userAccount.dart';
 import 'package:provider/provider.dart';
 
 class OrderProvider extends ChangeNotifier {

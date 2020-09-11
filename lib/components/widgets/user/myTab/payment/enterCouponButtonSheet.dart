@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:nuvlemobile/components/inputs/pinInputBox.dart';
-import 'package:nuvlemobile/misc/functions.dart';
-import 'package:nuvlemobile/styles/colors.dart';
+import 'package:Nuvle/components/inputs/pinInputBox.dart';
+import 'package:Nuvle/misc/functions.dart';
+import 'package:Nuvle/styles/colors.dart';
 
 class EnterCouponBottomSheet extends StatefulWidget {
   @override

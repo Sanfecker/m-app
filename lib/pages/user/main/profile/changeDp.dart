@@ -2,12 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:nuvlemobile/misc/functions.dart';
-import 'package:nuvlemobile/models/providers/homePageProvider.dart';
-import 'package:nuvlemobile/models/providers/mainPageProvider.dart';
-import 'package:nuvlemobile/pages/user/main/profile/profile.dart';
-import 'package:nuvlemobile/styles/colors.dart';
-import 'package:nuvlemobile/styles/nuvleIcons.dart';
+import 'package:Nuvle/misc/functions.dart';
+import 'package:Nuvle/models/providers/homePageProvider.dart';
+import 'package:Nuvle/models/providers/mainPageProvider.dart';
+import 'package:Nuvle/pages/user/main/profile/profile.dart';
+import 'package:Nuvle/styles/colors.dart';
+import 'package:Nuvle/styles/nuvleIcons.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

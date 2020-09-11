@@ -1,4 +1,4 @@
-package com.firebrainsgrp.nuvlemobile
+package com.firebrainsgrp.Nuvle
 
 import io.flutter.embedding.android.FlutterActivity
 
