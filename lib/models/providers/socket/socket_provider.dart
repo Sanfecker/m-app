@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
-import 'package:flutter_socket_io/flutter_socket_io.dart';
-import 'package:flutter_socket_io/socket_io_manager.dart';
-import 'package:nuvlemobile/misc/functions.dart';
-import 'package:nuvlemobile/models/skeltons/user/tab.dart';
-import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
-import 'package:nuvlemobile/pages/user/scan/scanissuccess.dart';
-=======
->>>>>>> 72ffa3a1abfdb6987f0ddc469a2f80e90cc80e52
+import 'package:Nuvle/misc/functions.dart';
+import 'package:Nuvle/models/skeltons/user/tab.dart';
+import 'package:Nuvle/models/skeltons/user/userAccount.dart';
+import 'package:Nuvle/pages/user/scan/scanissuccess.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
-
 
 class SocketProvider extends ChangeNotifier {
   static final String baseUrl = 'https://nulve-node-api.herokuapp.com/api/v1';

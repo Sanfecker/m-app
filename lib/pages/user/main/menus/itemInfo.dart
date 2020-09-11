@@ -46,14 +46,10 @@ class _ItemInfoState extends State<ItemInfo> {
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Container(
-<<<<<<< HEAD
             height: widget.menuItem.sides != null &&
                     widget.menuItem.sides.isNotEmpty
                 ? 950
                 : MediaQuery.of(context).size.height * 0.8,
-=======
-            height: 1250,
->>>>>>> 72ffa3a1abfdb6987f0ddc469a2f80e90cc80e52
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -175,10 +171,6 @@ class _ItemInfoState extends State<ItemInfo> {
                 if (widget.menuItem.sides != null &&
                     widget.menuItem.sides.isNotEmpty)
                   Container(
-<<<<<<< HEAD
-                    padding: EdgeInsets.symmetric(vertical: 10),
-=======
->>>>>>> 72ffa3a1abfdb6987f0ddc469a2f80e90cc80e52
                     height: 300,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -266,10 +258,12 @@ class _ItemInfoState extends State<ItemInfo> {
                                                         (BuildContext context,
                                                             String val) {
                                                       return Center(
-                                                        child: CircularProgressIndicator(
-                                                          valueColor: AlwaysStoppedAnimation(
-                                                              CustomColors.primary
-                                                          ),
+                                                        child:
+                                                            CircularProgressIndicator(
+                                                          valueColor:
+                                                              AlwaysStoppedAnimation(
+                                                                  CustomColors
+                                                                      .primary),
                                                         ),
                                                       );
                                                     },
