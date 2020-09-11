@@ -58,9 +58,9 @@ class OrderProvider extends ChangeNotifier {
           .add([element, DateFormat.yMMMd().format(DateTime.now()).toString()]);
     });
     _feedbackList.addAll(_tab);
-    _feedbackList.forEach((element) {
-      element.rating = 5;
-    });
+    // _feedbackList.forEach((element) {
+    //   element.rating = 5;
+    // });
     _tab.clear();
   }
 
@@ -202,46 +202,36 @@ class OrderProvider extends ChangeNotifier {
             })
         .toList();
 
-    Map<String, dynamic> body = {
-      "tab_id": account.tab.attributes.id,
-      "orders": items.map((e) {
-        Map<String, dynamic> res = {
-          "item_id": e.itemId,
-          "item_type": e.itemType,
-          "note": e.note ?? "empty"
-        };
-        if (e.confirmedSides != null) {
-          res.addAll({
-            "side_dishes_id": e.confirmedSides.map((e) => e.itemId).toList()
-          });
-        }
-        if (e.selectedCookingPreference != null) {
-          res.addAll({
-            "cooking_preferences": [e.selectedCookingPreference]
-          });
-        }
-        return res;
-      }).toList(),
-    };
+    // Map<String, dynamic> body = {
+    //   "tab_id": account.tab.attributes.id,
+    //   "orders": items.map((e) {
+    //     Map<String, dynamic> res = {
+    //       "item_id": e.itemId,
+    //       "item_type": e.itemType,
+    //       "note": e.note ?? "empty"
+    //     };
+    //     if (e.confirmedSides != null) {
+    //       res.addAll({
+    //         "side_dishes_id": e.confirmedSides.map((e) => e.itemId).toList()
+    //       });
+    //     }
+    //     if (e.selectedCookingPreference != null) {
+    //       res.addAll({
+    //         "cooking_preferences": [e.selectedCookingPreference]
+    //       });
+    //     }
+    //     return res;
+    //   }).toList(),
+    // };
     // print(body);
     try {
-      var responseBody = await ApiRequest.postJSON(
-          body, "${account.tab.attributes.restaurantId}/orders", account.token);
-      // print(responseBody);
-      if (responseBody["success"]) {
-        list.length > 1
-            ? provider.placeMultipleOrders({"orders": list})
-            : provider.placeOrder(list[0]);
-        // OrderModel order = OrderModel.fromJson(responseBody["data"]);
-        apiRequestModel.isSuccessful = true;
-        _tab.addAll(items);
-        _orders.clear();
-        // apiRequestModel.result = order;
-        notifyListeners();
-      } else {
-        apiRequestModel = Validations()
-            .getErrorMessage(responseBody['message'], responseBody['data']);
-      }
+      list.length > 1
+          ? provider.placeMultipleOrders({"orders": list})
+          : provider.placeOrder(list[0]);
+      apiRequestModel.isSuccessful = true;
+      _tab.addAll(items);
+      _orders.clear();
+      notifyListeners();
     } catch (e) {
       print("EERRRRR $e");
       apiRequestModel.isSuccessful = false;

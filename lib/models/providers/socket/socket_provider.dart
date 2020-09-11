@@ -3,6 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_socket_io/flutter_socket_io.dart';
 import 'package:flutter_socket_io/socket_io_manager.dart';
+import 'package:nuvlemobile/misc/functions.dart';
+import 'package:nuvlemobile/models/skeltons/user/tab.dart';
+import 'package:nuvlemobile/models/skeltons/user/userAccount.dart';
+import 'package:nuvlemobile/pages/user/scan/scanissuccess.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:socket_io_client/socket_io_client.dart' as IOS;
 import 'package:web_socket_channel/status.dart' as status;
@@ -16,32 +20,49 @@ class SocketProvider extends ChangeNotifier {
     'transports': ['websocket'],
   });
 
-  openTab(String restaurantId, tableId, userId) {
+  openTab(String restaurantId, tableId, UserAccount userAccount,
+      BuildContext context) {
     socket.connect();
-    socket.on('connect', (data) => print(data));
+    socket.on('connect', (data) {});
 
     Map<String, dynamic> map = {
       "restaurant_id": restaurantId,
       "table": tableId,
-      "user": userId,
+      "user": userAccount.id,
     };
 
     socket.emit('open_tab', map);
-    socket.on('opened_tab', (val) {
-      print(val);
+    socket.on('tab_opened', (val) {
+      // print(val);
       _restaurantID = restaurantId;
       _tableID = tableId;
-      _userID = userId;
+      _userID = userAccount.id;
       _tabID = val['data']['_id'];
+      userAccount.tab = TabModel(
+          id: val['data']['_id'],
+          attributes: TabModelAttributes(
+            createdAt: val['data']['createdAt'],
+            id: val['data']['_id'],
+            tableId: val['data']['table'],
+            restaurantId: val['data']['restaurant_id'],
+            updatedAt: val['data']['updatedAt'],
+            user: userAccount,
+            groupCode: val['data']['group_code'].toString(),
+            opened: val['data']['isOpen'],
+          ));
+      Functions().scaleToReplace(
+          context, ScanSuccessful(userAccount: userAccount),
+          removePreviousRoots: true);
     });
     socket.on('open_tab_error', (val) {
-      print(val);
+      // print(val);
+      Navigator.pop(context);
     });
   }
 
   closeTab(String tabID) {
-    socket.connect();
-    socket.on('connect', (data) => print(data));
+    // socket.connect();
+    // socket.on('connect', (data) => print(data));
 
     Map<String, dynamic> map = {
       "id": tabID,
@@ -50,33 +71,33 @@ class SocketProvider extends ChangeNotifier {
     socket.emit('close_tab', map);
 
     socket.on('tab_closed', (val) {
-      print(val);
+      // print(val);
     });
     socket.on('tab_close_error', (val) {
-      print(val);
+      // print(val);
     });
   }
 
-  getUserTab(String tabID, String restaurantID, String userID) {
-    print(tabID);
-    print(userID);
-    print(restaurantID);
+  getUserTab() {
+    print(_tabID);
+    print(_userID);
+    print(_restaurantID);
     socket.connect();
     socket.on('connect', (data) => print('data'));
 
     Map<String, dynamic> map = {
-      "restaurant": restaurantID,
-      "tab": tabID,
-      "user": userID,
+      "restaurant": _restaurantID,
+      "tab": _tabID,
+      "user": _userID,
     };
 
     socket.emit('get_user_tab', map);
     socket.on('user_tab', (val) {
-      print(val);
+      // print(val);
       // return val;
     });
     socket.on('tabs_error', (val) {
-      print(val);
+      // print(val);
       // return val;
     });
   }
@@ -89,10 +110,10 @@ class SocketProvider extends ChangeNotifier {
 
     socket.emit('request_waiter', map);
     socket.on('waiter_requested', (val) {
-      print(val);
+      // print(val);
     });
     socket.on('request_waiter_error', (val) {
-      print(val);
+      // print(val);
     });
   }
 
@@ -104,10 +125,10 @@ class SocketProvider extends ChangeNotifier {
 
     socket.emit('place_order', map);
     socket.on('order_placed', (val) {
-      print(val);
+      // print(val);
     });
     socket.on('place_order_error', (val) {
-      print(val);
+      // print(val);
     });
   }
 
@@ -119,10 +140,10 @@ class SocketProvider extends ChangeNotifier {
 
     socket.emit('place_orders', map);
     socket.on('orders_placed', (val) {
-      print(val);
+      // print(val);
     });
     socket.on('place_orders_error', (val) {
-      print(val);
+      // print(val);
     });
   }
 

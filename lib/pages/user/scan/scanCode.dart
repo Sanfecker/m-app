@@ -160,54 +160,56 @@ class _ScanCodePageState extends State<ScanCodePage> {
                         key: qrKey,
                         onQRViewCreated: (QRViewController controller) {
                           this.controller = controller;
+                          // controller.dispose();
                           controller.scannedDataStream.listen(
                             (scanData) async {
                               if (scanData != null) {
+                                controller.dispose();
                                 Map<String, dynamic> responseBody =
                                     jsonDecode(scanData);
                                 if (responseBody.containsKey("table_id") &&
                                     responseBody.containsKey("restaurant_id")) {
+                                  print('scanned');
                                   ScanResponse scanResponse =
                                       ScanResponse.fromJson(responseBody);
                                   Functions().showLoadingDialog(context);
+                                  SocketProvider socketProvider =
+                                      Provider.of<SocketProvider>(context,
+                                          listen: false);
+                                  socketProvider.openTab(
+                                    scanResponse.restaurantId,
+                                    scanResponse.tableId,
+                                    widget.userAccount,
+                                    context,
+                                  );
+
                                   // print(scanResponse.restaurantId);
-                                  try {
-                                    ApiRequestModel apiRequestModel =
-                                        await Provider.of<TabProvider>(context,
-                                                listen: false)
-                                            .createTab(scanResponse,
-                                                widget.userAccount);
-                                    if (apiRequestModel.isSuccessful) {
-                                      TabModel tab = apiRequestModel.result;
-                                      widget.userAccount.tab = tab;
-                                      // print(tab.id);
-                                      // Provider.of<UserAccountProvider>(context,
-                                      //         listen: false)
-                                      //     .setCurrentUserTabs(w tab);
-                                      SocketProvider socketProvider =
-                                          Provider.of<SocketProvider>(context,
-                                              listen: false);
-                                      socketProvider.openTab(
-                                        tab.attributes.restaurantId,
-                                        tab.attributes.tableId,
-                                        widget.userAccount.id,
-                                      );
-                                      // socketProvider.closeTab(tab.id);
-                                      Functions().scaleToReplace(
-                                          context,
-                                          ScanSuccessful(
-                                              userAccount: widget.userAccount),
-                                          removePreviousRoots: true);
-                                    } else {
-                                      Navigator.pop(context);
-                                      showInSnackBar(
-                                          apiRequestModel.errorMessage);
-                                    }
-                                  } catch (e) {
-                                    print(e);
-                                    // Navigator.pop(context);
-                                    showInSnackBar("Internal Error");
-                                  }
+                                  // try {
+                                  //   // ApiRequestModel apiRequestModel =
+                                  //   //     await Provider.of<TabProvider>(context,
+                                  //   //             listen: false)
+                                  //   //         .createTab(scanResponse,
+                                  //   //             widget.userAccount);
+                                  //   if (apiRequestModel.isSuccessful) {
+                                  //     TabModel tab = apiRequestModel.result;
+                                  //     widget.userAccount.tab = tab;
+                                  //     // print(tab.id);
+                                  //     // Provider.of<UserAccountProvider>(context,
+                                  //     //         listen: false)
+                                  //     //     .setCurrentUserTabs(w tab);
+
+                                  //     // socketProvider.closeTab(tab.id);
+
+                                  //   } else {
+                                  //     Navigator.pop(context);
+                                  //     showInSnackBar(
+                                  //         apiRequestModel.errorMessage);
+                                  //   }
+                                  // } catch (e) {
+                                  //   print(e);
+                                  //   // Navigator.pop(context);
+                                  //   showInSnackBar("Internal Error");
+                                  // }
                                 }
                               }
                             },

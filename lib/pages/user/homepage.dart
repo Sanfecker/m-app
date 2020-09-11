@@ -31,6 +31,13 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
+  @override
+  void initState() {
+    print(widget.userAccount.id);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     _buttomenuSubmitted(BuildContext ctx) async {

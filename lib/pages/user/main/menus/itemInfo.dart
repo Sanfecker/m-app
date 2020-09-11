@@ -48,7 +48,7 @@ class _ItemInfoState extends State<ItemInfo> {
           child: Container(
             height: widget.menuItem.sides != null &&
                     widget.menuItem.sides.isNotEmpty
-                ? 850
+                ? 950
                 : MediaQuery.of(context).size.height * 0.8,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -170,7 +170,9 @@ class _ItemInfoState extends State<ItemInfo> {
                 SizedBox(height: 40),
                 if (widget.menuItem.sides != null &&
                     widget.menuItem.sides.isNotEmpty)
-                  Flexible(
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: 10),
+                    height: 300,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -342,8 +344,10 @@ class _ItemInfoState extends State<ItemInfo> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 24,
+                Expanded(
+                  child: SizedBox(
+                    height: 24,
+                  ),
                 ),
               ],
             ),

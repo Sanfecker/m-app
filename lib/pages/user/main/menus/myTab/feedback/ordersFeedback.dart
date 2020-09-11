@@ -14,7 +14,7 @@ import 'package:provider/provider.dart';
 class OrdersFeedback extends StatefulWidget {
   final UserAccount userAccount;
 
-  const OrdersFeedback({Key key, this.userAccount}) : super(key: key);
+  const OrdersFeedback({this.userAccount});
   @override
   _OrdersFeedbackState createState() => _OrdersFeedbackState();
 }
@@ -93,6 +93,8 @@ class _OrdersFeedbackState extends State<OrdersFeedback> {
       ),
       body: SafeArea(
         child: Container(
+          height: double.infinity,
+          width: double.infinity,
           padding: EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -106,16 +108,39 @@ class _OrdersFeedbackState extends State<OrdersFeedback> {
                 ),
               ),
               SizedBox(height: 20),
-              Flexible(child:
-                  Consumer<OrderProvider>(builder: (context, pro, child) {
-                return ListView(
-                    children: pro.feedbackList.map((e) {
-                  FeedbackListingWidget(
-                    menuItem: e,
-                    userAccount: widget.userAccount,
+              Consumer<OrderProvider>(
+                builder: (context, pro, child) {
+                  return Expanded(
+                    child: ListView(
+                      // shrinkWrap: true,
+                      // children: pro.feedbackList.map((e) {
+                      //   FeedbackListingWidget(
+                      //     menuItem: e,
+                      //     userAccount: widget.userAccount,
+                      //   );
+                      // }).toList(),
+                      children: [
+                        Container(
+                          height: 200,
+                          width: double.infinity,
+                        ),
+                        Container(
+                          height: 200,
+                          width: double.infinity,
+                        ),
+                        Container(
+                          height: 200,
+                          width: double.infinity,
+                        ),
+                        Container(
+                          height: 200,
+                          width: double.infinity,
+                        ),
+                      ],
+                    ),
                   );
-                }).toList());
-              })),
+                },
+              ),
             ],
           ),
         ),

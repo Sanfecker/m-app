@@ -40,9 +40,9 @@ class _MyTabState extends State<MyTab> {
         }
       }
     }
-    // SocketProvider socketProvider =
-    //     Provider.of<SocketProvider>(context, listen: false);
-    // socketProvider.getUserTab();
+    SocketProvider socketProvider =
+        Provider.of<SocketProvider>(context, listen: false);
+    socketProvider.getUserTab();
     super.initState();
   }
 
