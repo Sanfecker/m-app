@@ -1,6 +1,10 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:Nuvle/misc/strings.dart';
 import 'package:Nuvle/models/skeltons/user/userAccount.dart';
 import 'package:Nuvle/pages/auth/login/loginEmail.dart';
@@ -9,29 +13,56 @@ import 'package:Nuvle/pages/user/homepage.dart';
 import 'package:Nuvle/pages/user/main/mainPage.dart';
 import 'package:Nuvle/services/providerRegistry.dart';
 import 'package:Nuvle/styles/colors.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
+import 'models/skeltons/user/tab.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String currentUserDetails = prefs.getString(Strings.currentUserSPKey);
+  String tab = prefs.getString('tab');
+  print(tab);
   bool hasSeenOnBoard = prefs.getBool(Strings.hasSeenOnBoardSPKey) ?? false;
   UserAccount userAccount;
   if (currentUserDetails != null) {
-    userAccount = UserAccount.fromJson(jsonDecode((currentUserDetails)));
+    userAccount = UserAccount.fromJson(
+      jsonDecode(
+        (currentUserDetails),
+      ),
+    );
+    if (tab != null)
+      userAccount.tab = TabModel(
+        id: jsonDecode(tab)['data']['_id'],
+        attributes: TabModelAttributes(
+          createdAt: jsonDecode(tab)['data']['createdAt'],
+          id: jsonDecode(tab)['data']['_id'],
+          tableId: jsonDecode(tab)['data']['table'],
+          restaurantId: jsonDecode(tab)['data']['restaurant_id'],
+          updatedAt: jsonDecode(tab)['data']['updatedAt'],
+          user: userAccount,
+          groupCode: jsonDecode(tab)['data']['group_code'].toString(),
+          opened: jsonDecode(tab)['data']['isOpen'],
+        ),
+      );
+    // print(userAccount.tab.id);
   }
-  runApp(AppRoot(
-    hasSeenOnBoard: hasSeenOnBoard,
-    userAccount: userAccount,
-  ));
+  runApp(
+    AppRoot(
+      hasSeenOnBoard: hasSeenOnBoard,
+      userAccount: userAccount,
+    ),
+  );
 }
 
 class AppRoot extends StatelessWidget {
   final UserAccount userAccount;
   final bool hasSeenOnBoard;
 
-  AppRoot({Key key, this.userAccount, this.hasSeenOnBoard}) : super(key: key);
+  AppRoot({
+    Key key,
+    this.userAccount,
+    this.hasSeenOnBoard,
+  }) : super(key: key);
 
   final Map<int, Color> color = {
     50: Color.fromRGBO(192, 163, 104, .1),

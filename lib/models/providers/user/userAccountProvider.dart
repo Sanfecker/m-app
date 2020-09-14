@@ -99,7 +99,11 @@ class UserAccountProvider extends ChangeNotifier {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString(
-          Strings.currentUserSPKey, jsonEncode(account.toJson()));
+        Strings.currentUserSPKey,
+        jsonEncode(
+          account.toJson(),
+        ),
+      );
     } catch (e) {
       print("SHARE PRE $e");
     }

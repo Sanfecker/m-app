@@ -50,7 +50,11 @@ class ListingWidget extends StatelessWidget {
                         height: 125,
                       ),
                       placeholder: (BuildContext context, String val) {
-                        return Center(child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(CustomColors.primary),));
+                        return Center(
+                            child: CircularProgressIndicator(
+                          valueColor:
+                              AlwaysStoppedAnimation(CustomColors.primary),
+                        ));
                       },
                       fit: menuItem.itemType.toLowerCase() == 'drink'
                           ? BoxFit.contain
@@ -128,7 +132,7 @@ class ListingWidget extends StatelessWidget {
                       SizedBox(height: 20),
                       Text(
                         menuItem.itemName.toLowerCase(),
-                        style: TextStyle(fontSize: 20),
+                        style: TextStyle(fontSize: 24),
                       ),
                       SizedBox(height: 20),
                       Row(

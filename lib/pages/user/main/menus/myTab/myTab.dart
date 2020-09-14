@@ -14,35 +14,37 @@ import 'package:provider/provider.dart';
 
 class MyTab extends StatefulWidget {
   final UserAccount userAccount;
+  final List userTab;
 
-  const MyTab({Key key, @required this.userAccount}) : super(key: key);
+  const MyTab({Key key, @required this.userAccount, @required this.userTab})
+      : super(key: key);
   @override
   _MyTabState createState() => _MyTabState();
 }
 
 class _MyTabState extends State<MyTab> {
-  List<MenuItems> food = List<MenuItems>();
-  List<MenuItems> drinks = List<MenuItems>();
-  List<MenuItems> dessert = List<MenuItems>();
-  OrderProvider _orderProvider;
+  List<MenuItems> _tab = List<MenuItems>();
   @override
   void initState() {
-    _orderProvider = Provider.of<OrderProvider>(context, listen: false);
-    if (_orderProvider.tab.length > 0) {
-      for (var e in _orderProvider.tab) {
-        // print(e.itemType);
-        if (e.itemType.toLowerCase() == 'main dish') {
-          food.add(e);
-        } else if (e.itemType.toLowerCase() == 'drink') {
-          drinks.add(e);
-        } else if (e.itemType.toLowerCase() == 'dessert') {
-          dessert.add(e);
-        }
-      }
-    }
-    SocketProvider socketProvider =
-        Provider.of<SocketProvider>(context, listen: false);
-    socketProvider.getUserTab();
+    _tab = widget.userTab
+        .map(
+          (e) => MenuItems(
+            price: e['markAsFree']
+                ? '0'
+                : e['discount'] == null
+                    ? e['item_id']['price']
+                    : (int.parse(e['item_id']['price']) *
+                            int.parse(e['discount']) /
+                            100)
+                        .toString(),
+            itemName: e['item_id']['item_name'],
+            imageUrl: e['item_id']['image_url'],
+            currency: e['item_id']['currency'],
+            itemType: e['item_id']['_cls'],
+          ),
+        )
+        .toList();
+    print(_tab.length);
     super.initState();
   }
 
@@ -55,8 +57,24 @@ class _MyTabState extends State<MyTab> {
       ),
       body: Consumer<OrderProvider>(
         builder: (context, pro, child) {
+          List<MenuItems> food = List<MenuItems>();
+          food = _tab
+              .where((element) =>
+                  element.itemType.toLowerCase() == 'menuitem.maindish' ||
+                  element.itemType.toLowerCase() == 'menuitem.sidedish')
+              .toList();
+          List<MenuItems> drink = List<MenuItems>();
+          drink = _tab
+              .where((element) =>
+                  element.itemType.toLowerCase() == 'menuitem.drink')
+              .toList();
+          List<MenuItems> dessert = List<MenuItems>();
+          dessert = _tab
+              .where((element) =>
+                  element.itemType.toLowerCase() == 'menuitem.dessert')
+              .toList();
           return Container(
-            height: 730.8,
+            height: double.infinity,
             width: double.infinity,
             padding: EdgeInsets.symmetric(horizontal: 12),
             child: Column(
@@ -94,7 +112,7 @@ class _MyTabState extends State<MyTab> {
                     ),
                   ],
                 ),
-                if (pro.tab.isEmpty)
+                if (_tab.isEmpty)
                   Expanded(
                     child: Center(
                       child: Column(
@@ -133,21 +151,24 @@ class _MyTabState extends State<MyTab> {
                           ),
                         ),
                         SizedBox(height: 15),
-                        Flexible(
+                        Expanded(
                           child: Container(
                             width: double.infinity,
                             // height: 115,
                             padding: EdgeInsets.symmetric(
                               vertical: 5,
                             ),
-                            child: ListView(
+                            child: ListView.builder(
+                              itemBuilder: (context, index) {
+                                return food.length > 0
+                                    ? MyTabListingWidget(
+                                        menuItem: food[index],
+                                      )
+                                    : null;
+                              },
+                              itemCount: food.length,
                               shrinkWrap: true,
                               scrollDirection: Axis.horizontal,
-                              children: food
-                                  .map(
-                                    (i) => MyTabListingWidget(menuItem: i),
-                                  )
-                                  .toList(),
                             ),
                           ),
                         ),
@@ -162,21 +183,24 @@ class _MyTabState extends State<MyTab> {
                           ),
                         ),
                         SizedBox(height: 15),
-                        Flexible(
+                        Expanded(
                           child: Container(
                             width: double.infinity,
                             // height: 115,
                             padding: EdgeInsets.symmetric(
                               vertical: 5,
                             ),
-                            child: ListView(
+                            child: ListView.builder(
+                              itemBuilder: (context, index) {
+                                return drink.length > 0
+                                    ? MyTabListingWidget(
+                                        menuItem: drink[index],
+                                      )
+                                    : null;
+                              },
+                              itemCount: drink.length,
                               shrinkWrap: true,
                               scrollDirection: Axis.horizontal,
-                              children: drinks
-                                  .map(
-                                    (i) => MyTabListingWidget(menuItem: i),
-                                  )
-                                  .toList(),
                             ),
                           ),
                         ),
@@ -191,21 +215,24 @@ class _MyTabState extends State<MyTab> {
                           ),
                         ),
                         SizedBox(height: 15),
-                        Flexible(
+                        Expanded(
                           child: Container(
                             width: double.infinity,
                             // height: 115,
                             padding: EdgeInsets.symmetric(
                               vertical: 5,
                             ),
-                            child: ListView(
+                            child: ListView.builder(
+                              itemBuilder: (context, index) {
+                                return dessert.length > 0
+                                    ? MyTabListingWidget(
+                                        menuItem: dessert[index],
+                                      )
+                                    : null;
+                              },
+                              itemCount: dessert.length,
                               shrinkWrap: true,
                               scrollDirection: Axis.horizontal,
-                              children: dessert
-                                  .map(
-                                    (i) => MyTabListingWidget(menuItem: i),
-                                  )
-                                  .toList(),
                             ),
                           ),
                         ),
@@ -216,7 +243,7 @@ class _MyTabState extends State<MyTab> {
                             Functions.openBottomSheet(
                                 context,
                                 CloseTabBottomSheet(
-                                  tab: pro.tab,
+                                  tab: _tab,
                                   userAccount: widget.userAccount,
                                 ),
                                 true);

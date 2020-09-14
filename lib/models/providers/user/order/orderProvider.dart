@@ -40,6 +40,24 @@ class OrderProvider extends ChangeNotifier {
     _bill = val;
   }
 
+  set orderList(List userTab) {
+    _tab = userTab
+        .map(
+          (e) => MenuItems(
+            isFree: e['markAsFree'],
+            price: e['item_id']['price'],
+            itemName: e['item_id']['item_name'],
+            discount: e['discount'] == null ? null : int.parse(e['discount']),
+            imageUrl: e['item_id']['image_url'],
+            currency: e['item_id']['currency'],
+            itemType: e['item_id']['_cls'],
+          ),
+        )
+        .toList();
+    // print(_tab[0].itemType);
+    notifyListeners();
+  }
+
   addOrder(MenuItems val) {
     _orders.add(val);
     if (scrollController.hasClients) {
@@ -197,7 +215,7 @@ class OrderProvider extends ChangeNotifier {
               "note": e.note,
               "quantity": e.orderQuantity,
               "toGo": e.takeAway,
-              "user": account.id,
+              "user": account.tab.attributes.user.attributes.id,
               "cooking_preferences": e.selectedCookingPreference
             })
         .toList();

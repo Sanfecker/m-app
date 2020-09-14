@@ -44,7 +44,6 @@ class _FeedbackListingWidgetState extends State<FeedbackListingWidget> {
         ),
       ),
       child: Container(
-        height: 300,
         margin: EdgeInsets.only(bottom: 20),
         padding: EdgeInsets.all(14),
         child: Row(

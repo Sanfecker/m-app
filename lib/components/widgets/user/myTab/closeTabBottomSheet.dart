@@ -51,9 +51,10 @@ class _CloseTabBottomSheetState extends State<CloseTabBottomSheet> {
       print('Response = $response');
       if (response.message == 'Success') {
         Provider.of<OrderProvider>(context, listen: false).closeTab();
-        Provider.of<SocketProvider>(context, listen: false)
-            .closeTab(widget.userAccount.tab.id);
-        Navigator.popUntil(context, (route) => route.isFirst);
+        Provider.of<SocketProvider>(context, listen: false).closeTab(
+          widget.userAccount.tab.id,
+          context,
+        );
         Functions().navigateTo(
           context,
           PaymentComplete(userAccount: widget.userAccount),
@@ -86,15 +87,16 @@ class _CloseTabBottomSheetState extends State<CloseTabBottomSheet> {
     _orderProvider.getBill(result);
     return result;
   }
+
 //
   @override
   void initState() {
-    widget.tab[0].currency == 'USD'
+    widget.tab[0].currency != 'USD'
         ? StripePayment.setOptions(StripeOptions(
-        publishableKey:
-        "pk_test_51HBKGCAEqZIazashJa8IJ1IRT8j7m8CdmfuomZGRUCEF7lHjt2HltE4nem5GkiFhaWm3F79eDXr75U6un9mmy0Dg00ZaLbhqv7",
-        merchantId: "Test",
-        androidPayMode: 'test'))
+            publishableKey:
+                "pk_test_51HBKGCAEqZIazashJa8IJ1IRT8j7m8CdmfuomZGRUCEF7lHjt2HltE4nem5GkiFhaWm3F79eDXr75U6un9mmy0Dg00ZaLbhqv7",
+            merchantId: "Test",
+            androidPayMode: 'test'))
         : PaystackPlugin.initialize(publicKey: paystackPublicKey);
 
     super.initState();
@@ -304,7 +306,7 @@ class _CloseTabBottomSheetState extends State<CloseTabBottomSheet> {
                 builder: (context, pro, child) => Functions().customButton(
                   context,
                   onTap: () {
-                    if (widget.tab[0].currency == 'USD') {
+                    if (widget.tab[0].currency != 'USD') {
                       StripePayment.paymentRequestWithNativePay(
                         androidPayOptions: AndroidPayPaymentRequest(
                           totalPrice: "${total() * 100}",

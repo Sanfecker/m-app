@@ -71,12 +71,14 @@ class MenuItems {
   List<String> dietaryRestrictions;
   String imageUrl;
   bool isLive;
+  bool isFree;
   String itemId;
   String itemName;
   List<ItemTags> itemTags;
   List<String> itemTagsList;
   String itemType;
   String price;
+  int discount;
   String restaurantId;
   String restaurantName;
   List<ServedWith> servedWith;
@@ -86,34 +88,37 @@ class MenuItems {
   int sidesCount;
   String note;
 
-  MenuItems(
-      {this.calorieCount,
-      this.categoryId,
-      this.categoryName,
-      this.cookingPreferences,
-      this.selectedCookingPreference,
-      this.orderQuantity = 1,
-      this.takeAway = false,
-      this.currency,
-      this.description,
-      this.dietaryRestrictions,
-      this.imageUrl,
-      this.isLive,
-      this.rating = 1.0,
-      this.itemId,
-      this.itemName,
-      this.itemTags,
-      this.itemTagsList,
-      this.itemType,
-      this.price,
-      this.restaurantId,
-      this.restaurantName,
-      this.servedWith,
-      this.sides,
-      this.selectedSides,
-      this.confirmedSides,
-      this.sidesCount,
-      this.note});
+  MenuItems({
+    this.calorieCount,
+    this.categoryId,
+    this.categoryName,
+    this.cookingPreferences,
+    this.selectedCookingPreference,
+    this.orderQuantity = 1,
+    this.takeAway = false,
+    this.currency,
+    this.description,
+    this.dietaryRestrictions,
+    this.imageUrl,
+    this.isLive,
+    this.isFree,
+    this.rating = 5.0,
+    this.itemId,
+    this.itemName,
+    this.itemTags,
+    this.itemTagsList,
+    this.itemType,
+    this.price,
+    this.discount,
+    this.restaurantId,
+    this.restaurantName,
+    this.servedWith,
+    this.sides,
+    this.selectedSides,
+    this.confirmedSides,
+    this.sidesCount,
+    this.note,
+  });
 
   MenuItems.fromJson(Map<String, dynamic> json) {
     calorieCount = json['calorie_count'];

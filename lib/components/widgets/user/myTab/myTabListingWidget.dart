@@ -22,7 +22,9 @@ class MyTabListingWidget extends StatelessWidget {
       // onTap: () => Functions().scaleTo(context, ItemInfo(menuItem: menuItem)),
       child: Container(
         margin: EdgeInsets.only(right: 20),
+        padding: EdgeInsets.symmetric(vertical: 15),
         width: screenSize.width > 600 ? 500 : screenSize.width * 0.85,
+        height: 200,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(12),
           child: Container(
@@ -31,10 +33,9 @@ class MyTabListingWidget extends StatelessWidget {
               children: <Widget>[
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 15),
-                  padding: EdgeInsets.symmetric(vertical: 15),
                   child: CachedNetworkImage(
                     imageUrl: menuItem.imageUrl ?? '',
-                    // width: 109,
+                    width: 109,
                     // height: 125,
                     height: 110,
                     errorWidget: (context, url, error) => Image.asset(
@@ -43,8 +44,12 @@ class MyTabListingWidget extends StatelessWidget {
                       height: 125,
                     ),
                     placeholder: (BuildContext context, String val) {
-                        return Center(child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(CustomColors.primary),));
-                      },
+                      return Center(
+                          child: CircularProgressIndicator(
+                        valueColor:
+                            AlwaysStoppedAnimation(CustomColors.primary),
+                      ));
+                    },
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -59,7 +64,7 @@ class MyTabListingWidget extends StatelessWidget {
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: 24,
                           ),
                         ),
                       ),

@@ -1,3 +1,4 @@
+import 'package:Nuvle/models/providers/socket/socket_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:Nuvle/components/icons/callWaiterIcon.dart';
@@ -17,6 +18,7 @@ import 'package:Nuvle/pages/user/main/menus/myTab/myTab.dart';
 import 'package:Nuvle/pages/user/main/profile/profile.dart';
 import 'package:Nuvle/styles/colors.dart';
 import 'package:Nuvle/styles/nuvleIcons.dart';
+import 'package:provider/provider.dart';
 
 class Menus extends StatefulWidget {
   final UserAccount userAccount;
@@ -32,7 +34,9 @@ class _MenusState extends State<Menus> with SingleTickerProviderStateMixin {
 
   @override
   void initState() {
-    print(widget.userAccount.tab.id);
+    SocketProvider provider =
+        Provider.of<SocketProvider>(context, listen: false);
+    provider.listenCloseTab(context);
     page = 'main';
     tabs = [
       MainTabBarItem(
@@ -78,11 +82,11 @@ class _MenusState extends State<Menus> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: GestureDetector(
-        onTap: () => Functions().scaleTo(
-            context,
-            MyTab(
-              userAccount: widget.userAccount,
-            )),
+        onTap: () =>
+            Provider.of<SocketProvider>(context, listen: false).getUserTab(
+          widget.userAccount,
+          context,
+        ),
         child: Container(
           decoration: BoxDecoration(
             color: CustomColors.primary100,
@@ -213,8 +217,12 @@ class _MenusState extends State<Menus> with SingleTickerProviderStateMixin {
             child: TabBarView(
               controller: tabController,
               children: tabs
-                  .map((e) => MenuTabListing(
-                      userAccount: widget.userAccount, menuType: e.menuType))
+                  .map(
+                    (e) => MenuTabListing(
+                      userAccount: widget.userAccount,
+                      menuType: e.menuType,
+                    ),
+                  )
                   .toList(),
             ),
           ),

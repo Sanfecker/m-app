@@ -18,16 +18,15 @@ class CallWaiterIcon extends StatelessWidget {
         size: 25,
         color: CustomColors.primary100,
       ),
-      onPressed: () => Functions.openBottomSheet(
+      onPressed: () {
+        Functions.openBottomSheet(
           context,
           CallWaiterBottomSheet(
             userAccount: userAccount,
           ),
-          true),
-      //     Functions().navigateTo(
-      //   context,
-      //   SocketCon(userAccount: userAccount),
-      // ),
+          true,
+        );
+      },
     );
   }
 }

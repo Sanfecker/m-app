@@ -32,16 +32,6 @@ class _OrdersFeedbackState extends State<OrdersFeedback> {
   }
 
   @override
-  void initState() {
-    Provider.of<OrderProvider>(context, listen: false)
-        .feedbackList
-        .forEach((element) {
-      element.rating = 5;
-    });
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
@@ -111,32 +101,12 @@ class _OrdersFeedbackState extends State<OrdersFeedback> {
               Consumer<OrderProvider>(
                 builder: (context, pro, child) {
                   return Expanded(
-                    child: ListView(
-                      // shrinkWrap: true,
-                      // children: pro.feedbackList.map((e) {
-                      //   FeedbackListingWidget(
-                      //     menuItem: e,
-                      //     userAccount: widget.userAccount,
-                      //   );
-                      // }).toList(),
-                      children: [
-                        Container(
-                          height: 200,
-                          width: double.infinity,
-                        ),
-                        Container(
-                          height: 200,
-                          width: double.infinity,
-                        ),
-                        Container(
-                          height: 200,
-                          width: double.infinity,
-                        ),
-                        Container(
-                          height: 200,
-                          width: double.infinity,
-                        ),
-                      ],
+                    child: ListView.builder(
+                      itemBuilder: (context, index) => FeedbackListingWidget(
+                          menuItem: pro.feedbackList[index],
+                          userAccount: widget.userAccount),
+                      itemCount: pro.feedbackList.length,
+                      shrinkWrap: true,
                     ),
                   );
                 },

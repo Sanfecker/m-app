@@ -41,21 +41,23 @@ class _ScanCodePageState extends State<ScanCodePage> {
   _handleSubmitted(String code) async {
     Functions().showLoadingDialog(context);
     try {
-      ApiRequestModel apiRequestModel =
-          await Provider.of<TabProvider>(context, listen: false).joinTabByCode(
-              code,
-              widget.userAccount,
-              Provider.of<SocketProvider>(context, listen: false));
+      ApiRequestModel apiRequestModel = await Provider.of<TabProvider>(
+        context,
+        listen: false,
+      ).joinTabByCode(
+        code,
+        widget.userAccount,
+      );
       if (apiRequestModel.isSuccessful) {
-        print(apiRequestModel.result);
         TabModel tab = apiRequestModel.result;
         widget.userAccount.tab = tab;
-        // Provider.of<UserAccountProvider>(context, listen: false)
-        //     .setCurrentUserTabs(tab);
-
         await Functions().transitToReplace(
-            context, ScanSuccessfulPage(userAccount: widget.userAccount),
-            removePreviousRoots: true);
+          context,
+          ScanSuccessfulPage(
+            userAccount: widget.userAccount,
+          ),
+          removePreviousRoots: true,
+        );
       } else {
         Navigator.pop(context);
         await Fluttertoast.showToast(
@@ -169,7 +171,6 @@ class _ScanCodePageState extends State<ScanCodePage> {
                                     jsonDecode(scanData);
                                 if (responseBody.containsKey("table_id") &&
                                     responseBody.containsKey("restaurant_id")) {
-                                  print('scanned');
                                   ScanResponse scanResponse =
                                       ScanResponse.fromJson(responseBody);
                                   Functions().showLoadingDialog(context);

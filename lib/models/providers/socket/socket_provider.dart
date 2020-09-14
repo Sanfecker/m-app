@@ -1,8 +1,16 @@
+import 'dart:convert';
+
+import 'package:Nuvle/models/providers/user/order/orderProvider.dart';
+import 'package:Nuvle/models/providers/user/userAccountProvider.dart';
+import 'package:Nuvle/models/skeltons/menus/menuData.dart';
+import 'package:Nuvle/pages/user/main/menus/myTab/myTab.dart';
 import 'package:flutter/material.dart';
 import 'package:Nuvle/misc/functions.dart';
 import 'package:Nuvle/models/skeltons/user/tab.dart';
 import 'package:Nuvle/models/skeltons/user/userAccount.dart';
 import 'package:Nuvle/pages/user/scan/scanissuccess.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class SocketProvider extends ChangeNotifier {
@@ -14,7 +22,7 @@ class SocketProvider extends ChangeNotifier {
 
   openTab(String restaurantId, tableId, UserAccount userAccount,
       BuildContext context) {
-    socket.connect();
+    if (!socket.connected) socket.connect();
     socket.on('connect', (data) {});
 
     Map<String, dynamic> map = {
@@ -24,27 +32,36 @@ class SocketProvider extends ChangeNotifier {
     };
 
     socket.emit('open_tab', map);
-    socket.on('tab_opened', (val) {
-      // print(val);
+    socket.on('tab_opened', (val) async {
+      print(val);
       _restaurantID = restaurantId;
       _tableID = tableId;
-      _userID = userAccount.id;
+      _userAccount = userAccount;
       _tabID = val['data']['_id'];
       userAccount.tab = TabModel(
+        id: val['data']['_id'],
+        attributes: TabModelAttributes(
+          createdAt: val['data']['createdAt'],
           id: val['data']['_id'],
-          attributes: TabModelAttributes(
-            createdAt: val['data']['createdAt'],
-            id: val['data']['_id'],
-            tableId: val['data']['table'],
-            restaurantId: val['data']['restaurant_id'],
-            updatedAt: val['data']['updatedAt'],
-            user: userAccount,
-            groupCode: val['data']['group_code'].toString(),
-            opened: val['data']['isOpen'],
-          ));
+          tableId: val['data']['table'],
+          restaurantId: val['data']['restaurant_id'],
+          updatedAt: val['data']['updatedAt'],
+          user: userAccount,
+          groupCode: val['data']['group_code'].toString(),
+          opened: val['data']['isOpen'],
+        ),
+      );
+      SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      sharedPreferences.setString(
+        'tab',
+        jsonEncode(val),
+      );
       Functions().scaleToReplace(
-          context, ScanSuccessful(userAccount: userAccount),
-          removePreviousRoots: true);
+        context,
+        ScanSuccessful(userAccount: userAccount),
+        removePreviousRoots: true,
+      );
     });
     socket.on('open_tab_error', (val) {
       // print(val);
@@ -52,7 +69,8 @@ class SocketProvider extends ChangeNotifier {
     });
   }
 
-  closeTab(String tabID) {
+  closeTab(String tabID, BuildContext context) {
+    _userAccount.tab = null;
     // socket.connect();
     // socket.on('connect', (data) => print(data));
 
@@ -62,33 +80,62 @@ class SocketProvider extends ChangeNotifier {
 
     socket.emit('close_tab', map);
 
-    socket.on('tab_closed', (val) {
-      // print(val);
-    });
+    listenCloseTab(context);
+
     socket.on('tab_close_error', (val) {
       // print(val);
     });
   }
 
-  getUserTab() {
-    print(_tabID);
-    print(_userID);
-    print(_restaurantID);
-    socket.connect();
-    socket.on('connect', (data) => print('data'));
+  listenCloseTab(BuildContext context) {
+    socket.on('tab_closed', (val) async {
+      print(val);
+      SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      sharedPreferences.remove(
+        'tab',
+      );
+
+      // Navigator.popUntil(context, (route) => route.isFirst);
+    });
+  }
+
+  getUserTab(
+    UserAccount userAccount,
+    BuildContext context,
+  ) {
+    if (!socket.connected) socket.connect();
+    socket.on('connect', (data) {});
+
+    setUser(userAccount);
 
     Map<String, dynamic> map = {
-      "restaurant": _restaurantID,
-      "tab": _tabID,
-      "user": _userID,
+      "restaurant": _userAccount.tab.attributes.restaurantId,
+      "tab": _userAccount.tab.id,
+      "user": _userAccount.id,
     };
 
-    socket.emit('get_user_tab', map);
+    if (_userAccount.tab != null) socket.emit('get_user_tab', map);
     socket.on('user_tab', (val) {
-      // print(val);
-      // return val;
+      Navigator.popUntil(context, (route) => route.isFirst);
+      Functions().scaleTo(
+        context,
+        MyTab(
+          userAccount: userAccount,
+          userTab: val['tabs'].isEmpty ? [] : val['tabs'][0]['orders'],
+        ),
+      );
+      // _userTab = val['tabs']['orders'];
+      notifyListeners();
     });
     socket.on('tabs_error', (val) {
+      Functions().scaleTo(
+        context,
+        MyTab(
+          userAccount: userAccount,
+          userTab: [],
+        ),
+      );
       // print(val);
       // return val;
     });
@@ -141,10 +188,13 @@ class SocketProvider extends ChangeNotifier {
 
   String _tableID;
   String _restaurantID;
-  String _userID;
+  UserAccount _userAccount;
   String _tabID;
+  List _userTab;
 
-  String get userID => _userID;
+  UserAccount get userAccount => _userAccount;
+
+  List get userTab => _userTab;
 
   String get restaurantID => _restaurantID;
 
@@ -152,10 +202,14 @@ class SocketProvider extends ChangeNotifier {
 
   String get tab => _tabID;
 
-  setTab(String tableID, String restaurantID, String userID) {
-    _tableID = tableID;
-    _restaurantID = restaurantID;
-    _userID = userID;
-    notifyListeners();
+  setUser(UserAccount userAccount) {
+    _userAccount = userAccount;
+    if (userAccount.tab != null) {
+      _tableID = userAccount.tab.attributes.tableId;
+      _restaurantID = userAccount.tab.attributes.restaurantId;
+      _tabID = userAccount.tab.id;
+    }
+
+    // notifyListeners();
   }
 }
