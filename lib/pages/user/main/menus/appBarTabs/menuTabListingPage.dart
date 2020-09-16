@@ -53,14 +53,6 @@ class _MenuTabListingState extends State<MenuTabListing> {
         (_) => _menusProvider.fetchMoreMenus(
             context, widget.menuType, widget.userAccount, 'next'),
       );
-    } else if (_scrollController.offset >=
-            _scrollController.position.minScrollExtent &&
-        !_scrollController.position.outOfRange &&
-        _menusProvider.moreAPIRequestStatus != APIRequestStatus.loading) {
-      SchedulerBinding.instance.addPostFrameCallback(
-        (_) => _menusProvider.fetchMoreMenus(
-            context, widget.menuType, widget.userAccount, 'previous'),
-      );
     }
   }
 
@@ -111,8 +103,13 @@ class _MenuTabListingState extends State<MenuTabListing> {
                             else
                               return true;
                           })
-                          .map((e) => ListingWidget(
-                              menuItem: e, userAccount: widget.userAccount))
+                          .map(
+                            (e) => ListingWidget(
+                              menuItem: e,
+                              userAccount: widget.userAccount,
+                              isFirst: menuItems.indexOf(e) == 0,
+                            ),
+                          )
                           .toList(),
                       if (pro.moreAPIRequestStatus == APIRequestStatus.loading)
                         Center(

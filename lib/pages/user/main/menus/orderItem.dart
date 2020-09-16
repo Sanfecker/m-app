@@ -74,11 +74,11 @@ class _OrderItemState extends State<OrderItem> {
         ],
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Container(
+              padding: EdgeInsets.symmetric(horizontal: 20),
               height: MediaQuery.of(context).size.height * 0.2992,
               child: Row(
                 mainAxisAlignment: widget.menuItem.itemTags.length > 0
@@ -195,6 +195,7 @@ class _OrderItemState extends State<OrderItem> {
               ),
             ),
             Container(
+              padding: EdgeInsets.symmetric(horizontal: 20),
               margin: EdgeInsets.symmetric(vertical: 30),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -231,75 +232,78 @@ class _OrderItemState extends State<OrderItem> {
                   else
                     return false;
                 }))
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    'Cooking Preference',
-                    style: TextStyle(
-                      color: Color(0xffF2F2F9),
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
-                  ),
-                  SizedBox(height: 12),
-                  Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: Wrap(
-                          spacing: 18,
-                          children: widget.menuItem.cookingPreferences
-                              .where((element) => element != '')
-                              .map(
-                                (e) => Consumer<OrderProvider>(
-                                    builder: (context, pro, child) {
-                                  bool isMarked = pro
-                                              .getSingleItem(widget.menuItem)
-                                              .selectedCookingPreference !=
-                                          null
-                                      ? pro
-                                              .getSingleItem(widget.menuItem)
-                                              .selectedCookingPreference
-                                              .toLowerCase() ==
-                                          e.toLowerCase()
-                                      : false;
-                                  return FlatButton(
-                                    color: isMarked
-                                        ? Color(0xffCFB06F)
-                                        : Color(0xff363A47),
-                                    child: Text(
-                                      e,
-                                      style: TextStyle(
-                                          color: isMarked
-                                              ? Colors.black
-                                              : Colors.white,
-                                          letterSpacing: 0.3,
-                                          fontSize: 13),
-                                    ),
-                                    shape: StadiumBorder(
-                                        side: pro
-                                                    .getSingleItem(
-                                                        widget.menuItem)
-                                                    .selectedCookingPreference ==
-                                                null
-                                            ? BorderSide(
-                                                color: Colors.red,
-                                                width: 2,
-                                              )
-                                            : BorderSide.none),
-                                    onPressed: () =>
-                                        pro.changeCookingPreference(
-                                            widget.menuItem, e),
-                                  );
-                                }),
-                              )
-                              .toList(),
-                        ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      'Cooking Preference',
+                      style: TextStyle(
+                        color: Color(0xffF2F2F9),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
                       ),
-                    ],
-                  ),
-                  SizedBox(height: 30),
-                ],
+                    ),
+                    SizedBox(height: 12),
+                    Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: Wrap(
+                            spacing: 18,
+                            children: widget.menuItem.cookingPreferences
+                                .where((element) => element != '')
+                                .map(
+                                  (e) => Consumer<OrderProvider>(
+                                      builder: (context, pro, child) {
+                                    bool isMarked = pro
+                                                .getSingleItem(widget.menuItem)
+                                                .selectedCookingPreference !=
+                                            null
+                                        ? pro
+                                                .getSingleItem(widget.menuItem)
+                                                .selectedCookingPreference
+                                                .toLowerCase() ==
+                                            e.toLowerCase()
+                                        : false;
+                                    return FlatButton(
+                                      color: isMarked
+                                          ? Color(0xffCFB06F)
+                                          : Color(0xff363A47),
+                                      child: Text(
+                                        e,
+                                        style: TextStyle(
+                                            color: isMarked
+                                                ? Colors.black
+                                                : Colors.white,
+                                            letterSpacing: 0.3,
+                                            fontSize: 13),
+                                      ),
+                                      shape: StadiumBorder(
+                                          side: pro
+                                                      .getSingleItem(
+                                                          widget.menuItem)
+                                                      .selectedCookingPreference ==
+                                                  null
+                                              ? BorderSide(
+                                                  color: Colors.red,
+                                                  width: 2,
+                                                )
+                                              : BorderSide.none),
+                                      onPressed: () =>
+                                          pro.changeCookingPreference(
+                                              widget.menuItem, e),
+                                    );
+                                  }),
+                                )
+                                .toList(),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 30),
+                  ],
+                ),
               ),
             // if (widget.menuItem.sides != null &&
             //     widget.menuItem.sides.isNotEmpty)
@@ -370,77 +374,86 @@ class _OrderItemState extends State<OrderItem> {
                 },
               ),
             ),
-            Text(
-              'To go?',
-              style: TextStyle(
-                color: Color(0xffF2F2F9),
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: Text(
+                'To go?',
+                style: TextStyle(
+                  color: Color(0xffF2F2F9),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
               ),
             ),
             SizedBox(height: 15),
-            Consumer<OrderProvider>(
-              builder: (context, pro, child) {
-                bool takeAway =
-                    pro.getSingleItem(widget.menuItem).takeAway ?? false;
-                return FlatButton(
-                  onPressed: () => pro.isTakeAway(widget.menuItem, !takeAway),
-                  padding: EdgeInsets.zero,
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.only(right: 14),
-                        height: 24,
-                        width: 24,
-                        child: Checkbox(
-                          checkColor: CustomColors.primary100,
-                          activeColor: Colors.transparent,
-                          value: takeAway,
-                          onChanged: (val) =>
-                              pro.isTakeAway(widget.menuItem, val),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: Consumer<OrderProvider>(
+                builder: (context, pro, child) {
+                  bool takeAway =
+                      pro.getSingleItem(widget.menuItem).takeAway ?? false;
+                  return FlatButton(
+                    onPressed: () => pro.isTakeAway(widget.menuItem, !takeAway),
+                    padding: EdgeInsets.zero,
+                    child: Row(
+                      children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.only(right: 14),
+                          height: 24,
+                          width: 24,
+                          child: Checkbox(
+                            checkColor: CustomColors.primary100,
+                            activeColor: Colors.transparent,
+                            value: takeAway,
+                            onChanged: (val) =>
+                                pro.isTakeAway(widget.menuItem, val),
+                          ),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.white, width: 1),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
                         ),
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.white, width: 1),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                      ),
-                      Text(
-                        "Select Takeaway",
-                        style: TextStyle(fontSize: 14, color: Colors.white),
-                      )
-                    ],
-                  ),
-                );
-              },
+                        Text(
+                          "Select Takeaway",
+                          style: TextStyle(fontSize: 14, color: Colors.white),
+                        )
+                      ],
+                    ),
+                  );
+                },
+              ),
             ),
             SizedBox(height: 60),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: Container(
-                    height: 60,
-                    child: FlatButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: Text(
-                        "Cancel",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          color: Color(0xffE3C079),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Container(
+                      height: 60,
+                      child: FlatButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: Text(
+                          "Cancel",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            color: Color(0xffE3C079),
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                SizedBox(width: 12),
-                Functions().customButton(
-                  context,
-                  onTap: () => _handleSubmitted(context),
-                  width: screenSize.width * 0.50,
-                  text: "Send Order",
-                  color: CustomColors.primary900,
-                ),
-              ],
+                  SizedBox(width: 12),
+                  Functions().customButton(
+                    context,
+                    onTap: () => _handleSubmitted(context),
+                    width: screenSize.width * 0.50,
+                    text: "Send Order",
+                    color: CustomColors.primary900,
+                  ),
+                ],
+              ),
             ),
             SizedBox(height: 60),
           ],

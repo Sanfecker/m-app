@@ -253,7 +253,8 @@ class Functions {
   Future<Object> scaleToReplace(BuildContext context, Widget page,
       {bool removePreviousRoots = false}) {
     return removePreviousRoots
-        ? Navigator.of(context).pushAndRemoveUntil(
+        ? Navigator.pushAndRemoveUntil(
+            context,
             ScaleRoute(
               page: page,
             ),

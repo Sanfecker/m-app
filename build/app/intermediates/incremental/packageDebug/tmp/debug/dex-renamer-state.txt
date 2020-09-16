@@ -1,4 +1,4 @@
-#Mon Sep 14 01:25:13 WAT 2020
+#Wed Sep 16 14:52:21 WAT 2020
 base.2=C\:\\Users\\ucheg\\Documents\\Flutter\\m-app\\build\\app\\intermediates\\dex\\debug\\mergeLibDexDebug\\out\\classes_0.dex
 base.1=C\:\\Users\\ucheg\\Documents\\Flutter\\m-app\\build\\app\\intermediates\\dex\\debug\\mergeProjectDexDebug\\out\\classes.dex
 base.0=C\:\\Users\\ucheg\\Documents\\Flutter\\m-app\\build\\app\\intermediates\\dex\\debug\\mergeExtDexDebug\\out\\classes.dex

@@ -12,14 +12,9 @@ class DietaryBottomSheet extends StatefulWidget {
 }
 
 List<String> dietaryRestrictions = List<String>();
-bool _vege = false;
-bool _vegan = false;
-bool _gluten = false;
-bool _halal = false;
 
 class _DietaryBottomSheetState extends State<DietaryBottomSheet> {
   void _onVegeChanged(bool newValue) => setState(() {
-        _vege = newValue;
         if (newValue == true && !dietaryRestrictions.contains('Vegetarian')) {
           dietaryRestrictions.add('Vegetarian');
         }
@@ -34,7 +29,6 @@ class _DietaryBottomSheetState extends State<DietaryBottomSheet> {
         }
       });
   void _onVeganChanged(bool newValue) => setState(() {
-        _vegan = newValue;
         if (newValue == true && !dietaryRestrictions.contains('Vegan')) {
           dietaryRestrictions.add('Vegan');
         }
@@ -49,7 +43,6 @@ class _DietaryBottomSheetState extends State<DietaryBottomSheet> {
         }
       });
   void _onGlutenChanged(bool newValue) => setState(() {
-        _gluten = newValue;
         if (newValue == true &&
             !dietaryRestrictions.contains('Gluten - free')) {
           dietaryRestrictions.add('Gluten - free');
@@ -66,7 +59,6 @@ class _DietaryBottomSheetState extends State<DietaryBottomSheet> {
         }
       });
   void _onHalalChanged(bool newValue) => setState(() {
-        _halal = newValue;
         if (newValue == true && !dietaryRestrictions.contains('Halal')) {
           dietaryRestrictions.add('Halal');
         }

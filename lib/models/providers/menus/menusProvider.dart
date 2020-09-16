@@ -44,7 +44,10 @@ class MenusProvider extends ChangeNotifier {
   }
 
   fetchMenus(
-      BuildContext context, MenuType type, UserAccount userAccount) async {
+    BuildContext context,
+    MenuType type,
+    UserAccount userAccount,
+  ) async {
     int index = _menuData.indexWhere((e) => e.menuType == type.menuType);
     if (index != -1 &&
         _menuData[index].menuItems != null &&
@@ -104,7 +107,7 @@ class MenusProvider extends ChangeNotifier {
             MenuData temp =
                 MenuData.fromJson(responseBody['data'], type.menuType);
             if (_menuData[index].nextPage == null) {
-              _menuData[index] = temp;
+              _menuData.add(temp);
             } else {
               _menuData[index].nextPage = temp.nextPage;
               temp.menuItems.map((v) {
@@ -133,46 +136,46 @@ class MenusProvider extends ChangeNotifier {
           print("efEERRRRR $e");
           updateMoreAPIRequestStatus(APIRequestStatus.error);
         }
-      } else if (page == 'previous') {
-        if (_menuData[index].hasPreviousPage) {
-          updateMoreAPIRequestStatus(APIRequestStatus.loading);
-          try {
-            var responseBody = await ApiRequest.get(
-                "${type.restaurantId}/menus/${type.menuType}?page=${_menuData[index].previousPage}",
-                userAccount.token);
-            if (responseBody["success"]) {
-              MenuData temp =
-                  MenuData.fromJson(responseBody['data'], type.menuType);
-              if (!_menuData[index].hasPreviousPage) {
-                _menuData[index] = temp;
-              } else {
-                _menuData[index].previousPage = temp.previousPage;
-                temp.menuItems.map((v) {
-                  int i = _menuData[index]
-                      .menuItems
-                      .indexWhere((each) => each.itemId == v.itemId);
-                  if (i == -1) {
-                    _menuData[index].menuItems.add(v);
-                  } else {
-                    _menuData[index].menuItems[i] = v;
-                  }
-                }).toList();
-              }
-              updateMoreAPIRequestStatus(APIRequestStatus.loaded);
+      }
+    } else if (page == 'previous') {
+      if (_menuData[index].hasPreviousPage) {
+        updateMoreAPIRequestStatus(APIRequestStatus.loading);
+        try {
+          var responseBody = await ApiRequest.get(
+              "${type.restaurantId}/menus/${type.menuType}?page=${_menuData[index].previousPage}",
+              userAccount.token);
+          if (responseBody["success"]) {
+            MenuData temp =
+                MenuData.fromJson(responseBody['data'], type.menuType);
+            if (!_menuData[index].hasPreviousPage) {
+              _menuData[index] = temp;
             } else {
-              APIRequestStatus apiRequestStatus = Validations().getAPIErrorType(
-                  responseBody["message"] ?? responseBody["data"]);
-              if (apiRequestStatus == APIRequestStatus.unauthorized) {
-                Provider.of<UserAccountProvider>(context, listen: false)
-                    .logoutCurrentUser(context);
-              } else {
-                updateMoreAPIRequestStatus(apiRequestStatus);
-              }
+              _menuData[index].previousPage = temp.previousPage;
+              temp.menuItems.map((v) {
+                int i = _menuData[index]
+                    .menuItems
+                    .indexWhere((each) => each.itemId == v.itemId);
+                if (i == -1) {
+                  _menuData[index].menuItems.add(v);
+                } else {
+                  _menuData[index].menuItems[i] = v;
+                }
+              }).toList();
             }
-          } catch (e) {
-            print("efEERRRRR $e");
-            updateMoreAPIRequestStatus(APIRequestStatus.error);
+            updateMoreAPIRequestStatus(APIRequestStatus.loaded);
+          } else {
+            APIRequestStatus apiRequestStatus = Validations().getAPIErrorType(
+                responseBody["message"] ?? responseBody["data"]);
+            if (apiRequestStatus == APIRequestStatus.unauthorized) {
+              Provider.of<UserAccountProvider>(context, listen: false)
+                  .logoutCurrentUser(context);
+            } else {
+              updateMoreAPIRequestStatus(apiRequestStatus);
+            }
           }
+        } catch (e) {
+          print("efEERRRRR $e");
+          updateMoreAPIRequestStatus(APIRequestStatus.error);
         }
       }
     }

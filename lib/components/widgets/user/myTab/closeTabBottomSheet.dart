@@ -50,14 +50,9 @@ class _CloseTabBottomSheetState extends State<CloseTabBottomSheet> {
       );
       print('Response = $response');
       if (response.message == 'Success') {
-        Provider.of<OrderProvider>(context, listen: false).closeTab();
         Provider.of<SocketProvider>(context, listen: false).closeTab(
           widget.userAccount.tab.id,
           context,
-        );
-        Functions().navigateTo(
-          context,
-          PaymentComplete(userAccount: widget.userAccount),
         );
       }
     } catch (e) {

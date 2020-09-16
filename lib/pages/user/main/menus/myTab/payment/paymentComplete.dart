@@ -50,10 +50,9 @@ class PaymentComplete extends StatelessWidget {
               Functions().customButton(
                 context,
                 onTap: () {
-                  Functions().transitToReplace(
+                  Functions().transitTo(
                     context,
                     OrdersFeedback(userAccount: userAccount),
-                    removePreviousRoots: true,
                   );
                 },
                 width: screenSize.width,

@@ -63,6 +63,7 @@ class _ItemInfoState extends State<ItemInfo> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: widget.menuItem.itemTags
                             .map(
                               (e) => Container(

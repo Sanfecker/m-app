@@ -1,3 +1,4 @@
+import 'package:Nuvle/components/animations/scaleTransition.dart';
 import 'package:flutter/material.dart';
 import 'package:Nuvle/components/icons/callWaiterIcon.dart';
 import 'package:Nuvle/components/widgets/user/feedbackListingWidget.dart';
@@ -24,10 +25,14 @@ class _OrdersFeedbackState extends State<OrdersFeedback> {
     OrderProvider _orderProvider =
         Provider.of<OrderProvider>(context, listen: false);
     _orderProvider.feedback();
-    Functions().scaleToReplace(
+    Navigator.popUntil(context, (route) => route.isFirst);
+    Navigator.push(
       context,
-      HomePage(userAccount: widget.userAccount),
-      removePreviousRoots: true,
+      ScaleRoute(
+        page: HomePage(
+          userAccount: widget.userAccount,
+        ),
+      ),
     );
   }
 

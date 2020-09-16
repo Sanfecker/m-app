@@ -14,20 +14,25 @@ import 'package:provider/provider.dart';
 class ListingWidget extends StatelessWidget {
   final MenuItems menuItem;
   final UserAccount userAccount;
+  final bool isFirst;
 
-  const ListingWidget(
-      {Key key, @required this.userAccount, @required this.menuItem})
-      : super(key: key);
+  const ListingWidget({
+    Key key,
+    @required this.userAccount,
+    @required this.menuItem,
+    @required this.isFirst,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkResponse(
       onTap: () => Functions().scaleTo(
-          context,
-          ItemInfo(
-            menuItem: menuItem,
-            userAccount: userAccount,
-          )),
+        context,
+        ItemInfo(
+          menuItem: menuItem,
+          userAccount: userAccount,
+        ),
+      ),
       child: Container(
         margin: EdgeInsets.only(bottom: 20),
         child: ClipRRect(
@@ -69,7 +74,7 @@ class ListingWidget extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          if (2 == 0)
+                          if (isFirst)
                             Container(
                               padding: EdgeInsets.symmetric(
                                   horizontal: 15, vertical: 5),

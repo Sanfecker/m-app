@@ -34,8 +34,10 @@ class _MenusState extends State<Menus> with SingleTickerProviderStateMixin {
 
   @override
   void initState() {
+    setState(() {});
     SocketProvider provider =
         Provider.of<SocketProvider>(context, listen: false);
+    provider.setUser(widget.userAccount);
     provider.listenCloseTab(context);
     page = 'main';
     tabs = [

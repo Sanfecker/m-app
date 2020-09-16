@@ -82,14 +82,6 @@ class _OrderPageState extends State<OrderPage> {
   }
 
   @override
-  void initState() {
-    // SocketProvider socketProvider =
-    //     Provider.of<SocketProvider>(context, listen: false);
-    // socketProvider.getUserTab();
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
